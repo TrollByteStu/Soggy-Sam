@@ -68,6 +68,7 @@ public class weaponController : MonoBehaviour
                     bullet2.GetComponent<harpoonPhysics>().myPlayer = gameObject;
                     lastShot = Time.time;
                     Destroy(bullet2, 8f);
+                    readyshot = false;
                     break;
                 case 3:
                     GameObject grenade = Instantiate(grenadeInstance, weapon.transform.position + weapon.transform.forward * 2, weapon.transform.rotation);
@@ -81,7 +82,7 @@ public class weaponController : MonoBehaviour
                     grenadeScript.aoeRadius = 5;
                     grenadeScript.fuseTime = 3f;
                     lastShot = Time.time;
-
+                    readyshot = false;
                     break;
                 case 4:
                     break;
