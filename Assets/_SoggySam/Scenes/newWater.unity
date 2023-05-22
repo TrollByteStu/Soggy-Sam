@@ -312,6 +312,12 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6925522770815801260, guid: 29193a40a1dea8d44b4acd288146b6d0,
+        type: 3}
+      propertyPath: m_Actions
+      value: 
+      objectReference: {fileID: -944628639613478452, guid: 2adf6aade31641841aa1dc4bd07f4e4d,
+        type: 3}
     - target: {fileID: 6925522770815801261, guid: 29193a40a1dea8d44b4acd288146b6d0,
         type: 3}
       propertyPath: m_RootOrder
@@ -539,6 +545,43 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &64117957 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4440400824772465778, guid: dc6437511af725140aa6d88311364439,
+    type: 3}
+  m_PrefabInstance: {fileID: 4440400825795372016}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &64117963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 64117957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 2adf6aade31641841aa1dc4bd07f4e4d,
+    type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Player
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &141656137
 GameObject:
   m_ObjectHideFlags: 0
@@ -1402,7 +1445,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 3b184b7e139f0e14d807442939910aa5,
+  m_Actions: {fileID: -944628639613478452, guid: 2adf6aade31641841aa1dc4bd07f4e4d,
     type: 3}
   m_NotificationBehavior: 0
   m_UIInputModule: {fileID: 0}
@@ -1760,6 +1803,7 @@ GameObject:
   - component: {fileID: 1005001277}
   - component: {fileID: 1005001276}
   - component: {fileID: 1005001275}
+  - component: {fileID: 1005001280}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -1794,7 +1838,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 3b184b7e139f0e14d807442939910aa5,
+  m_Actions: {fileID: -944628639613478452, guid: 2adf6aade31641841aa1dc4bd07f4e4d,
     type: 3}
   m_NotificationBehavior: 0
   m_UIInputModule: {fileID: 0}
@@ -1879,6 +1923,39 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1005001280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1005001274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
 --- !u!1 &1030682118
 GameObject:
   m_ObjectHideFlags: 0
@@ -2043,7 +2120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 3b184b7e139f0e14d807442939910aa5,
+  m_Actions: {fileID: -944628639613478452, guid: 2adf6aade31641841aa1dc4bd07f4e4d,
     type: 3}
   m_NotificationBehavior: 0
   m_UIInputModule: {fileID: 0}

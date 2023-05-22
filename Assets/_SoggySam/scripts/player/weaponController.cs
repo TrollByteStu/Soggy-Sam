@@ -85,6 +85,7 @@ public class weaponController : MonoBehaviour
                     readyshot = false;
                     break;
                 case 4:
+
                     break;
             }
     }
