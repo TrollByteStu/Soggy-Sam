@@ -1,0 +1,74 @@
+﻿Versions Regler
+
+
+Efter: https://semver.org/
+
+
+Version: A.B.C & A.B.C.D
+
+
+Her prøver vi at beskrive vores versions regler. De regler vi bruger til at beskrive hver version af vores projekter.
+
+
+Talene vil stige for hver version. De starter med 1 ciffer og stiger efterhånden som der er brug for det..
+
+
+A: Dette er hele versioner af det planlagte projekt. Hvis der er planlagt et hus med 4 vægge og 1 tag, er det version 1. Hvis der bagefter lægges en carport og en pool til, er det version 2. Det er hele og stabile versioner vi udgiver.
+
+
+B: Dette en intern version hvor der er en ny feature som nu er stabil. Til intern test, så den  nye feature kan balanceres med nuværende indhold. Når alle planlagte features er stabile opgraderes til A.
+
+
+C: Intern version med ny feature der endnu ikke er stabil. Der kommer ofte flere af dem inden C opgraderes til B hvor den er stabil.
+
+
+D: Bug Fixes, men ikke lavet noget om i forhold til hvordan den bør fungere.
+
+
+
+
+
+
+
+
+________________
+
+Den perfekte versions historik
+
+
+Her laver vi et lille narativ for at beskrive den perfekte brug af disse regler. Virkeligheden er sjældent sådan, men det kan beskrive logikken bag reglerne.
+
+
+Der bliver lagt en plan om et produkt med 3 Features.
+* 0.0.1 : Første interne build, intet er stabilt.
+* 0.0.2 : Flere ting tilføjet, stadig ikke stabil.
+* 0.1.0 : Første feature stabil, Testes.
+* 0.1.0.1 : Bug fixes fra 0.1.0
+* 0.1.0.2 : Flere Bug fixes fra 0.1.0
+* 0.1.1 : Første feature stabil, begynder på næste feature.
+* 0.1.2 : Næste feature integreret med første. Testes oftest for sig selv først.
+* 0.2.0 : Anden feature stabil, Test teamet er igang.
+* 0.2.0.1 : Bug fixes til anden feature
+* 0.2.1 : Begynder arbejdet på 3 feature
+* 0.2.2 : Sidste feature integreres med de andre.
+* 0.3.0 : Sidste feature virker, Testes.
+* 0.3.0.1 : Bug fixes
+* 1.0.0 : Udgivelse
+* Brugerne vender tilbage og beder om en feature mere.
+* 1.0.1 : Begynder på ny feature.
+* 1.1.0 : Ekstra feature stabil. Testes.
+* 1.1.0.1 : Bug fixes
+* Planlægger kæmpe ny udgivelse med 3 features mere, det bliver version 2.0.0
+
+
+
+
+________________
+
+
+
+
+Oculus:
+
+
+Vi bør rename hele buildet for hver ny stabil feature, så den ikke overskriver den gamle på headsettet. På hver headset bør ligge sidste stabile public version og den sidste version vi tester internt, så vi på alle tidspunker kan demonstrere en fungerende version også på ingen varsel..
