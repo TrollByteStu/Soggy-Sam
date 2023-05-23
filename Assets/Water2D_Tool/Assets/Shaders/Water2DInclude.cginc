@@ -1,12 +1,12 @@
 #ifndef WATER2DINCLUDE_INCLUDED
 #define WATER2DINCLUDE_INCLUDED
 
-#include "UnityCG.cginc"
+#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 
 sampler2D _MainTex;
 sampler2D _FoamTex;
 sampler2D _FoamGradient;
-sampler2D _ReflectionTex;
+
 sampler2D _WaterLineTex;
 sampler2D _BumpMap;
 
@@ -16,7 +16,14 @@ sampler2D _RefractionTexLit_TM;
 sampler2D _RefractionTexLit_FM;
 
 samplerCUBE _Cube;
-sampler2D_float _CameraDepthTexture;
+
+TEXTURE2D(_ReflectionTex);
+SAMPLER(sampler_ReflectionTex_linear_clamp);
+SAMPLER(sampler_ScreenTextures_linear_clamp);
+
+TEXTURE2D(_CameraDepthTexture);
+TEXTURE2D(_CameraOpaqueTexture); 
+SAMPLER(sampler_CameraOpaqueTexture_linear_clamp);
 
 float4 _WaterLineTex_TexelSize;
 float4 _MainTex_TexelSize;
@@ -58,15 +65,15 @@ float _ApplyOffset;
 float GetAverage(sampler2D mainTex, float4 texelSize, float4 uv)
 {
     float2 dx, dy;
-    float average;
+    float average = 0;
 
     dx = float2(texelSize.x, 0.0);
     dy = float2(0.0, texelSize.y);
 
-    average = (tex2Dlod(mainTex, float4(uv - dx, 0, 0)).r - 0.5) * 2.0;
-    average += (tex2Dlod(mainTex, float4(uv - dy, 0, 0)).r - 0.5) * 2.0;
-    average += (tex2Dlod(mainTex, float4(uv + dx, 0, 0)).r - 0.5) * 2.0;
-    average += (tex2Dlod(mainTex, float4(uv + dy, 0, 0)).r - 0.5) * 2.0;
+    average += (tex2Dlod(mainTex, float4(uv.xy - dx, 0, 0)).r - 0.5) * 2.0;
+    average += (tex2Dlod(mainTex, float4(uv.xy - dy, 0, 0)).r - 0.5) * 2.0;
+    average += (tex2Dlod(mainTex, float4(uv.xy + dx, 0, 0)).r - 0.5) * 2.0;
+    average += (tex2Dlod(mainTex, float4(uv.xy + dy, 0, 0)).r - 0.5) * 2.0;
         
     average *= 0.25;
 
@@ -109,15 +116,15 @@ inline half Fresnel(half3 viewVector, half3 worldNormal, half bias, half power)
 
 float3 Foam(sampler2D _FoamTex, sampler2D _FoamGradient, float2 foamuv, float objectZ, float depth, float _FoamStrength, half3 bump)
 {
-    float intensityFactor = 1 - saturate((depth - objectZ) / _FoamStrength);
-    half3 foamGradient = 1 - tex2D(_FoamGradient, float2(intensityFactor - _Time.y * 0.15, 0) + bump.xy * 0.15);
+    float  intensityFactor = 1 - saturate((depth - objectZ) / _FoamStrength);
+    float3 foamGradient = 1 - tex2D(_FoamGradient, float2(intensityFactor - _Time.y * 0.15, 0) + bump.xy * 0.15).rgb;
     float2 foamDistortUV = bump.xy * 0.2;
-    half3 foamColor = tex2D(_FoamTex, foamuv + foamDistortUV).rgb;
-    half foamLightIntensity = saturate((_WorldSpaceLightPos0.y + 0.2) * 4);
-    float3 foam = foamGradient * intensityFactor * foamColor * foamLightIntensity;
+    float3 foamColor = tex2D(_FoamTex, foamuv + foamDistortUV).rgb;
+    float3 foam = foamGradient * intensityFactor * foamColor;
 
     return foam;
 }
+
 
 float4 AddWaterLine(float2 uv, float4 baseColor)
 {
@@ -142,21 +149,21 @@ float4 GetCubeMapColor(half3 viewVector, float3 normal, samplerCUBE cube)
     return cubeMapColor;
 }
 
-float3 ReflectedDir(float3 viewInterpolator, float3 normal)
-{
-    half3 viewVector = normalize(viewInterpolator);
-    float4x4 modelMatrixInverse = unity_WorldToObject;
-    float3 normalDir = normalize(mul(float4(normal, 0.0), modelMatrixInverse).xyz);
-    float3 reflectedDir = reflect(viewVector, normalize(normalDir));
+//float3 ReflectedDir(float3 viewInterpolator, float3 normal)
+//{
+//    half3 viewVector = normalize(viewInterpolator);
+//    float4x4 modelMatrixInverse = unity_WorldToObject;
+//    float3 normalDir = normalize(mul(float4(normal, 0.0), modelMatrixInverse).xyz);
+//    float3 reflectedDir = reflect(viewVector, normalize(normalDir));
 
-    return reflectedDir;
-}
+//    return reflectedDir;
+//}
 
 float3 BSplineResampling(sampler2D mainTex, float4 texelSize, float4 uv, float normalStrength)
 {
     float2 res = float2(texelSize.z, texelSize.w);
 
-    float2 UVs = uv*res-0.5;
+    float2 UVs = uv.xy * res - 0.5;
     float2 index = floor(UVs);
     float2 fraction = frac(UVs);
     float2 one_frac = 1.0 - fraction;
@@ -183,16 +190,30 @@ float3 BSplineResampling(sampler2D mainTex, float4 texelSize, float4 uv, float n
     return lerp(tex10, tex00, g0.x);
 }
 
-inline void ComputeScreenAndGrabPassPos (float4 pos, out float4 screenPos, out float4 grabPassPos) 
+// Transforms normal from object to world space
+inline float3 UnityObjectToWorldNormal(in float3 norm)
 {
-	#if UNITY_UV_STARTS_AT_TOP
-		float scale = -1.0;
-	#else
-		float scale = 1.0f;
-	#endif
-	
-	screenPos = ComputeNonStereoScreenPos(pos); 
-	grabPassPos.xy = ( float2( pos.x, pos.y*scale ) + pos.w ) * 0.5;
-	grabPassPos.zw = pos.zw;
+    #ifdef UNITY_ASSUME_UNIFORM_SCALING
+        return UnityObjectToWorldDir(norm);
+    #else
+        // mul(IT_M, norm) => mul(norm, I_M) => {dot(norm, I_M.col0), dot(norm, I_M.col1), dot(norm, I_M.col2)}
+        return normalize(mul(norm, (float3x3) unity_WorldToObject));
+    #endif
+}
+
+inline float4 ComputeGrabScreenPos(float4 pos)
+{
+    #if UNITY_UV_STARTS_AT_TOP
+        float scale = -1.0;
+    #else
+        float scale = 1.0;
+    #endif
+        float4 o = pos * 0.5f;
+        o.xy = float2(o.x, o.y * scale) + o.w;
+    #ifdef UNITY_SINGLE_PASS_STEREO
+        o.xy = TransformStereoScreenSpaceTex(o.xy, pos.w);
+    #endif
+    o.zw = pos.zw;
+    return o;
 }
 #endif

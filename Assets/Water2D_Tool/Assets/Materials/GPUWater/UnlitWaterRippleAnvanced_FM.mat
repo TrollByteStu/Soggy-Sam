@@ -4,8 +4,9 @@
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: UnlitWaterRippleAnvanced_FM
   m_Shader: {fileID: 4800000, guid: a5b1983594e0ce64eb2b564077c36198, type: 3}
   m_ShaderKeywords: _DEPTHFOG_ON
@@ -31,10 +32,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - _ApplyOffset: 0
     - _BottomPos: -2
-    - _BumpWaves: 0.15
+    - _BumpWaves: 0.1
     - _DEPTHFOG: 1
-    - _Distortion: 0.15
+    - _Distortion: 0.05
     - _EdgeBlend: 4
     - _FogDensityCap: 0.8
     - _FogDepth: 3
@@ -45,9 +47,9 @@ Material:
     - _Opacity: 0.6
     - _PixelsPerUnit: 100
     - _WaterDepth: 1.52
-    - _WaterHeight: 6
+    - _WaterHeight: 11.377878
     - _WaterLineHeight: 0.05
-    - _WaterWidth: 15
+    - _WaterWidth: 20
     - _WaveHeight: 1
     - _WaveHeightScale: 1
     m_Colors:
