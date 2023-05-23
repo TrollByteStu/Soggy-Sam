@@ -72,7 +72,7 @@ public class weaponController : MonoBehaviour
                     break;
                 case 3:
                     GameObject grenade = Instantiate(grenadeInstance, weapon.transform.position + weapon.transform.forward * 2, weapon.transform.rotation);
-                    grenade.GetComponent<Rigidbody>().AddForce(grenade.transform.forward * 200);
+                    grenade.GetComponent<Rigidbody>().AddForce(grenade.transform.forward * 600);
                     universalGrenade grenadeScript = grenade.GetComponent<universalGrenade>();
                     grenadeScript.scale = new(0.2f, 0.2f, 0.2f);
                     grenadeScript.mass = 1;
