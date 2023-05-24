@@ -272,6 +272,11 @@ PrefabInstance:
       objectReference: {fileID: 1005001278}
     - target: {fileID: 6925522770815801258, guid: 29193a40a1dea8d44b4acd288146b6d0,
         type: 3}
+      propertyPath: currentWeapon
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6925522770815801258, guid: 29193a40a1dea8d44b4acd288146b6d0,
+        type: 3}
       propertyPath: grenadeInstance
       value: 
       objectReference: {fileID: 896536533886979699, guid: 17118b3b226b19148845d6abf2e3c225,
@@ -285,27 +290,30 @@ PrefabInstance:
     - target: {fileID: 6925522770815801258, guid: 29193a40a1dea8d44b4acd288146b6d0,
         type: 3}
       propertyPath: weapons.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 6925522770815801258, guid: 29193a40a1dea8d44b4acd288146b6d0,
-        type: 3}
-      propertyPath: weapons.Array.data[0]
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6925522770815801258, guid: 29193a40a1dea8d44b4acd288146b6d0,
-        type: 3}
-      propertyPath: weapons.Array.data[1]
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6925522770815801258, guid: 29193a40a1dea8d44b4acd288146b6d0,
-        type: 3}
-      propertyPath: weapons.Array.data[2]
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6925522770815801258, guid: 29193a40a1dea8d44b4acd288146b6d0,
         type: 3}
+      propertyPath: weapons.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: e72be6ef426c1be42b5372a939095153,
+        type: 2}
+    - target: {fileID: 6925522770815801258, guid: 29193a40a1dea8d44b4acd288146b6d0,
+        type: 3}
+      propertyPath: weapons.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: e40264abaa4409e42975409e9a3b02da,
+        type: 2}
+    - target: {fileID: 6925522770815801258, guid: 29193a40a1dea8d44b4acd288146b6d0,
+        type: 3}
+      propertyPath: weapons.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 9708b6e51f8e52e478d3e5da76e709f0,
+        type: 2}
+    - target: {fileID: 6925522770815801258, guid: 29193a40a1dea8d44b4acd288146b6d0,
+        type: 3}
       propertyPath: weapons.Array.data[3]
-      value: 4
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6925522770815801259, guid: 29193a40a1dea8d44b4acd288146b6d0,
         type: 3}

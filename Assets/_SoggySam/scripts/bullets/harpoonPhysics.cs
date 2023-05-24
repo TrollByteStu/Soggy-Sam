@@ -11,6 +11,9 @@ public class harpoonPhysics : MonoBehaviour
 
     private const float zOffset = -0; // fish might now need to be at z0 in later updates ajust here in that case
 
+    public int Damage;
+    public bool SpringJoint = false;
+
     private void Start()
     {
         myCollider = GetComponent<Collider>();
@@ -51,7 +54,8 @@ public class harpoonPhysics : MonoBehaviour
             predator.dead = true;
             predator.harpooned = true;
             predator.myPlayer = myPlayer;
-            myPlayer.GetComponent<SpringJoint>().connectedBody = collision.gameObject.GetComponent<Rigidbody>();
+            if (SpringJoint)
+                myPlayer.GetComponent<SpringJoint>().connectedBody = collision.gameObject.GetComponent<Rigidbody>();
             transform.parent = collision.gameObject.transform;
             myRB.isKinematic = true;
             myCollider.enabled = false;
