@@ -1,4 +1,4 @@
-﻿Shader "Water2D/UnlitWaterRippleAnvanced_FM" {
+﻿Shader "Water2D/LWRP/UnlitWaterRippleAnvanced_FM" {
     Properties {	
 		    [HideInInspector] _MainTex ("Main Texture", 2D) = "grey" {}
             _DeepWaterColor ("Deep Water Color", Color) = (0.588, 0.745, 1.0, 1)
@@ -29,40 +29,66 @@
 	}
 	SubShader
 	{
-		Tags {"RenderType"="Transparent" "Queue"="Transparent+10" "IgnoreProjector" = "True" }
-        Blend SrcAlpha OneMinusSrcAlpha
-        ZTest LEqual
-        ZWrite Off
-
-        GrabPass {"_RefractionTexUnlit_FM"}
+		Tags { "RenderType"="Transparent" "Queue"="Transparent+10" "RenderPipeline" = "LightweightPipeline" }
 
 		Pass
 		{
-			CGPROGRAM
-            #pragma target 3.0
-			#pragma vertex vert
-			#pragma fragment frag
-			#pragma multi_compile_fog
-            #pragma shader_feature _ _DEPTHFOG_ON
+            Tags { "LightMode"="LightweightForward" }
+            Name "Base"
+            Blend SrcAlpha OneMinusSrcAlpha
+            ZTest LEqual
+            ZWrite Off
 			
-			#include "UnityCG.cginc"
+            HLSLPROGRAM
+			#pragma prefer_hlslcc gles
+			#pragma multi_compile _ USE_STRUCTURED_BUFFER
+			
+			// -------------------------------------
+            // Lightweight Pipeline keywords
+            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS
+            #pragma multi_compile _ _SHADOWS_SOFT
+
+			//--------------------------------------
+            // GPU Instancing
+            #pragma multi_compile_instancing
+            #pragma multi_compile_fog
+
+            //--------------------------------------
+            // Shader features   
+            #pragma shader_feature _ _DEPTHFOG_ON
+
+            #define _MAIN_LIGHT_SHADOWS_CASCADE 1
+            #define SHADOWS_SCREEN 0
+
+		    #pragma vertex vert 
+		    #pragma fragment frag
+
+            // Lighting include is needed because of GI
             #include "Water2DInclude.cginc"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 
             struct appdata
             {
-                float4 vertex : POSITION;
-                float3 normal : NORMAL;
-                fixed2 texcoord : TEXCOORD0;
+                float4 vertex   : POSITION;
+                float3 normal   : NORMAL;
+                float2 texcoord : TEXCOORD0;
+
+                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             struct v2f
             {
-                float4 pos : SV_POSITION;
-                float2 texcoord : TEXCOORD0;
-                float4 bumpCoords : TEXCOORD2;
-                float4 screenPos : TEXCOORD3;
-                float4 grabPassPos : TEXCOORD4;
-                UNITY_FOG_COORDS(5)
+                float4 pos          : TEXCOORD0;
+                float4 texcoord     : TEXCOORD1;
+                float4 bumpCoords   : TEXCOORD2;
+                float4 screenPos    : TEXCOORD3;
+                float4 grabPassPos  : TEXCOORD4;
+
+                float4 clipPos      : SV_POSITION;
+
+                UNITY_VERTEX_INPUT_INSTANCE_ID
+                UNITY_VERTEX_OUTPUT_STEREO
             };
 
             float4 _MainTex_ST;
@@ -70,6 +96,10 @@
 			v2f vert (appdata v)
 			{
                 v2f o;
+
+                UNITY_SETUP_INSTANCE_ID(v);
+                UNITY_TRANSFER_INSTANCE_ID(v, o);
+                UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 		     
                 float offset = GetAverage(_MainTex, _MainTex_TexelSize, float4(v.texcoord.xy, 0, 0));
                 float oneOrZero = step(_BottomPos + 0.001, v.vertex.y) * _ApplyOffset;
@@ -79,20 +109,21 @@
                 half2 tileableUv = worldSpaceVertex.xy;
                 o.bumpCoords.xyzw = (tileableUv.xyxy + _Time.xxxx * _BumpDirection.xyzw) * _BumpTiling.xyzw;
 
-                o.texcoord = TRANSFORM_TEX(v.texcoord, _MainTex);
-                o.pos = UnityObjectToClipPos(v.vertex);
-                float4 pos = UnityObjectToClipPos(v.vertex);
+                o.pos.xyz = TransformObjectToWorld(v.vertex.xyz);
+                o.texcoord.xy = v.texcoord;
+                o.texcoord.zw = o.pos.xz;
 
-                o.screenPos = ComputeScreenPos(pos);
-                COMPUTE_EYEDEPTH(o.screenPos.z);
-                o.grabPassPos = ComputeGrabScreenPos(pos);
-		
-                UNITY_TRANSFER_FOG(o, o.pos);
+                float4 screenUV = ComputeScreenPos(TransformWorldToHClip(o.pos.xyz));
+                o.screenPos = screenUV;
 
+                o.clipPos = TransformWorldToHClip(o.pos.xyz);
+                o.pos = TransformWorldToHClip(o.pos.xyz);
+                o.grabPassPos = ComputeGrabScreenPos(o.pos);
+	
                 return o;
             }
 			
-			fixed4 frag (v2f i) : SV_Target
+			float4 frag (v2f i) : SV_Target
 			{
                 half3 bump = (UnpackNormal(tex2D(_BumpMap, i.bumpCoords.xy)) + UnpackNormal(tex2D(_BumpMap, i.bumpCoords.zw))) * 0.5;
                 half3 worldN = half3(0, 1, 0) + bump.xxy * _BumpWaves * half3(1, 0, 1);
@@ -101,39 +132,43 @@
                 half4 edgeBlendFactors = half4(1.0, 0.0, 0.0, 0.0);
                 float colorBlendFactors = 1;
                 
-                float4 screenPos = float4(i.screenPos.xyz, i.screenPos.w + 0.00000000001);
-			    float depth = SAMPLE_DEPTH_TEXTURE_PROJ(_CameraDepthTexture , UNITY_PROJ_COORD(screenPos));
-			    depth = LinearEyeDepth(depth);
+                float4 screenPos = float4(i.screenPos.xyz / i.screenPos.w, 1);
+                float4 grabPassPos = float4(i.grabPassPos.xy / i.grabPassPos.w, 0, 0);
+                half depth = SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, sampler_ScreenTextures_linear_clamp, screenPos.xy);
+                depth = LinearEyeDepth(depth, _ZBufferParams);
 			    edgeBlendFactors = saturate(_EdgeBlend * (depth - i.screenPos.w));
 			    edgeBlendFactors.y = 1.0 - edgeBlendFactors.y;
                       
                 half4 distortOffset = half4(worldNormal.xz * _Distortion * 10.0, 0, 0);
                 distortOffset = lerp(half4(0, 0, 0, 0), distortOffset, edgeBlendFactors.x);
-                half4 grabWithOffset = i.grabPassPos + distortOffset;
-                half4 rtRefractions = tex2Dproj(_RefractionTexUnlit_FM, UNITY_PROJ_COORD(grabWithOffset));
+                half4 grabWithOffset = grabPassPos + distortOffset;
+                float4 rtRefractions = SAMPLE_TEXTURE2D(_CameraOpaqueTexture, sampler_CameraOpaqueTexture_linear_clamp, grabWithOffset.xy);
 
                 screenPos.xy += distortOffset.xy;
-                half depthWithOffset = LinearEyeDepth(SAMPLE_DEPTH_TEXTURE_PROJ(_CameraDepthTexture, UNITY_PROJ_COORD(screenPos)));
-                float colorDepth = saturate(_WaterDepth / abs(depthWithOffset - i.screenPos.z));
+                
+                //half depthWithOffset = LinearEyeDepth(SAMPLE_DEPTH_TEXTURE_PROJ(_CameraDepthTexture, UNITY_PROJ_COORD(screenPos)));
+                half depthWithOffset = SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, sampler_ScreenTextures_linear_clamp, screenPos.xy);
+                depthWithOffset = LinearEyeDepth(depthWithOffset, _ZBufferParams);
+                
+                float colorDepth = saturate(_WaterDepth / abs(depthWithOffset - i.screenPos.w));
                 
                 float4 colorTint = lerp(_DeepWaterColor ,_ShallowWaterColor, colorDepth);
                 float4 baseColor = lerp(rtRefractions, colorTint, _Opacity);
                 
                 #ifdef _DEPTHFOG_ON
-                    float fogDepth = saturate(_FogDepth / abs(depthWithOffset - i.screenPos.z));
+                    float fogDepth = saturate(_FogDepth / abs(depthWithOffset - i.screenPos.w));
                     fogDepth = saturate(pow(fogDepth, _FogFalloff));
                     float fogDensity = max(fogDepth, 1.0 - _FogDensityCap);
                     baseColor = lerp(baseColor, _DeepWaterColor, (1.0 - fogDensity));
                 #endif
 
-                baseColor = AddWaterLine(i.texcoord, baseColor);
+                baseColor = AddWaterLine(i.texcoord.xy, baseColor);
                 baseColor.a = edgeBlendFactors.x;
 
-                UNITY_APPLY_FOG(i.fogCoord, baseColor);
                 return baseColor;
             }
-			ENDCG
-		}
+			ENDHLSL
+        }
 	}
     CustomEditor "Water2DShaderInspector_FM"
 }

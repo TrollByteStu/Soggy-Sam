@@ -1,34 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using UnityEngine.Experimental.Rendering;
+using UnityEngine.Rendering;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
-namespace Water2DTool
-{
-    [ExecuteInEditMode]
+
+namespace Water2DTool {
+    [ExecuteAlways]
     public class Water2D_PlanarReflection : MonoBehaviour
     {
         [SerializeField]
         [Range(1, 10)]
         private int reflectionQuality = 10;
-        private String reflectionSampler = "_ReflectionTex";
-        private Vector3 m_Oldpos;
-        private Camera m_ReflectionCamera;
-        private Material m_SharedMaterial;
-        private Dictionary<Camera, bool> m_HelperCameras;
-        private Water2D_Tool water2D;
-        private bool getComponent = true;
-        private Skybox mainCameraSkybox;
-        private Skybox refCameraSkybox;
-
-        public LayerMask reflectionMask = -1;
-        public Color clearColor = Color.grey;
-        public bool reflectSkybox = true;
-        public bool UpdateSceneView = true;
-        public float clipPlaneOffset = 0;
+        public LayerMask m_ReflectLayers = -1;
+        public float m_ClipPlaneOffset = 0.0f;
         public float reflectionRenderDistance = 1000;
+
+        private static Camera m_ReflectionCamera;
+        private RenderTexture m_ReflectionTexture = null;
+        private Water2D_Tool water2D;
+        private string reflectionSampler = "_ReflectionTex";
+        private Material m_SharedMaterial;
+
 
         private void Awake()
         {
@@ -41,17 +35,49 @@ namespace Water2DTool
             setMaterial();
         }
 
-        void OnEnable()
+        private void OnEnable()
         {
             gameObject.layer = LayerMask.NameToLayer("Water");
+            RenderPipelineManager.beginCameraRendering += ExecutePlanarReflections;
             setMaterial();
         }
 
-        void OnDisable()
+        // Cleanup all the objects we possibly have created
+        private void OnDisable()
         {
-            if (m_ReflectionCamera != null)
+            Cleanup();
+        }
+
+        private void OnDestroy()
+        {
+            Cleanup();
+        }
+
+        void Cleanup()
+        {
+            RenderPipelineManager.beginCameraRendering -= ExecutePlanarReflections;
+
+            if (m_ReflectionCamera)
             {
-                DestroyImmediate(m_ReflectionCamera);
+                m_ReflectionCamera.targetTexture = null;
+                SafeDestroy(m_ReflectionCamera.gameObject);
+            }
+
+            if (m_ReflectionTexture)
+            {
+                RenderTexture.ReleaseTemporary(m_ReflectionTexture);
+            }
+        }
+
+        void SafeDestroy(Object obj)
+        {
+            if (Application.isEditor)
+            {
+                DestroyImmediate(obj);
+            }
+            else
+            {
+                Destroy(obj);
             }
         }
 
@@ -64,124 +90,100 @@ namespace Water2DTool
 
         }
 
-        Camera CreateReflectionCameraFor(Camera cam)
+        private void UpdateCamera(Camera src, Camera dest)
         {
-            String reflName = gameObject.name + "Reflection" + GetInstanceID() + "-for-" + cam.name;
-            GameObject go = GameObject.Find(reflName);
-
-            if (!go)
-            {
-                go = new GameObject(reflName, typeof(Camera));
-                go.hideFlags = HideFlags.HideAndDontSave;
-            }
-            if (!go.GetComponent(typeof(Camera)))
-            {
-                go.AddComponent(typeof(Camera));
-            }
-
-            Camera reflectCamera = go.GetComponent<Camera>();
-
-            reflectCamera.backgroundColor = clearColor;
-            reflectCamera.clearFlags = reflectSkybox ? CameraClearFlags.Skybox : CameraClearFlags.SolidColor;
-
-            SetStandardCameraParameter(reflectCamera, reflectionMask);
-
-            if (!reflectCamera.targetTexture)
-            {
-                reflectCamera.targetTexture = CreateTextureFor(cam);
-            }
-
-            return reflectCamera;
-        }
-
-        void SetStandardCameraParameter(Camera cam, LayerMask mask)
-        {
-            cam.cullingMask = mask & ~(1 << LayerMask.NameToLayer("Water"));
-            cam.backgroundColor = Color.black;
-            cam.enabled = false;
-        }
-
-
-        RenderTexture CreateTextureFor(Camera cam)
-        {
-            int rtWidth = Mathf.FloorToInt(cam.pixelWidth / (1 + 10 - reflectionQuality));
-            int rtHeight = Mathf.FloorToInt(cam.pixelHeight / (1 + 10 - reflectionQuality));
-
-            RenderTexture rt = new RenderTexture(rtWidth, rtHeight, 24);
-            rt.hideFlags = HideFlags.DontSave;
-            return rt;
-        }
-
-
-        public void RenderHelpCameras(Camera currentCam)
-        {
-            if (null == m_HelperCameras)
-            {
-                m_HelperCameras = new Dictionary<Camera, bool>();
-            }
-
-            if (!m_HelperCameras.ContainsKey(currentCam))
-            {
-                m_HelperCameras.Add(currentCam, false);
-            }
-
-            if (m_HelperCameras[currentCam] && !UpdateSceneView)
-            {
+            if (dest == null)
                 return;
-            }
+            dest.CopyFrom(src);
+            dest.useOcclusionCulling = false;
+        }
 
-            if (!m_ReflectionCamera)
-            {
-                m_ReflectionCamera = CreateReflectionCameraFor(currentCam);
-            }
+        private void UpdateReflectionCamera(Camera realCamera)
+        {
+            if (m_ReflectionCamera == null)
+                m_ReflectionCamera = CreateMirrorObjects(realCamera);
 
-            RenderReflectionFor(currentCam, m_ReflectionCamera);
+            Vector3 pos = Vector3.zero;
+            Vector3 normal = Vector3.up;
 
-            m_HelperCameras[currentCam] = true;
+            Transform reflectiveSurface = transform; //waterHeight;
+
+            Vector3 eulerA = realCamera.transform.eulerAngles;
+
+            m_ReflectionCamera.transform.eulerAngles = new Vector3(-eulerA.x, eulerA.y, eulerA.z);
+            m_ReflectionCamera.transform.position = realCamera.transform.position;
+
+            if (water2D == null)
+                water2D = GetComponentInParent<Water2D_Tool>();
+
+            if (water2D != null)
+                pos = transform.TransformPoint(water2D.handlesPosition[0]);
+            else
+                pos = transform.position;
+
+            normal = reflectiveSurface.transform.up;
+
+            UpdateCamera(realCamera, m_ReflectionCamera);
+
+            float d = -Vector3.Dot(normal, pos) - m_ClipPlaneOffset;
+            Vector4 reflectionPlane = new Vector4(normal.x, normal.y, normal.z, d);
+
+            Matrix4x4 reflection = Matrix4x4.zero;
+
+            CalculateReflectionMatrix(ref reflection, reflectionPlane);
+            Vector3 oldpos = realCamera.transform.position;
+            Vector3 newpos = ReflectPosition(oldpos);
+
+            m_ReflectionCamera.worldToCameraMatrix = realCamera.worldToCameraMatrix * reflection;
+
+            Vector4 clipPlane = CameraSpacePlane(m_ReflectionCamera, pos, normal, 1.0f);
+            Matrix4x4 projection = realCamera.projectionMatrix;
+            projection = CalculateObliqueMatrix(projection, clipPlane);
+
+            m_ReflectionCamera.projectionMatrix = projection;
+            m_ReflectionCamera.cullingMask = m_ReflectLayers; // never render water layer
+            m_ReflectionCamera.transform.position = newpos;
+
+            Vector3 euler = realCamera.transform.eulerAngles;
+
+            m_ReflectionCamera.transform.eulerAngles = new Vector3(-euler.x, euler.y, euler.z);
+        }
+
+        // Given position/normal of the plane, calculates plane in camera space.
+        private Vector4 CameraSpacePlane(Camera cam, Vector3 pos, Vector3 normal, float sideSign)
+        {
+            Vector3 offsetPos = pos + normal * m_ClipPlaneOffset;
+            Matrix4x4 m = cam.worldToCameraMatrix;
+            Vector3 cpos = m.MultiplyPoint(offsetPos);
+            Vector3 cnormal = m.MultiplyVector(normal).normalized * sideSign;
+
+            return new Vector4(cnormal.x, cnormal.y, cnormal.z, -Vector3.Dot(cpos, cnormal));
+        }
+
+        private Camera CreateMirrorObjects(Camera currentCamera)
+        {
+            GameObject go = new GameObject($"Planar Refl Camera id{GetInstanceID().ToString()} for {currentCamera.GetInstanceID().ToString()}", typeof(Camera));
+            UnityEngine.Rendering.Universal.UniversalAdditionalCameraData lwrpCamData = go.AddComponent(typeof(UnityEngine.Rendering.Universal.UniversalAdditionalCameraData)) as UnityEngine.Rendering.Universal.UniversalAdditionalCameraData;
+            UnityEngine.Rendering.Universal.UniversalAdditionalCameraData lwrpCamDataCurrent = currentCamera.GetComponent<UnityEngine.Rendering.Universal.UniversalAdditionalCameraData>();
+            lwrpCamData.renderShadows = true; // turn off shadows for the reflection camera
+            lwrpCamData.requiresColorOption = UnityEngine.Rendering.Universal.CameraOverrideOption.Off;
+            lwrpCamData.requiresDepthOption = UnityEngine.Rendering.Universal.CameraOverrideOption.Off;
+            var reflectionCamera = go.GetComponent<Camera>();
+            reflectionCamera.transform.SetPositionAndRotation(transform.position, transform.rotation);
+            reflectionCamera.allowMSAA = currentCamera.allowMSAA;
+            reflectionCamera.depth = -10;
+            reflectionCamera.enabled = false;
+            reflectionCamera.allowHDR = currentCamera.allowHDR;
+            go.hideFlags = HideFlags.HideAndDontSave;
+
+            return reflectionCamera;
         }
 
 
-        public void LateUpdate()
+        public void ExecutePlanarReflections(ScriptableRenderContext context, Camera camera)
         {
-            if (null != m_HelperCameras)
-            {
-                m_HelperCameras.Clear();
-            }
-        }
-
-
-        public void WaterTileBeingRendered(Transform tr, Camera currentCam)
-        {
-            RenderHelpCameras(currentCam);
-
-            if (m_ReflectionCamera && m_SharedMaterial)
-            {
-                m_SharedMaterial.SetTexture(reflectionSampler, m_ReflectionCamera.targetTexture);
-            }
-        }
-
-
-        public void OnWillRenderObject()
-        {
-            WaterTileBeingRendered(transform, Camera.current);
-        }
-
-
-        void RenderReflectionFor(Camera cam, Camera reflectCamera)
-        {
-            if (!reflectCamera)
-            {
+            if (camera.cameraType == CameraType.Reflection)
                 return;
-            }
-
-            if (m_SharedMaterial && !m_SharedMaterial.HasProperty(reflectionSampler))
-            {
-                return;
-            }
-
-            if (cam.orthographic)
-                return;
-
 
 #if UNITY_EDITOR
             if (SceneView.sceneViews.Count > 0)
@@ -196,102 +198,72 @@ namespace Water2DTool
             }
 #endif
 
+            GL.invertCulling = true;
+            //RenderSettings.fog = false;
+            var max = QualitySettings.maximumLODLevel;
+            var bias = QualitySettings.lodBias;
+            QualitySettings.maximumLODLevel = 0;
+            QualitySettings.lodBias = bias * 2f;
+
+            UpdateReflectionCamera(camera);
+            m_ReflectionCamera.cameraType = camera.cameraType;
+
+            if (m_ReflectionTexture == null)
+                CreateTextureFor(camera);
+
 #if UNITY_EDITOR
-            int rtWidth = Mathf.FloorToInt(cam.pixelWidth / (1 + 10 - reflectionQuality));
-            int rtHeight = Mathf.FloorToInt(cam.pixelHeight / (1 + 10 - reflectionQuality));
+            Vector2Int rtRes = RenderTextureResolution(camera);
 
-            if (reflectCamera.targetTexture.width != rtWidth || reflectCamera.targetTexture.height != rtHeight)
+            if (m_ReflectionCamera.targetTexture != null && (m_ReflectionTexture.width != rtRes.x || m_ReflectionTexture.height != rtRes.y))
             {
-                DestroyImmediate(reflectCamera.targetTexture);
-                reflectCamera.targetTexture = CreateTextureFor(cam);
-            }
-#endif
+                m_ReflectionCamera.targetTexture = null;
 
-            reflectCamera.cullingMask = reflectionMask & ~(1 << LayerMask.NameToLayer("Water"));
-
-            SaneCameraSettings(reflectCamera);
-
-            reflectCamera.backgroundColor = clearColor;
-            reflectCamera.clearFlags = reflectSkybox ? CameraClearFlags.Skybox : CameraClearFlags.SolidColor;
-
-
-            if (getComponent)
-            {
-                mainCameraSkybox = cam.GetComponent(typeof(Skybox)) as Skybox;
-                refCameraSkybox = reflectCamera.GetComponent(typeof(Skybox)) as Skybox;
-
-                if (Application.isPlaying)
-                    getComponent = false;
-            }
-
-            if (reflectSkybox)
-            {
-                if (mainCameraSkybox != null)
+                if (m_ReflectionTexture)
                 {
-                    if (!refCameraSkybox)
-                    {
-                        refCameraSkybox = (Skybox)reflectCamera.gameObject.AddComponent(typeof(Skybox));
-                    }
-
-                    refCameraSkybox.material = mainCameraSkybox.material;
+                    RenderTexture.ReleaseTemporary(m_ReflectionTexture);
+                    CreateTextureFor(camera);
+                    m_ReflectionCamera.targetTexture = m_ReflectionTexture;
                 }
             }
+#endif    
 
-            GL.invertCulling = true;
+            m_ReflectionCamera.targetTexture = m_ReflectionTexture;
 
-            Transform reflectiveSurface = transform; //waterHeight;
-
-            Vector3 eulerA = cam.transform.eulerAngles;
-
-            reflectCamera.transform.eulerAngles = new Vector3(-eulerA.x, eulerA.y, eulerA.z);
-            reflectCamera.transform.position = cam.transform.position;
-
-            if (water2D == null)
-                water2D = GetComponentInParent<Water2D_Tool>();
-
-            Vector3 pos = Vector3.zero;
-
-            if (water2D != null)          
-                pos = transform.TransformPoint(water2D.handlesPosition[0]);        
-            else
-                pos = transform.position;
-
-            Vector3 normal = reflectiveSurface.transform.up;
-            float d = -Vector3.Dot(normal, pos) - clipPlaneOffset;
-            Vector4 reflectionPlane = new Vector4(normal.x, normal.y, normal.z, d);
-
-            Matrix4x4 reflection = Matrix4x4.zero;
-            reflection = CalculateReflectionMatrix(reflection, reflectionPlane);
-            m_Oldpos = cam.transform.position;
-            Vector3 newpos = reflection.MultiplyPoint(m_Oldpos);
-
-            reflectCamera.worldToCameraMatrix = cam.worldToCameraMatrix * reflection;
-
-            Vector4 clipPlane = CameraSpacePlane(reflectCamera, pos, normal, 1.0f);
-
-            Matrix4x4 projection = cam.projectionMatrix;
-            projection = CalculateObliqueMatrix(projection, clipPlane);
-            reflectCamera.projectionMatrix = projection;
-
-            reflectCamera.transform.position = newpos;
-            Vector3 euler = cam.transform.eulerAngles;
-            reflectCamera.transform.eulerAngles = new Vector3(-euler.x, euler.y, euler.z);
-
-            if (Vector3.Distance(reflectCamera.transform.position, transform.position) < reflectionRenderDistance)             
-                reflectCamera.Render();
+            UnityEngine.Rendering.Universal.UniversalRenderPipeline.RenderSingleCamera(context, m_ReflectionCamera);
 
             GL.invertCulling = false;
+            //RenderSettings.fog = true;
+            QualitySettings.maximumLODLevel = 0;
+            QualitySettings.lodBias = 8;
+
+            if(m_SharedMaterial != null)
+                m_SharedMaterial.SetTexture(reflectionSampler, m_ReflectionCamera.targetTexture);
         }
 
-
-        void SaneCameraSettings(Camera helperCam)
+        void CreateTextureFor(Camera cam)
         {
-            helperCam.depthTextureMode = DepthTextureMode.None;
-            helperCam.backgroundColor = Color.black;
-            helperCam.clearFlags = CameraClearFlags.SolidColor;
-            helperCam.renderingPath = RenderingPath.Forward;
+            //Debug.Log("RT Created");
+            Vector2Int rtRes = RenderTextureResolution(cam);
+
+            bool useHDR10 = SystemInfo.SupportsRenderTextureFormat(RenderTextureFormat.RGB111110Float);
+            RenderTextureFormat hdrFormat = useHDR10 ? RenderTextureFormat.RGB111110Float : RenderTextureFormat.DefaultHDR;
+            m_ReflectionTexture = RenderTexture.GetTemporary(rtRes.x, rtRes.y, 16, GraphicsFormatUtility.GetGraphicsFormat(hdrFormat, true));
         }
 
+        Vector2Int RenderTextureResolution(Camera cam)
+        {
+            Vector2Int cameraSize;
+
+            if (cam.cameraType == CameraType.SceneView)
+                cameraSize = new Vector2Int(Camera.current.pixelWidth, Camera.current.pixelHeight);
+            else
+                cameraSize = new Vector2Int(Camera.main.pixelWidth, Camera.main.pixelHeight);
+
+            int rtWidth = Mathf.FloorToInt(cameraSize.x / (1 + 10 - reflectionQuality));
+            int rtHeight = Mathf.FloorToInt(cameraSize.y / (1 + 10 - reflectionQuality));
+
+            return new Vector2Int(rtWidth, rtHeight);
+        }
 
         static Matrix4x4 CalculateObliqueMatrix(Matrix4x4 projection, Vector4 clipPlane)
         {
@@ -311,8 +283,21 @@ namespace Water2DTool
             return projection;
         }
 
+        static float Sgn(float a)
+        {
+            if (a > 0.0F)
+            {
+                return 1.0F;
+            }
+            if (a < 0.0F)
+            {
+                return -1.0F;
+            }
+            return 0.0F;
+        }
 
-        static Matrix4x4 CalculateReflectionMatrix(Matrix4x4 reflectionMat, Vector4 plane)
+        // Calculates reflection matrix around the given plane
+        private static void CalculateReflectionMatrix(ref Matrix4x4 reflectionMat, Vector4 plane)
         {
             reflectionMat.m00 = (1.0F - 2.0F * plane[0] * plane[0]);
             reflectionMat.m01 = (-2.0F * plane[0] * plane[1]);
@@ -333,33 +318,12 @@ namespace Water2DTool
             reflectionMat.m31 = 0.0F;
             reflectionMat.m32 = 0.0F;
             reflectionMat.m33 = 1.0F;
-
-            return reflectionMat;
         }
 
-
-        static float Sgn(float a)
+        private static Vector3 ReflectPosition(Vector3 pos)
         {
-            if (a > 0.0F)
-            {
-                return 1.0F;
-            }
-            if (a < 0.0F)
-            {
-                return -1.0F;
-            }
-            return 0.0F;
-        }
-
-
-        Vector4 CameraSpacePlane(Camera cam, Vector3 pos, Vector3 normal, float sideSign)
-        {
-            Vector3 offsetPos = pos + normal * clipPlaneOffset;
-            Matrix4x4 m = cam.worldToCameraMatrix;
-            Vector3 cpos = m.MultiplyPoint(offsetPos);
-            Vector3 cnormal = m.MultiplyVector(normal).normalized * sideSign;
-
-            return new Vector4(cnormal.x, cnormal.y, cnormal.z, -Vector3.Dot(cpos, cnormal));
+            Vector3 newPos = new Vector3(pos.x, -pos.y, pos.z);
+            return newPos;
         }
     }
 }

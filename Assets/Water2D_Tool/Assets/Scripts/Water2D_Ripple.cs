@@ -752,7 +752,7 @@ namespace Water2DTool {
                 topMeshRend.material.SetInt(shaderParam.oneOrZeroID, 1);
                 
                 // For LWRP and URP 
-                //topMeshRend.material.renderQueue = 2500;
+                topMeshRend.material.renderQueue = 2500;
             }
             else
             {
@@ -760,7 +760,7 @@ namespace Water2DTool {
                 topMeshRend.material.SetInt(shaderParam.oneOrZeroID, 0);
 
                 // For LWRP and URP 
-                //topMeshRend.material.renderQueue = 3000;
+                topMeshRend.material.renderQueue = 3000;
             }
         }
 

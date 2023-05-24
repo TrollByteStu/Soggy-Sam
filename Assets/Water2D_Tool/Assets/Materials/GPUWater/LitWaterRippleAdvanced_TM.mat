@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: LitWaterRippleAdvanced_TM
-  m_Shader: {fileID: 4800000, guid: e9dd41d77d2a820499452766c2f9d999, type: 3}
+  m_Shader: {fileID: 4800000, guid: b95389b5b48925a48a5248ec552c3366, type: 3}
   m_ValidKeywords:
   - _FOAM_ON
   - _NORMALS_PERPIXEL
@@ -66,7 +66,7 @@ Material:
     - _CubeMapLevel: 0.2
     - _Culling: 0
     - _DEPTHFOG: 0
-    - _Distortion: 0.14
+    - _Distortion: 0.02
     - _EdgeBlend: 4
     - _FOAM: 1
     - _FaceCulling: 2
@@ -77,7 +77,7 @@ Material:
     - _Glossiness: 0
     - _HeightOffset: 0
     - _Metallic: 0
-    - _NormalStrength: 15
+    - _NormalStrength: 10
     - _Normals: 0
     - _OneOrZero: 0
     - _ReflectionIntensity: 0.8

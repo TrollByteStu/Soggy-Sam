@@ -9,13 +9,13 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: PineTreeTrunk_01
   m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
-  m_ValidKeywords: []
-  m_InvalidKeywords:
-  - _GLOSSYREFLECTIONS_OFF
+  m_ValidKeywords:
+  - _ENVIRONMENTREFLECTIONS_OFF
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2000
   stringTagMap:
     RenderType: Opaque
   disabledShaderPasses: []
@@ -143,7 +143,7 @@ Material:
     m_Colors:
     - _BaseColor: {r: 0.25098038, g: 0.19999996, b: 0, a: 1}
     - _BottomColor: {r: 0.43529412, g: 0.24313726, b: 0, a: 1}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.25098035, g: 0.19999993, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Falloff: {r: 0.05, g: 0, b: -0.2, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
@@ -152,7 +152,7 @@ Material:
     - _WeendCycles: {r: 0.3, g: 0, b: 0.32, a: 0}
     - _WindCycles: {r: 0, g: 0, b: 0.5, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &1826673751953374047
+--- !u!114 &2082890109607844178
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

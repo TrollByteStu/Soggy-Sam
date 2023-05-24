@@ -4,8 +4,9 @@
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: UnlitWaterRippleAdvanced_TM
   m_Shader: {fileID: 4800000, guid: b95389b5b48925a48a5248ec552c3366, type: 3}
   m_ShaderKeywords: _FOAM_ON _NORMALS_PERPIXEL _SPECULAR_ON
@@ -47,11 +48,12 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - _ApplyOffset: 0
     - _BottomPos: -2
     - _CubeMapLevel: 0.2
     - _Culling: 2
     - _DEPTHFOG: 0
-    - _Distortion: 0.14
+    - _Distortion: 0.02
     - _EdgeBlend: 4
     - _FOAM: 1
     - _FaceCulling: 2
@@ -59,7 +61,7 @@ Material:
     - _FresnelBias: 0.17
     - _FresnelPower: 0.55
     - _HeightOffset: 0
-    - _NormalStrength: 15
+    - _NormalStrength: 10
     - _Normals: 0
     - _OneOrZero: 0
     - _ReflectionIntensity: 0.7
