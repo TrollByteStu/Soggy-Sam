@@ -55,6 +55,7 @@ Material:
     - _AlphaClipping: 0.5
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _RootOffset: -35.41
     - _WindScale: 0.25
     - _WindStrength: 20
     m_Colors:
