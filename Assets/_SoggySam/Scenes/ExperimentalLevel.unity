@@ -609,7 +609,7 @@ GameObject:
   - component: {fileID: 799784089}
   - component: {fileID: 799784088}
   m_Layer: 0
-  m_Name: Shore (1)
+  m_Name: Shore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -706,7 +706,7 @@ GameObject:
   - component: {fileID: 1230059013}
   - component: {fileID: 1230059012}
   m_Layer: 0
-  m_Name: Shore (2)
+  m_Name: Shore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -984,7 +984,7 @@ GameObject:
   - component: {fileID: 1385656160}
   - component: {fileID: 1385656159}
   m_Layer: 0
-  m_Name: Cube (2)
+  m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1098,7 +1098,7 @@ PrefabInstance:
     - target: {fileID: 6643547208978769842, guid: 2ae4e750d1143014badc9252643d75f8,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 13.178567
+      value: 13.129827
       objectReference: {fileID: 0}
     - target: {fileID: 6643547208978769842, guid: 2ae4e750d1143014badc9252643d75f8,
         type: 3}
@@ -1108,7 +1108,7 @@ PrefabInstance:
     - target: {fileID: 6643547208978769842, guid: 2ae4e750d1143014badc9252643d75f8,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 40.8195
+      value: 40.676
       objectReference: {fileID: 0}
     - target: {fileID: 6643547208978769842, guid: 2ae4e750d1143014badc9252643d75f8,
         type: 3}
@@ -1240,7 +1240,7 @@ GameObject:
   - component: {fileID: 1955071997}
   - component: {fileID: 1955071996}
   m_Layer: 0
-  m_Name: Shore (3)
+  m_Name: Shore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1317,8 +1317,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1955071995}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -798.6, y: 86.83, z: 0.5}
-  m_LocalScale: {x: 100, y: 1, z: 1}
+  m_LocalPosition: {x: -798.88403, y: 86.8518, z: 0.5}
+  m_LocalScale: {x: 100.03428, y: 0.9929198, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
