@@ -67,9 +67,9 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _WaterDepth: 1.27
-    - _WaterHeight: 7.3873158
+    - _WaterHeight: 6
     - _WaterLineHeight: 1
-    - _WaterWidth: 50.832855
+    - _WaterWidth: 15
     - _WaveHeightScale: 0.5
     m_Colors:
     - Color_838CA24C: {r: 0, g: 0.8264365, b: 1, a: 0}

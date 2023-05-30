@@ -12,7 +12,7 @@ public class weaponController : MonoBehaviour
     public bool readyshot = true;
 
     public int currentWeapon = 0;
-    public List<SO_Weapons> weapons;
+    public List<SO_Weapon> weapons;
 
     public Vector3 pointerOffset;
     private Vector3 renderOffset;

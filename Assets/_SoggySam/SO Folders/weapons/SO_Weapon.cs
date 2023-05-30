@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "weapon",menuName ="ScriptableObjects/Weapon", order = 2)]
-public class SO_Weapons : ScriptableObject
+public class SO_Weapon : ScriptableObject
 {
     public string Name = "Missing name";
     [Header("Model")]
