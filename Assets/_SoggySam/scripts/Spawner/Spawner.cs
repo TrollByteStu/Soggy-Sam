@@ -15,7 +15,7 @@ namespace _SoggySam.scripts.Spawner
         {
             if (prefabToSpawn == null)
             {
-                Debug.LogWarning("No prefab set. Disabling...");
+                Debug.LogWarning($"No prefab set on spawner \'{gameObject.name}\'. Disabling spawner...");
                 enabled = false;
             }
         }
