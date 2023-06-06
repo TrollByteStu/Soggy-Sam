@@ -28,6 +28,7 @@ namespace _SoggySam.scripts.Spawner
 
         private void CheckCanSpawn()
         {
+            _spawnedCount = transform.childCount;
             if (_spawnedCount < spawnCount)
             {
                 Spawn();
