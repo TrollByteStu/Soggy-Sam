@@ -218,6 +218,18 @@ public class SO_Item_Inventory
         return false;
     }
 
+    public int checkInventoryForItemAmount(SO_Item item)
+    {
+        if (Inventory.Count > 0)
+        {
+            foreach (Resource checkThis in Inventory)
+            {
+                if (item.itemName == checkThis.item.itemName) return checkThis.amount;
+            }
+        }
+        return 0;
+    }
+
     public bool checkInventoryForRecipe(Resource[] ingredients)
     {
         if ( ingredients.Length > 0)
