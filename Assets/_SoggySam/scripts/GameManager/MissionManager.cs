@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class MissionManager : MonoBehaviour
 {
+    public List<SO_Mission> ActiveMissions;
     
+
 
 }

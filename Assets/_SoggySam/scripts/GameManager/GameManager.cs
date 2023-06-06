@@ -26,9 +26,4 @@ public class GameManager : MonoBehaviour
         }
     }
     
-    public void waa()
-    {
-        Debug.Log("waa");
-    }
-
 }
