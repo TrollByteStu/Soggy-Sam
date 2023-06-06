@@ -8,9 +8,8 @@ namespace _SoggySam.scripts.Spawner
         private int _spawnedCount;
         
         public GameObject prefabToSpawn;
-        public int spawnCount;
-        public float spawnRateDelay;
-        public float preSpawnDelay;
+        [Range(1,100)] public int spawnCount;
+        [Range(0,100)] public float spawnRateDelay, preSpawnDelay;
 
         private void Awake()
         {
