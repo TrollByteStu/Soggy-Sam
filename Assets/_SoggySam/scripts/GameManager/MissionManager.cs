@@ -19,6 +19,8 @@ public class MissionManager : MonoBehaviour
             text1.text = ActiveMissions[0].ToolTip + GameManager.Instance.stats.inventory.checkInventoryForItemAmount(ActiveMissions[0].Objective) + "/" + ActiveMissions[0].amount;
             if (GameManager.Instance.stats.inventory.checkInventoryForItemAmount(ActiveMissions[0].Objective) >= ActiveMissions[0].amount)
                 text1.fontStyle = FontStyles.Strikethrough;
+            else
+                text1.fontStyle = FontStyles.Normal;
 
         }
         else text1.text = "";
@@ -27,6 +29,8 @@ public class MissionManager : MonoBehaviour
             text2.text = ActiveMissions[1].ToolTip + GameManager.Instance.stats.inventory.checkInventoryForItemAmount(ActiveMissions[1].Objective) + "/" + ActiveMissions[1].amount;
             if (GameManager.Instance.stats.inventory.checkInventoryForItemAmount(ActiveMissions[1].Objective) >= ActiveMissions[1].amount)
                 text1.fontStyle = FontStyles.Strikethrough;
+            else
+                text1.fontStyle = FontStyles.Normal;
         }
         else text2.text = "";
         if (ActiveMissions.Count > 2)
@@ -34,6 +38,8 @@ public class MissionManager : MonoBehaviour
             text3.text = ActiveMissions[2].ToolTip + GameManager.Instance.stats.inventory.checkInventoryForItemAmount(ActiveMissions[2].Objective) + "/" + ActiveMissions[2].amount;
             if (GameManager.Instance.stats.inventory.checkInventoryForItemAmount(ActiveMissions[2].Objective) >= ActiveMissions[2].amount)
                 text1.fontStyle = FontStyles.Strikethrough;
+            else
+                text1.fontStyle = FontStyles.Normal;
         }
         else text3.text = "No mision";
 
@@ -49,6 +55,11 @@ public class MissionManager : MonoBehaviour
     public void RemoveMission(SO_Mission mission)
     {
         ActiveMissions.Remove(mission);
+    }
+
+    public void RemoveMission(int mission)
+    {
+        ActiveMissions.RemoveAt(mission);
     }
 
     public void SortMission()
