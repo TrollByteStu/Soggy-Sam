@@ -41,7 +41,7 @@ public class MissionManager : MonoBehaviour
             else
                 text3.fontStyle = FontStyles.Normal;
         }
-        else text3.text = "No mision";
+        else text3.text = "-------------------";
 
     }
 

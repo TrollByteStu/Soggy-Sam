@@ -19,10 +19,16 @@ MonoBehaviour:
   Rotate: {x: 0, y: 0, z: 0}
   AOE: 0
   AOERaius: 0
+  BlowOnImpact: 0
+  FuseTimer: 1
   Damage: 1
   BarrelVelocity: 420
   ReloadOnPickup: 1
   FireDelay: 0
+  Mass: 1
+  Drag: 1
+  AngularDrag: 1
+  usesGravity: 1
   UsingJoint: 1
   JointAutoConfigureConnectedAnchor: 0
   JointConnectedMassScale: 1000
@@ -30,6 +36,6 @@ MonoBehaviour:
   JointSprings: 100
   JointDamper: 40
   StartJointDistance: 8
-  MaxJointDistance: 8
+  MaxJointDistance: 15
   SelfDestruct: 0
   SelfDestructTimer: 5
