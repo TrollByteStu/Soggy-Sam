@@ -28,18 +28,18 @@ public class MissionManager : MonoBehaviour
         {
             text2.text = ActiveMissions[1].ToolTip + GameManager.Instance.stats.inventory.checkInventoryForItemAmount(ActiveMissions[1].Objective) + "/" + ActiveMissions[1].amount;
             if (GameManager.Instance.stats.inventory.checkInventoryForItemAmount(ActiveMissions[1].Objective) >= ActiveMissions[1].amount)
-                text1.fontStyle = FontStyles.Strikethrough;
+                text2.fontStyle = FontStyles.Strikethrough;
             else
-                text1.fontStyle = FontStyles.Normal;
+                text2.fontStyle = FontStyles.Normal;
         }
         else text2.text = "";
         if (ActiveMissions.Count > 2)
         {
             text3.text = ActiveMissions[2].ToolTip + GameManager.Instance.stats.inventory.checkInventoryForItemAmount(ActiveMissions[2].Objective) + "/" + ActiveMissions[2].amount;
             if (GameManager.Instance.stats.inventory.checkInventoryForItemAmount(ActiveMissions[2].Objective) >= ActiveMissions[2].amount)
-                text1.fontStyle = FontStyles.Strikethrough;
+                text3.fontStyle = FontStyles.Strikethrough;
             else
-                text1.fontStyle = FontStyles.Normal;
+                text3.fontStyle = FontStyles.Normal;
         }
         else text3.text = "No mision";
 
