@@ -16,4 +16,5 @@ MonoBehaviour:
   Mission_desc: get me 10 fish
   Objective: {fileID: 11400000, guid: 599f9406f0b6dd740815ebfc8497017a, type: 2}
   ToolTip: 'Catch Grouper fish:'
-  amount: 10
+  Amount: 10
+  Achieved: 1

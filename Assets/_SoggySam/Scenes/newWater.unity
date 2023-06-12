@@ -3378,9 +3378,10 @@ MonoBehaviour:
   ActiveMissions:
   - {fileID: 11400000, guid: 522f57de2bdf0054bacd0f4e879b2231, type: 2}
   - {fileID: 11400000, guid: cc6139969e04b32469442487dff04f99, type: 2}
-  text1: {fileID: 1436201558}
-  text2: {fileID: 264436947}
-  text3: {fileID: 1582202609}
+  TextList:
+  - {fileID: 1436201558}
+  - {fileID: 264436947}
+  - {fileID: 1582202609}
 --- !u!114 &1699855170
 MonoBehaviour:
   m_ObjectHideFlags: 0
