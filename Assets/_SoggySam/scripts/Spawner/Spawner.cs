@@ -8,15 +8,14 @@ namespace _SoggySam.scripts.Spawner
         private int _spawnedCount;
         
         public GameObject prefabToSpawn;
-        public int spawnCount;
-        public float spawnRateDelay;
-        public float preSpawnDelay;
+        [Range(1,100)] public int spawnCount;
+        [Range(0,100)] public float spawnRateDelay, preSpawnDelay;
 
         private void Awake()
         {
             if (prefabToSpawn == null)
             {
-                Debug.LogWarning("No prefab set. Disabling...");
+                Debug.LogWarning($"No prefab set on spawner \'{gameObject.name}\'. Disabling spawner...");
                 enabled = false;
             }
         }
@@ -28,6 +27,7 @@ namespace _SoggySam.scripts.Spawner
 
         private void CheckCanSpawn()
         {
+            _spawnedCount = transform.childCount;
             if (_spawnedCount < spawnCount)
             {
                 Spawn();
