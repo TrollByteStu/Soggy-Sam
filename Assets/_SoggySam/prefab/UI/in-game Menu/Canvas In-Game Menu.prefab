@@ -150,6 +150,7 @@ GameObject:
   - component: {fileID: 7002865553854485151}
   - component: {fileID: 8959732857429985489}
   - component: {fileID: 3593053516346490796}
+  - component: {fileID: 2495002310400265013}
   m_Layer: 5
   m_Name: MissionPanel
   m_TagString: Untagged
@@ -167,7 +168,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6696463748181886005}
   - {fileID: 7036398339687571399}
@@ -215,6 +216,27 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
+--- !u!95 &2495002310400265013
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1749346952607486609}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 729a9d6362d4047a084701d6f5d9c5aa, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &3582808583013876460
 GameObject:
   m_ObjectHideFlags: 0
