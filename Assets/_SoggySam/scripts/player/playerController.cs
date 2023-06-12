@@ -44,7 +44,7 @@ public class playerController : MonoBehaviour
 
     void OnInteract()
     {
-        Physics.Raycast(transform.position, transform.forward, out interactRay, 1);
+        Physics.Raycast(transform.position, transform.forward, out interactRay, 10);
         if (interactRay.collider != null && myPI != null)
         {
             if (interactRay.collider.tag == "Interactable" && !interactRay.collider.transform.parent.GetComponent<intractPickUp>())
@@ -67,7 +67,7 @@ public class playerController : MonoBehaviour
 
     protected void InteractText()
     {
-        if (Physics.Raycast(transform.position, transform.forward, out interactRay, 1))
+        if (Physics.Raycast(transform.position, transform.forward, out interactRay, 10))
         {
             Debug.DrawRay(transform.position, transform.forward);
             if (interactRay.collider.CompareTag("Interactable"))
