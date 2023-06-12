@@ -68,5 +68,17 @@ namespace _SoggySam.scripts.Spawner
             if (other.gameObject.layer != 6) return;
             _withinView = true;
         }
+
+        public void EnableSpawner() => enabled = true;
+
+        public void DisableSpawner() => enabled = false;
+
+        public void RemoveAllSpawned()
+        {
+            while (transform.childCount > 0)
+            {
+                Destroy(transform.GetChild(0));
+            }
+        }
     }
 }
