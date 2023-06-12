@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 551fc43fc72e2284199b66b6ea0c61ba, type: 3}
+  m_Name: GrapplinPoon
+  m_EditorClassIdentifier: 
+  Name: GrapplingPoon
+  Prefab: {fileID: 0}
+  bullet: {fileID: 4556738051865217160, guid: c78d489415f691b4eb0db58fceeb1196, type: 3}
+  bulletScale: {x: 1, y: 1, z: 1}
+  Rotate: {x: 0, y: 0, z: 0}
+  AOE: 0
+  AOERaius: 0
+  BlowOnImpact: 0
+  FuseTimer: 1
+  Damage: 1
+  BarrelVelocity: 420
+  ReloadOnPickup: 1
+  FireDelay: 0
+  Mass: 1
+  Drag: 1
+  AngularDrag: 1
+  usesGravity: 1
+  UsingJoint: 1
+  JointAutoConfigureConnectedAnchor: 0
+  JointConnectedMassScale: 1000
+  JointEnableCollision: 1
+  JointSprings: 100
+  JointDamper: 40
+  StartJointDistance: 8
+  MaxJointDistance: 15
+  SelfDestruct: 0
+  SelfDestructTimer: 5

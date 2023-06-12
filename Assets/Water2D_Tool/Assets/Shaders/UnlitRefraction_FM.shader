@@ -16,85 +16,114 @@
         [HideInInspector] _WaterWidth (" ", Float) = 10
 	}
 
-	Subshader
+	SubShader
 	{
-		Tags {"RenderType"="Transparent" "Queue"="Transparent+10"}
-		ColorMask RGB
-        Blend SrcAlpha OneMinusSrcAlpha
-		ZTest LEqual
-		GrabPass {"_RefractionTex_V"}
-	
-		Pass {	
-			CGPROGRAM
-			#pragma target 3.0	
-			#pragma vertex vert
-			#pragma fragment frag
+		Tags { "RenderType"="Transparent" "Queue"="Transparent+10" "RenderPipeline" = "LightweightPipeline" }
 
-            #include "UnityCG.cginc"
+		Pass
+		{
+            Tags { "LightMode"="LightweightForward" }
+            Name"Base"
+            Blend SrcAlpha OneMinusSrcAlpha
+            ZTest LEqual
+            ZWrite Off
+			
+            HLSLPROGRAM
+			#pragma prefer_hlslcc gles
+			#pragma multi_compile _ USE_STRUCTURED_BUFFER
+			
+			// -------------------------------------
+            // Lightweight Pipeline keywords
+            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS
+            #pragma multi_compile _ _SHADOWS_SOFT
+
+			//--------------------------------------
+            // GPU Instancing
+            #pragma multi_compile_instancing
+            #pragma multi_compile_fog
+
+            #define _MAIN_LIGHT_SHADOWS_CASCADE 1
+            #define SHADOWS_SCREEN 0
+
+		    #pragma vertex vert 
+		    #pragma fragment frag
+
+            // Lighting include is needed because of GI
             #include "Water2DInclude.cginc"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 
             struct appdata
             {
                 float4 vertex : POSITION;
-                float3 normal : NORMAL;
-                fixed2 texcoord : TEXCOORD0;
+                float2 texcoord : TEXCOORD0;
+
+                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             struct v2f
             {
-                float4 pos : SV_POSITION;
-                fixed2 texcoord : TEXCOORD0;
+                float4 pos : TEXCOORD0;
+                float4 texcoord : TEXCOORD1;
                 float4 bumpCoords : TEXCOORD2;
-                float4 grabPassPos : TEXCOORD3;
+                float4 screenPos : TEXCOORD3;
+                float4 grabPassPos : TEXCOORD4;
+
+                float4 clipPos : SV_POSITION;
+
+                UNITY_VERTEX_INPUT_INSTANCE_ID
+                UNITY_VERTEX_OUTPUT_STEREO
             };
 
-            sampler2D _RefractionTex_V;
+            float4 _MainTex_ST;
             float4 _BaseColor;
-            fixed4 _MainTex_ST;
-	
-            v2f vert(appdata_full v)
+
+            v2f vert(appdata v)
             {
                 v2f o;
-		
+
+                UNITY_SETUP_INSTANCE_ID(v);
+                UNITY_TRANSFER_INSTANCE_ID(v, o);
+                UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
+
                 half3 worldSpaceVertex = mul(unity_ObjectToWorld, (v.vertex)).xyz;
                 half2 tileableUv = worldSpaceVertex.xy;
-
                 o.bumpCoords.xyzw = (tileableUv.xyxy + _Time.xxxx * _BumpDirection.xyzw) * _BumpTiling.xyzw;
-                o.pos = UnityObjectToClipPos(v.vertex);
-                o.texcoord = TRANSFORM_TEX(v.texcoord, _MainTex);
 
-                #if UNITY_UV_STARTS_AT_TOP
-				    float scale = -1.0;
-                #else
-                    float scale = 1.0f;
-                #endif
+                o.pos.xyz = TransformObjectToWorld(v.vertex.xyz);
+                o.texcoord.xy = v.texcoord;
+                o.texcoord.zw = o.pos.xz;
 
-                o.grabPassPos.xy = (float2(o.pos.x, o.pos.y * scale) + o.pos.w) * 0.5;
-                o.grabPassPos.zw = o.pos.zw;
+                float4 screenUV = ComputeScreenPos(TransformWorldToHClip(o.pos.xyz));
+                o.screenPos = screenUV;
 
+                o.clipPos = TransformWorldToHClip(o.pos.xyz);
+                o.pos = TransformWorldToHClip(o.pos.xyz);
+                o.grabPassPos = ComputeGrabScreenPos(o.pos);
+	
                 return o;
             }
-
-            half4 frag(v2f i) : SV_Target
+			
+            float4 frag(v2f i) : SV_Target
             {
                 half3 bump = (UnpackNormal(tex2D(_BumpMap, i.bumpCoords.xy)) + UnpackNormal(tex2D(_BumpMap, i.bumpCoords.zw))) * 0.5;
                 half3 worldN = half3(0, 1, 0) + bump.xxy * _BumpWaves * half3(1, 0, 1);
                 half3 worldNormal = normalize(worldN);
-
+            
                 half4 distortOffset = half4(worldNormal.xz * _Distortion * 10.0, 0, 0);
-                half4 grabWithOffset = i.grabPassPos + distortOffset;
-                half4 rtRefractions = tex2Dproj(_RefractionTex_V, UNITY_PROJ_COORD(grabWithOffset));
+                float4 grabPassPos = float4(i.grabPassPos.xy / i.grabPassPos.w, 0, 0);
+                half4 grabWithOffset = grabPassPos + distortOffset;
+                float4 rtRefractions = SAMPLE_TEXTURE2D(_CameraOpaqueTexture, sampler_CameraOpaqueTexture_linear_clamp, grabWithOffset.xy);
 		
                 half4 baseColor = _BaseColor;
                 baseColor = lerp(rtRefractions, baseColor, baseColor.a);
-                baseColor = AddWaterLine(i.texcoord, baseColor);
+                baseColor = AddWaterLine(i.texcoord.xy, baseColor);
                 baseColor.a = 1;
 
                 return baseColor;
             }
-		
-			ENDCG
-		}
+		    ENDHLSL
+        }
 	}
 	Fallback "Transparent/Diffuse"
 }

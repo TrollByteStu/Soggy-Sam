@@ -15,38 +15,79 @@
         [HideInInspector] _BottomPos (" ", Float) = -2
 	}
 
-    Subshader {
-        Tags{ "Queue" = "Transparent" "RenderType" = "Transparent"}
+    Subshader 
+    {
+        Tags { "RenderType"="Transparent" "Queue"="Transparent" "RenderPipeline" = "LightweightPipeline" }
+        
         Cull [_FaceCulling]
         ZTest LEqual
         Blend SrcAlpha OneMinusSrcAlpha
 
-        Pass {
-            CGPROGRAM
+        Pass 
+        {
+            Tags { "LightMode"="LightweightForward" }
+            Name"Base"
+
+		    HLSLPROGRAM
+			#pragma prefer_hlslcc gles
+			#pragma multi_compile _ USE_STRUCTURED_BUFFER
+			
+			// -------------------------------------
+            // Lightweight Pipeline keywords
+            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS
+            #pragma multi_compile _ _SHADOWS_SOFT
+
+			//--------------------------------------
+            // GPU Instancing
+            #pragma multi_compile_instancing
+            #pragma multi_compile_fog
+
+            #define _MAIN_LIGHT_SHADOWS_CASCADE 1
+            #define SHADOWS_SCREEN 0
+
+            #pragma shader_feature _NORMALS_PERPIXEL _NORMALS_PERVERTEX
 
 		    #pragma vertex vert 
 		    #pragma fragment frag
-            #pragma target 3.0
-            #pragma shader_feature _NORMALS_PERPIXEL _NORMALS_PERVERTEX
- 
-            #include "UnityCG.cginc"
+
+            // Lighting include is needed because of GI
             #include "Water2DInclude.cginc"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
   
+            struct WaterVertexInput
+            {
+                float4 vertex   : POSITION; // vertex positions
+                float2 texcoord : TEXCOORD0; // local UVs
+
+	            UNITY_VERTEX_INPUT_INSTANCE_ID
+            };
+
             struct v2f
             {
-                float4 pos : POSITION;
-                float2 uv : TEXCOORD0;
-                float3 viewInterpolator : TEXCOORD1;
+                float4 pos              : TEXCOORD0;
+                float2 uv               : TEXCOORD1;
+                float3 viewInterpolator : TEXCOORD3;
+                
                 #if _NORMALS_PERVERTEX
-                    float3 vertNormal : TEXCOORD3;
+                    float3 vertNormal   : TEXCOORD3;
                 #endif
+
+                float4 clipPos          : SV_POSITION;
+
+                UNITY_VERTEX_INPUT_INSTANCE_ID
+                UNITY_VERTEX_OUTPUT_STEREO
             };
               
             float4 _MainTex_ST;
        
-            v2f vert(appdata_full v)
+            v2f vert(WaterVertexInput v)
             {
                 v2f o;
+
+                UNITY_SETUP_INSTANCE_ID(v);
+                UNITY_TRANSFER_INSTANCE_ID(v, o);
+                UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
                 float offset = GetAverage(_MainTex, _MainTex_TexelSize, float4(v.texcoord.xy, 0, 0));
                 
@@ -59,15 +100,18 @@
 
                 half3 worldSpaceVertex = mul(unity_ObjectToWorld, (v.vertex)).xyz;
                 o.viewInterpolator.xyz = worldSpaceVertex - _WorldSpaceCameraPos;
-                o.pos = UnityObjectToClipPos(v.vertex);
-
+                
+                o.pos.xyz = TransformObjectToWorld(v.vertex.xyz);
                 o.uv = TRANSFORM_TEX(v.texcoord, _MainTex);
+
+                o.clipPos = TransformWorldToHClip(o.pos.xyz);
+                o.pos = TransformWorldToHClip(o.pos.xyz);
 
                 return o;
             }
 
 
-            fixed4 frag(v2f i) : SV_Target
+            float4 frag(v2f i) : SV_Target
             {
     
                 float3 normal = float3(0, 1, 0);
@@ -90,7 +134,7 @@
                        
                 return baseColor;
             }
-		    ENDCG
+		    ENDHLSL
         }
     }
 }

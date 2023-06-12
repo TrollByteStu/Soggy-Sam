@@ -4,8 +4,9 @@
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: UnlitWaterRippleSimple_FM
   m_Shader: {fileID: 4800000, guid: 40813610b84645f4a90233de8b9e4412, type: 3}
   m_ShaderKeywords: 
@@ -73,7 +74,7 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
-    - _WaterHeight: 6
+    - _WaterHeight: 9.057528
     - _WaterLineHeight: 0.05
     - _WaveHeightScale: 1
     - _ZWrite: 1

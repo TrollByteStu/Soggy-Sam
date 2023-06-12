@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public class inGameMenuMain : MonoBehaviour
 {
@@ -15,21 +16,17 @@ public class inGameMenuMain : MonoBehaviour
         mainPanel.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
+    void OnEscape()
     {
-        if ( Input.GetKeyDown(KeyCode.Escape))
-        {
-            if ( paused)
-            { // already paused, so resume gameplay
-                mainPanel.SetActive(false);
-                Time.timeScale = 1;
-                paused = false;
-            } else { // not paused, so we pause
-                mainPanel.SetActive(true);
-                Time.timeScale = 0;
-                paused = true;
-            }
+        if ( paused)
+        { // already paused, so resume gameplay
+            mainPanel.SetActive(false);
+            Time.timeScale = 1;
+            paused = false;
+        } else { // not paused, so we pause
+            mainPanel.SetActive(true);
+            Time.timeScale = 0;
+            paused = true;
         }
     }
 
