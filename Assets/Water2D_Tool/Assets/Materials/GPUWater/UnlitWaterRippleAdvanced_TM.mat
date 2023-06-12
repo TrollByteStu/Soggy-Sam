@@ -2,14 +2,18 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: UnlitWaterRippleAdvanced_TM
   m_Shader: {fileID: 4800000, guid: b95389b5b48925a48a5248ec552c3366, type: 3}
-  m_ShaderKeywords: _FOAM_ON _NORMALS_PERPIXEL _SPECULAR_ON
+  m_ValidKeywords:
+  - _FOAM_ON
+  - _NORMALS_PERPIXEL
+  - _SPECULAR_ON
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -47,6 +51,7 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - _ApplyOffset: 0
     - _BottomPos: -2
@@ -82,3 +87,4 @@ Material:
     - _ShallowWaterColor: {r: 0.7766003, g: 0.84463966, b: 0.97794116, a: 1}
     - _SpecularColor: {r: 0.19117647, g: 0.19117647, b: 0.19117647, a: 1}
     - _WorldLightDir: {r: -0.14, g: -0.3, b: -1.05, a: 0}
+  m_BuildTextureStacks: []
