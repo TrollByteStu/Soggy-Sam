@@ -10,6 +10,21 @@ public class MissionManager : MonoBehaviour
     public List<SO_Mission> ActiveMissions;
     public List<TMP_Text> TextList;
 
+    private void Start()
+    {
+        foreach (SO_Mission mission in ActiveMissions)
+        {
+            mission.Achieved = false;
+        }
+    }
+
+    public void FixedUpdate()
+    {
+        SortMission();
+        MissionAchieved();
+        MissionText();
+    }
+
     public void MissionAchieved()
     {
         foreach (SO_Mission mission in ActiveMissions)
@@ -38,6 +53,7 @@ public class MissionManager : MonoBehaviour
 
     public void AddMission(SO_Mission mission)
     {
+        mission.Achieved = false;
         if (!ActiveMissions.Contains(mission))
             ActiveMissions.Add(mission);
         else Debug.Log("already have this mission");
@@ -58,10 +74,4 @@ public class MissionManager : MonoBehaviour
         ActiveMissions.Sort((t2, t1) => t2.Amount.CompareTo(t1.Amount - GameManager.Instance.stats.inventory.checkInventoryForItemAmount(t1.Objective)) - GameManager.Instance.stats.inventory.checkInventoryForItemAmount(t2.Objective));
     }
 
-    public void FixedUpdate()
-    {
-        SortMission();
-        MissionAchieved();
-        MissionText();
-    }
 }
