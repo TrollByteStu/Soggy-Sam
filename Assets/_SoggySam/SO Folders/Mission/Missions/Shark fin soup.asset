@@ -17,4 +17,4 @@ MonoBehaviour:
   Objective: {fileID: 11400000, guid: f9299f073b19bfa4488b201c06ed48a1, type: 2}
   ToolTip: 'Catch sharks: '
   Amount: 3
-  Achieved: 1
+  Achieved: 0

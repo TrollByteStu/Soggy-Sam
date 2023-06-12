@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ad8093538cd4c4748aba7375b5c4e341, type: 3}
-  m_Name: Sushi assistant
+  m_Name: aaa
   m_EditorClassIdentifier: 
-  Mission_name: Sushi assistant
-  Mission_desc: get me 10 fish
+  Mission_name: aaaa
+  Mission_desc: bbb
   Objective: {fileID: 11400000, guid: 599f9406f0b6dd740815ebfc8497017a, type: 2}
-  ToolTip: 'Catch Grouper fish: '
-  Amount: 10
+  ToolTip: group
+  Amount: 1
   Achieved: 0

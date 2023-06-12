@@ -3378,6 +3378,7 @@ MonoBehaviour:
   ActiveMissions:
   - {fileID: 11400000, guid: 522f57de2bdf0054bacd0f4e879b2231, type: 2}
   - {fileID: 11400000, guid: cc6139969e04b32469442487dff04f99, type: 2}
+  - {fileID: 11400000, guid: c95352ca28202284a9d768b2c316f436, type: 2}
   TextList:
   - {fileID: 1436201558}
   - {fileID: 264436947}

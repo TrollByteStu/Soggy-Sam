@@ -42,9 +42,13 @@ public class MissionManager : MonoBehaviour
             {
                 TextList[i].text = ActiveMissions[i].ToolTip + GameManager.Instance.stats.inventory.checkInventoryForItemAmount(ActiveMissions[i].Objective) + "/" + ActiveMissions[i].Amount;
                 if (ActiveMissions[i].Achieved)
-                    TextList[i].fontStyle = FontStyles.Strikethrough;
+                    TextList[i].text += "<color=green> V </color>";
                 else
-                    TextList[i].fontStyle = FontStyles.Normal;
+                    TextList[i].text += "<color=red> X </color>";
+                //if (ActiveMissions[i].Achieved)
+                //    TextList[i].fontStyle = FontStyles.Strikethrough;
+                //else
+                //    TextList[i].fontStyle = FontStyles.Normal;
             }
             else if (i == TextList.Count - 1) TextList[i].text = "-------------------";
             else TextList[i].text = "";
