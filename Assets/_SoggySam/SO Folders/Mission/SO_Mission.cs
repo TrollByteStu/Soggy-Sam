@@ -10,5 +10,6 @@ public class SO_Mission : ScriptableObject
     [Header("Objective")]
     public SO_Item Objective;
     public string ToolTip;
-    public int amount;
+    public int Amount;
+    public bool Achieved = false;
 }
