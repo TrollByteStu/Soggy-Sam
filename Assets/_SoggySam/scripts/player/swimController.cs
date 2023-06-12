@@ -5,6 +5,8 @@ using UnityEngine.InputSystem;
 
 public class swimController : playerController
 {
+    public float SwimSpeed = 300f;
+     
     private landController myLC;
     private float currentMoveTime;
     private float startMoveTime;
@@ -25,7 +27,7 @@ public class swimController : playerController
             //myRB.AddRelativeForce(0, moveVector.y * 300 * Time.deltaTime, 0);
 
 
-            myRB.AddForce(moveVector * 300 * Time.deltaTime);
+            myRB.AddForce(moveVector * SwimSpeed * Time.deltaTime);
             transform.LookAt(transform.position + moveVector);
             transform.Rotate(0, 90, 0);
             transform.position = new Vector3 (transform.position.x, transform.position.y,0);

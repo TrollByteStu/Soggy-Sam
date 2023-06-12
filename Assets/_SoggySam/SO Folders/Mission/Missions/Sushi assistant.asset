@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad8093538cd4c4748aba7375b5c4e341, type: 3}
+  m_Name: Sushi assistant
+  m_EditorClassIdentifier: 
+  Mission_name: Sushi assistant
+  Mission_desc: get me 10 fish
+  Objective: {fileID: 11400000, guid: 599f9406f0b6dd740815ebfc8497017a, type: 2}
+  ToolTip: 'Catch Grouper fish:'
+  Amount: 10
+  Achieved: 1

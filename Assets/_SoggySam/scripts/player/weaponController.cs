@@ -12,13 +12,12 @@ public class weaponController : MonoBehaviour
     public bool readyshot = true;
 
     public int currentWeapon = 0;
-    public List<SO_Weapons> weapons;
+    public List<SO_Weapon> weapons;
 
     public Vector3 pointerOffset;
     private Vector3 renderOffset;
     private PlayerInput input;
     private SpringJoint joint;
-    private float MaxJointDistance = 0;
 
     private float lastShot; 
 
@@ -32,7 +31,7 @@ public class weaponController : MonoBehaviour
         if (joint)
         {
         joint.maxDistance += (value.Get<float>() / 240);
-        joint.maxDistance = Mathf.Clamp(joint.maxDistance, 0f, MaxJointDistance);
+        joint.maxDistance = Mathf.Clamp(joint.maxDistance, 0f, weapons[currentWeapon].MaxJointDistance);
         }
     }
 
