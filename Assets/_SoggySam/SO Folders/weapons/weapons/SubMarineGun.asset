@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: SubMarineGun
   m_EditorClassIdentifier: 
   Name: SubMarineGun
-  Prefab: {fileID: 0}
-  bullet: {fileID: 4556738051865217160, guid: c78d489415f691b4eb0db58fceeb1196, type: 3}
+  Prefab: {fileID: 1953346680274462988, guid: 5a2b198d294dfab4bbd9a52e64f3af0b, type: 3}
+  bullet: {fileID: 3776811740817545626, guid: 000a724819d5f9b429bf7e67d1edaf60, type: 3}
   bulletScale: {x: 1, y: 1, z: 1}
   Rotate: {x: 0, y: 0, z: 0}
   AOE: 0
