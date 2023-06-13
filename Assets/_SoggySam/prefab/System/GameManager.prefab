@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6727138391412860252}
   - component: {fileID: 6727138391412860253}
   - component: {fileID: 6727138391412860254}
+  - component: {fileID: 7665216618744122284}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -64,8 +65,22 @@ MonoBehaviour:
   ActiveMissions:
   - {fileID: 11400000, guid: 522f57de2bdf0054bacd0f4e879b2231, type: 2}
   - {fileID: 11400000, guid: cc6139969e04b32469442487dff04f99, type: 2}
-  - {fileID: 11400000, guid: c95352ca28202284a9d768b2c316f436, type: 2}
   TextList:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  panelAnimator: {fileID: 0}
+--- !u!114 &7665216618744122284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6727138391412860255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c27dba59102472448b9c5c2538ee4ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _HealthBar: {fileID: 0}
+  _HealthText: {fileID: 0}

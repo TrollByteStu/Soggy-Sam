@@ -38,4 +38,4 @@ MonoBehaviour:
   StartJointDistance: 8
   MaxJointDistance: 15
   SelfDestruct: 0
-  SelfDestructTimer: 5
+  SelfDestructTimer: 0
