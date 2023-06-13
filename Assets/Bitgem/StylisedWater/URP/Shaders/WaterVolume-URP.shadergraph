@@ -17550,7 +17550,7 @@
     "m_Hidden": false,
     "m_ShaderOutputName": "Alpha",
     "m_StageCapability": 2,
-    "m_Value": 1.0,
+    "m_Value": 0.9900000095367432,
     "m_DefaultValue": 1.0,
     "m_Labels": []
 }
@@ -22065,7 +22065,7 @@
         "m_Id": "c761a151545648a4bf2ffad4ed3bb48f"
     },
     "m_AllowMaterialOverride": false,
-    "m_SurfaceType": 0,
+    "m_SurfaceType": 1,
     "m_ZTestMode": 4,
     "m_ZWriteControl": 0,
     "m_AlphaMode": 0,
