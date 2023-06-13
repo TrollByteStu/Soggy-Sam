@@ -63,8 +63,8 @@ public class harpoonPhysics : MonoBehaviour
         }
         if (collision.gameObject.GetComponent<weaponController>())
         {
-            collision.gameObject.GetComponent<weaponController>().readyshot = true;
-            collision.gameObject.GetComponent<weaponController>().weapon.SetActive(true);
+            collision.gameObject.GetComponent<weaponController>()._Readyshot = true;
+            collision.gameObject.GetComponent<weaponController>()._Weapon.SetActive(true);
             myPlayer.GetComponent<SpringJoint>().connectedBody = collision.gameObject.GetComponent<Rigidbody>();
             Destroy(gameObject);
         }

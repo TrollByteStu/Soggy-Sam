@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PotassiumLobber
   m_EditorClassIdentifier: 
   Name: PotassiumLobber
-  Prefab: {fileID: 0}
+  Prefab: {fileID: 1953346680274462988, guid: 5a2b198d294dfab4bbd9a52e64f3af0b, type: 3}
   bullet: {fileID: 896536533886979699, guid: 17118b3b226b19148845d6abf2e3c225, type: 3}
   bulletScale: {x: 0.2, y: 0.2, z: 0.2}
   Rotate: {x: 0, y: 0, z: 0}
