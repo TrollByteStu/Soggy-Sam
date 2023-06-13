@@ -178,7 +178,7 @@ public class predatorFish : MonoBehaviour
                         if (stats.invulnerable < Time.time)
                         {
                             stats.invulnerable = Time.time + stats.invulnerableTime;
-                            stats.health--;
+                            stats._CurrentHealth--;
                             myMouth.collider.GetComponent<Rigidbody>().AddForce(-80 * (transform.position - myMouth.collider.transform.position));
                         }
 

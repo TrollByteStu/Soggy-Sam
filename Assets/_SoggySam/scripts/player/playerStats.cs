@@ -5,7 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class playerStats : MonoBehaviour
 {
-    public float health = 3f;
+    public float _CurrentHealth = 3f;
+    public float _MaxHealth = 3f;
     public float invulnerable = 0;
     public float invulnerableTime = 2;
     public SO_Item_Inventory inventory;
@@ -30,7 +31,7 @@ public class playerStats : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (health < 0f)
+        if (_CurrentHealth < 1f)
             SceneManager.LoadScene(0);
     }
 }
