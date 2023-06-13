@@ -5,80 +5,97 @@ using UnityEngine.InputSystem;
 
 public class weaponController : MonoBehaviour
 {
-    public Camera myCamera;
-    public GameObject weapon;
-    public GameObject harpoonInstance;
-    public GameObject grenadeInstance;
-    public bool readyshot = true;
+    public Camera _MyCamera;
+    public GameObject _Weapon;
+    public GameObject _EquipedWeapon;
+    public GameObject _HarpoonInstance;
+    public GameObject _GrenadeInstance;
+    public bool _Readyshot = true;
 
-    public int currentWeapon = 0;
-    public List<SO_Weapon> weapons;
+    public int _CurrentWeapon = 0;
+    public List<SO_Weapon> _Weapons;
 
-    public Vector3 pointerOffset;
-    private Vector3 renderOffset;
-    private PlayerInput input;
-    private SpringJoint joint;
+    public Vector3 _PointerOffset;
+    private Vector3 _RenderOffset;
+    private PlayerInput _Input;
+    private SpringJoint _Joint;
 
     private float lastShot; 
 
     private void Start()
     {
-        input = GetComponent<PlayerInput>();
+        if (_EquipedWeapon == null)
+        {
+            WeaponChange(_CurrentWeapon);
+        }
+        _Input = GetComponent<PlayerInput>();
     }
 
     private void OnScroll(InputValue value)
     {
-        if (joint)
+        if (_Joint)
         {
-        joint.maxDistance += (value.Get<float>() / 240);
-        joint.maxDistance = Mathf.Clamp(joint.maxDistance, 0f, weapons[currentWeapon].MaxJointDistance);
+            _Joint.maxDistance += (value.Get<float>() / 240);
+            _Joint.maxDistance = Mathf.Clamp(_Joint.maxDistance, 0f, _Weapons[_CurrentWeapon].MaxJointDistance);
         }
+    }
+
+    void WeaponChange(int _WeaponChange)
+    {
+        _CurrentWeapon = _WeaponChange;
+        Destroy(_EquipedWeapon);
+        _EquipedWeapon = Instantiate(_Weapons[_WeaponChange].Prefab);
+        _EquipedWeapon.transform.parent = _Weapon.transform;
+        _EquipedWeapon.transform.localPosition = Vector3.zero;
+        _EquipedWeapon.transform.localRotation = Quaternion.Euler(Vector3.zero);
+        _EquipedWeapon.transform.localPosition = Vector3.forward / 2;
+
     }
 
     void OnFire()
     {
-        if (readyshot) 
+        if (_Readyshot) 
         {
-            readyshot = false; /// Stops spam until reloaded
+            _Readyshot = false; /// Stops spam until reloaded
             lastShot = Time.time;
 
-            GameObject Bullet = Instantiate(weapons[currentWeapon].bullet, weapon.transform.position + weapon.transform.forward * 2, weapon.transform.rotation);
-            Bullet.transform.Rotate(weapons[currentWeapon].Rotate);
-            Bullet.GetComponent<Rigidbody>().AddForce(Bullet.transform.forward * weapons[currentWeapon].BarrelVelocity);
+            GameObject Bullet = Instantiate(_Weapons[_CurrentWeapon].bullet, _Weapon.transform.position + _Weapon.transform.forward * 2, _Weapon.transform.rotation);
+            Bullet.transform.Rotate(_Weapons[_CurrentWeapon].Rotate);
+            Bullet.GetComponent<Rigidbody>().AddForce(Bullet.transform.forward * _Weapons[_CurrentWeapon].BarrelVelocity);
             
 
-            if (weapons[currentWeapon].UsingJoint)  /// if weapon uses spring joint
+            if (_Weapons[_CurrentWeapon].UsingJoint)  /// if weapon uses spring joint
             {
-                if (!joint) /// if player is missing spring component
-                    joint = gameObject.AddComponent<SpringJoint>();
-                joint.autoConfigureConnectedAnchor = weapons[currentWeapon].JointAutoConfigureConnectedAnchor;
-                joint.connectedMassScale = weapons[currentWeapon].JointConnectedMassScale;
-                joint.enableCollision = weapons[currentWeapon].JointEnableCollision;
-                joint.spring = weapons[currentWeapon].JointSprings;
-                joint.damper = weapons[currentWeapon].JointDamper;
-                joint.maxDistance = weapons[currentWeapon].StartJointDistance;
-                joint.connectedBody = Bullet.GetComponent<Rigidbody>();
+                if (!_Joint) /// if player is missing spring component
+                    _Joint = gameObject.AddComponent<SpringJoint>();
+                _Joint.autoConfigureConnectedAnchor = _Weapons[_CurrentWeapon].JointAutoConfigureConnectedAnchor;
+                _Joint.connectedMassScale = _Weapons[_CurrentWeapon].JointConnectedMassScale;
+                _Joint.enableCollision = _Weapons[_CurrentWeapon].JointEnableCollision;
+                _Joint.spring = _Weapons[_CurrentWeapon].JointSprings;
+                _Joint.damper = _Weapons[_CurrentWeapon].JointDamper;
+                _Joint.maxDistance = _Weapons[_CurrentWeapon].StartJointDistance;
+                _Joint.connectedBody = Bullet.GetComponent<Rigidbody>();
             }
 
-            if (weapons[currentWeapon].SelfDestruct)
-                Destroy(Bullet, weapons[currentWeapon].SelfDestructTimer);
+            if (_Weapons[_CurrentWeapon].SelfDestruct)
+                Destroy(Bullet, _Weapons[_CurrentWeapon].SelfDestructTimer);
 
             if (Bullet.GetComponent<harpoonPhysics>()) /// can currently be swaped out for weapons[currentWeapon].AOE == false
             {
                 harpoonPhysics BulletScript = Bullet.GetComponent<harpoonPhysics>();
                 BulletScript.myPlayer = gameObject;
-                BulletScript.Damage = weapons[currentWeapon].Damage;
-                BulletScript.SpringJoint = weapons[currentWeapon].UsingJoint;
+                BulletScript.Damage = _Weapons[_CurrentWeapon].Damage;
+                BulletScript.SpringJoint = _Weapons[_CurrentWeapon].UsingJoint;
                 
             }
             else if (Bullet.GetComponent<universalGrenade>()) /// can currently be swaped out for weapons[currentWeapon].AOE == true
             {
                 universalGrenade BulletScript = Bullet.GetComponent<universalGrenade>();
-                BulletScript.scale = weapons[currentWeapon].bulletScale;
-                BulletScript.aoeDamage = weapons[currentWeapon].Damage;
-                BulletScript.aoeRadius = weapons[currentWeapon].AOERaius;
-                if (!weapons[currentWeapon].BlowOnImpact)
-                    BulletScript.fuseTime = weapons[currentWeapon].FuseTimer;
+                BulletScript.scale = _Weapons[_CurrentWeapon].bulletScale;
+                BulletScript.aoeDamage = _Weapons[_CurrentWeapon].Damage;
+                BulletScript.aoeRadius = _Weapons[_CurrentWeapon].AOERaius;
+                if (!_Weapons[_CurrentWeapon].BlowOnImpact)
+                    BulletScript.fuseTime = _Weapons[_CurrentWeapon].FuseTimer;
 
             }
 
@@ -138,22 +155,22 @@ public class weaponController : MonoBehaviour
 
     void OnLook(InputValue value)
     {
-        pointerOffset = value.Get<Vector2>();
-        renderOffset = new Vector3(Display.main.renderingWidth / 2, Display.main.renderingHeight / 2, 0);
-        pointerOffset -= renderOffset;
-        pointerOffset /= 25;
+        _PointerOffset = value.Get<Vector2>();
+        _RenderOffset = new Vector3(Display.main.renderingWidth / 2, Display.main.renderingHeight / 2, 0);
+        _PointerOffset -= _RenderOffset;
+        _PointerOffset /= 25;
     }
 
-    void OnAmmo1(InputValue value) { if (readyshot && weapons.Count >= 1) currentWeapon = 0; }
-    void OnAmmo2(InputValue value) { if (readyshot && weapons.Count >= 2) currentWeapon = 1; }
-    void OnAmmo3(InputValue value) { if (readyshot && weapons.Count >= 3) currentWeapon = 2; }
-    void OnAmmo4(InputValue value) { if (readyshot && weapons.Count >= 4) currentWeapon = 3; }
+    void OnAmmo1(InputValue value) { if (_Readyshot && _Weapons.Count >= 1) WeaponChange(0); }
+    void OnAmmo2(InputValue value) { if (_Readyshot && _Weapons.Count >= 2) WeaponChange(1); }
+    void OnAmmo3(InputValue value) { if (_Readyshot && _Weapons.Count >= 3) WeaponChange(2); }
+    void OnAmmo4(InputValue value) { if (_Readyshot && _Weapons.Count >= 4) WeaponChange(3); }
 
     void FixedUpdate()
     {
-        weapon.transform.LookAt(pointerOffset + transform.position, Vector3.up);
-        if (!weapons[currentWeapon].ReloadOnPickup && lastShot <=  Time.time - weapons[currentWeapon].FireDelay)
-            readyshot = true;
+        _Weapon.transform.LookAt(_PointerOffset + transform.position, Vector3.up);
+        if (!_Weapons[_CurrentWeapon].ReloadOnPickup && lastShot <=  Time.time - _Weapons[_CurrentWeapon].FireDelay)
+            _Readyshot = true;
 
     }
 }

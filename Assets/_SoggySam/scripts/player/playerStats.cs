@@ -20,8 +20,8 @@ public class playerStats : MonoBehaviour
                 inventory.addItem(fish.SoLoot, 1);
                 if (fish.harpooned == true)
                 {
-                    GetComponent<weaponController>().readyshot = true;
-                    GetComponent<weaponController>().weapon.SetActive(true);
+                    GetComponent<weaponController>()._Readyshot = true;
+                    GetComponent<weaponController>()._Weapon.SetActive(true);
                 }
                 Destroy(collision.gameObject);
             }
