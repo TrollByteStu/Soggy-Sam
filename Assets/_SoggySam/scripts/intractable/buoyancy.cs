@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class buoyancy : MonoBehaviour
 {
+    //How to use
+    //add empty game objects on the corners of you object and increase mass until happy
     private Rigidbody myRB;
     public int Floaters = 1;
     public Collider[] WaterArray;
