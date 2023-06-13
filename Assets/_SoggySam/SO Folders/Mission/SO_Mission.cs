@@ -12,4 +12,5 @@ public class SO_Mission : ScriptableObject
     public string ToolTip;
     public int Amount;
     public bool Achieved = false;
+    public int currentProgress, lastProgress;
 }
