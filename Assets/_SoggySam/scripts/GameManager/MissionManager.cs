@@ -10,37 +10,55 @@ public class MissionManager : MonoBehaviour
     public List<SO_Mission> FinishMissions;
     public List<SO_Mission> ActiveMissions;
     public List<TMP_Text> TextList;
+    public Animator panelAnimator;
+
+    private bool _updateText = false;
+    private static readonly int Trigger = Animator.StringToHash("Trigger");
 
     private void Start()
     {
         foreach (SO_Mission mission in ActiveMissions)
         {
             mission.Achieved = false;
+            mission.currentProgress = 0;
+            mission.lastProgress = 0;
         }
+
+        _updateText = true;
     }
 
     public void FixedUpdate()
     {
-        SortMission();
-        MissionAchieved();
+        MissionProgress();
         MissionText();
     }
 
-    public void MissionAchieved()
+    public void MissionProgress()
     {
         foreach (SO_Mission mission in ActiveMissions)
         {
-            if (mission.Achieved == false && GameManager.Instance.stats.inventory.checkInventoryForItemAmount(mission.Objective) >= mission.Amount)
+            mission.currentProgress = GameManager.Instance.stats.inventory.checkInventoryForItemAmount(mission.Objective);
+            if (mission.currentProgress > mission.lastProgress)
+            {
+                mission.lastProgress = mission.currentProgress;
+                _updateText = true;
+            }
+            if (mission.Achieved == false && mission.currentProgress >= mission.Amount)
             {
                 mission.Achieved = true;
                 FinishMissions.Add(mission);
                 ActiveMissions.Remove(mission);
+                _updateText = true;
             }
         }
     }
 
     public void MissionText() 
     {
+        if (!_updateText) return;
+        _updateText = false;
+        panelAnimator.SetTrigger(Trigger);
+        SortMission();
         if (FinishMissions.Count > 0)
         {
             TextList[0].text = FinishMissions[FinishMissions.Count - 1].ToolTip + GameManager.Instance.stats.inventory.checkInventoryForItemAmount(FinishMissions[FinishMissions.Count - 1].Objective) + "/" + FinishMissions[FinishMissions.Count - 1].Amount;
