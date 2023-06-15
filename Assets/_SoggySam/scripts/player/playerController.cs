@@ -57,6 +57,7 @@ public class playerController : MonoBehaviour
                 temp.GetComponent<intractControllable>().myPlayer = gameObject;
                 temp.GetComponent<intractControllable>().intractLock = true;
                 temp.GetComponent<PlayerInput>().enabled = true;
+                GameManager.Instance._MainCameraScript._TransportOffset = temp.GetComponent<intractControllable>()._TransportOffset;
             }
             else if (interactRay.collider.tag == "Interactable"  && interactRay.collider.transform.parent.GetComponent<intractPickUp>())
             {

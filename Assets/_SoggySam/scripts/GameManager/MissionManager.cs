@@ -58,6 +58,7 @@ public class MissionManager : MonoBehaviour
         if (!_updateText) return;
         _updateText = false;
         panelAnimator.SetTrigger(Trigger);
+        if (ActiveMissions.Count > 1)
         SortMission();
         if (FinishMissions.Count > 0)
         {
@@ -66,14 +67,13 @@ public class MissionManager : MonoBehaviour
         }
         else
             TextList[0].text = "-------------------";
-
         if (ActiveMissions.Count > 0)
         {
             TextList[1].text = ActiveMissions[0].ToolTip + GameManager.Instance.stats.inventory.checkInventoryForItemAmount(ActiveMissions[0].Objective) + "/" + ActiveMissions[0].Amount;
             TextList[1].text += "<color=red> X </color>";
         }
         else
-            TextList[2].text = "No missions left";
+            TextList[1].text = "No missions left";
 
         if (ActiveMissions.Count > 1)
         {

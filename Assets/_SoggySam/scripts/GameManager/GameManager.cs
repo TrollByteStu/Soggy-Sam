@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
     public GameObject player;
     public MissionManager missionManager;
     public playerStats stats;
+    public Camera _MainCamera;
+    public cameraController _MainCameraScript;
 
     public void Awake()
     {
@@ -22,6 +24,10 @@ public class GameManager : MonoBehaviour
         }
         if (!stats && player)
             stats = player.GetComponent<playerStats>();
+        if (!_MainCamera)
+            _MainCamera = FindObjectOfType<Camera>();
+        if (!_MainCameraScript)
+            _MainCameraScript = _MainCamera.GetComponent<cameraController>();
     }
 
     public static GameManager Instance

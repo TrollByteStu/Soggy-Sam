@@ -9,6 +9,7 @@ public class cameraController : MonoBehaviour
     public GameObject myPlayer;
     public Vector3 pointerOffset;
     private Vector3 renderOffset;
+    public Vector3 _TransportOffset;
 
     void OnLook(InputValue value)
     {
@@ -21,6 +22,6 @@ public class cameraController : MonoBehaviour
 
     void FixedUpdate()
     {
-        transform.position = Vector3.Lerp(transform.position,myPlayer.transform.position + offset + pointerOffset, Time.deltaTime * 3);
+        transform.position = Vector3.Lerp(transform.position,myPlayer.transform.position + offset + pointerOffset + _TransportOffset, Time.deltaTime * 3);
     }
 }
