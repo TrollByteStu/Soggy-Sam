@@ -24,6 +24,8 @@ public class weaponController : MonoBehaviour
 
     private void Start()
     {
+        if (_MyCamera == null)
+            _MyCamera = GameManager.Instance._MainCamera;
         if (_EquipedWeapon == null)
         {
             WeaponChange(_CurrentWeapon);

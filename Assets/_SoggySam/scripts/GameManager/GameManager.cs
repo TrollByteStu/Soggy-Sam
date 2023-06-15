@@ -6,8 +6,9 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     private static GameManager _instance;
-    public GameObject player;
     public MissionManager missionManager;
+    public HudManager _HudManager;
+    public GameObject player;
     public playerStats stats;
     public Camera _MainCamera;
     public cameraController _MainCameraScript;
@@ -21,6 +22,13 @@ public class GameManager : MonoBehaviour
         {
             gameObject.AddComponent<MissionManager>();
             missionManager = GetComponent<MissionManager>();
+        }
+        if (GetComponent<HudManager>())
+            _HudManager = GetComponent<HudManager>();
+        else
+        {
+            gameObject.AddComponent<HudManager>();
+            _HudManager = GetComponent<HudManager>();
         }
         if (!stats && player)
             stats = player.GetComponent<playerStats>();
