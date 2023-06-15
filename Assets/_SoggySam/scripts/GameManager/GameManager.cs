@@ -7,11 +7,14 @@ public class GameManager : MonoBehaviour
 {
     private static GameManager _instance;
     public GameObject player;
+    public MissionManager missionManager;
     public playerStats stats;
 
     public void Awake()
     {
         _instance = this;
+        if (GetComponent<MissionManager>())
+            missionManager = GetComponent<MissionManager>();
         else
         {
             gameObject.AddComponent<MissionManager>();
