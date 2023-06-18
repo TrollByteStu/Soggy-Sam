@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using _SoggySam.scripts.Utils;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class predatorFish : MonoBehaviour
+public class predatorFish : WaterStateHelper
 {
     private Rigidbody myRB;
     private RaycastHit myEyes;
@@ -30,10 +31,11 @@ public class predatorFish : MonoBehaviour
     private List<GameObject> breedFish;
     private fishBuoyancy[] buoyancy;
     public bool dead = false;
-    public bool inWater = true;
     public bool harpooned = false;
 
     public Quaternion direction;
+
+    public bool shouldBreed = false;
 
     private const float zOffset = -0; // fish might now need to be at z0 in later updates ajust here in that case
 
@@ -57,7 +59,7 @@ public class predatorFish : MonoBehaviour
                 hungry += Time.deltaTime;
             if (hungry <= -300) dead = true;
         }
-        if (!dead && inWater)
+        if (!dead && InWater)
         {
             fishSight(); /// sees all fish within sight that are not blocked by a wall
             sortFish(); /// sorts fish by distance
@@ -68,7 +70,7 @@ public class predatorFish : MonoBehaviour
             myRB.AddForce(stay2D * swimSpeed);
 
         }
-        else if (dead || !inWater)
+        else if (dead || !InWater)
         {
             foreach (fishBuoyancy boy in buoyancy)
             {
@@ -145,7 +147,7 @@ public class predatorFish : MonoBehaviour
                 {
                     hungry -= 30 * (FishTier + 1);
                     myMouth.collider.GetComponent<predatorFish>().hungry -= 30 * (FishTier + 1);
-                    Instantiate(prefab);
+                    if (shouldBreed) Instantiate(prefab);
                 }
 
             }
@@ -200,34 +202,27 @@ public class predatorFish : MonoBehaviour
             direction = transform.rotation;
         }
     }
-    
-    private void OnTriggerEnter(Collider other)
+
+    protected override void OnEnterWater()
     {
-        if (other.CompareTag("Water"))
-        {
-            inWater = true;
-            if (myRB)
-                myRB.useGravity = false;
-            else
-                myRB = GetComponent<Rigidbody>();
-            myRB.drag = 5f;
-        }
+        if (myRB)
+            myRB.useGravity = false;
+        else
+            myRB = GetComponent<Rigidbody>();
+        myRB.drag = 5f;
     }
-    private void OnTriggerExit(Collider other)
+
+    protected override void OnExitWater()
     {
-        if (other.CompareTag("Water"))
-        {
-            if (myRB)
-                myRB.useGravity = true;
-            else
-                myRB = GetComponent<Rigidbody>();
-            myRB.drag = 1;
-            inWater = false;
-            transform.forward *= -1;
-            direction = transform.rotation;
-            Vector3 stay2D = new (transform.forward.x, transform.forward.y, 0);
-            myRB.AddForce(10 * swimSpeed * stay2D);
-            transform.position += stay2D * 1.5f;
-        }
+        if (myRB)
+            myRB.useGravity = true;
+        else
+            myRB = GetComponent<Rigidbody>();
+        myRB.drag = 1;
+        transform.forward *= -1;
+        direction = transform.rotation;
+        Vector3 stay2D = new (transform.forward.x, transform.forward.y, 0);
+        myRB.AddForce(10 * swimSpeed * stay2D);
+        transform.position += stay2D * 1.5f;
     }
 }

@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using _SoggySam.scripts.Utils;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Animations;
 
-public class playerController : MonoBehaviour
+public class playerController : WaterStateHelper
 {
     public Animator animator;
     public GameObject myAvatar;

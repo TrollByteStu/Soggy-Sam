@@ -75,17 +75,14 @@ public class landController : playerController
         }
     }
 
-    public void OnTriggerEnter(Collider other)
+    protected override void OnEnterWater()
     {
-        if (other.tag == "Water")
-        {
-            myAvatar.transform.localScale = new Vector3(1f, 1f, 1f);
-            animator.SetBool("inWater", true);
-            myRB.drag = 1f;
-            myRB.useGravity = false;
-            myRB.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezePositionZ;
-            mySC.enabled = true;
-            this.enabled = false;
-        }
+        myAvatar.transform.localScale = new Vector3(1f, 1f, 1f);
+        animator.SetBool("inWater", true);
+        myRB.drag = 1f;
+        myRB.useGravity = false;
+        myRB.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezePositionZ;
+        mySC.enabled = true;
+        this.enabled = false;
     }
 }
