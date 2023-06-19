@@ -35,6 +35,10 @@ public class gameStatePopUp : MonoBehaviour
         // turn on the right one
         uiList[i].SetActive(true);
 
+        // if this popup has a sound, play it
+        var audio = uiList[i].GetComponent<AudioSource>();
+        if (audio) audio.Play();
+
     }
 
     // Start is called before the first frame update
