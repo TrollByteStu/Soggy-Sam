@@ -9,6 +9,9 @@ public class HudManager : MonoBehaviour
     public Transform _HealthBar;
     public TMP_Text _HealthText;
 
+    public GameManager myGM;
+    public gameStatePopUp myGameStateUI;
+
     public void FixedUpdate()
     {
         _HealthText.text = GameManager.Instance.stats._CurrentHealth + " / " + GameManager.Instance.stats._MaxHealth;

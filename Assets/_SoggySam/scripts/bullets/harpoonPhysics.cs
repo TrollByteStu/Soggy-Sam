@@ -2,12 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using _SoggySam.scripts.Utils;
 
-public class harpoonPhysics : MonoBehaviour
+public class harpoonPhysics : WaterStateHelper
 {
     private Collider myCollider;
     public GameObject myPlayer;
     private Rigidbody myRB;
+
+    public Vector3 scale;
+    public float mass;
+    public float drag;
+    public float angularDrag;
+    public float WaterDrag;
+    public float WaterAngularDrag;
 
     private const float zOffset = -0; // fish might now need to be at z0 in later updates ajust here in that case
 
@@ -18,6 +26,11 @@ public class harpoonPhysics : MonoBehaviour
     {
         myCollider = GetComponent<Collider>();
         myRB = GetComponent<Rigidbody>();
+
+        transform.localScale = scale;
+        myRB.mass = mass;
+        myRB.drag = drag;
+        myRB.angularDrag = angularDrag;
     }
 
 
@@ -28,23 +41,18 @@ public class harpoonPhysics : MonoBehaviour
         transform.position = new Vector3(transform.position.x, transform.position.y, zOffset);
     }
 
-    private void OnTriggerEnter(Collider other)
+    protected override void OnEnterWater()
     {
-        if (other.tag == "Water")
-        {
-            myRB.drag = 2f;
-            myRB.angularDrag = 2f;
-        }
+        myRB.drag = WaterDrag;
+        myRB.angularDrag = WaterAngularDrag;
     }
 
-    private void OnTriggerExit(Collider other)
+    protected override void OnExitWater()
     {
-        if (other.tag == "Water")
-        {
-            myRB.drag = 1f;
-            myRB.angularDrag = 1f;
-        }
+        myRB.drag = drag;
+        myRB.angularDrag = angularDrag; 
     }
+
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -71,12 +79,12 @@ public class harpoonPhysics : MonoBehaviour
         else if (collision.gameObject.GetComponent<mobyDick>())
         {
             mobyDick moby = collision.gameObject.GetComponent<mobyDick>();
-            moby._Hitpoints--;
+            moby._HitPoints--;
             if (SpringJoint)
                 myPlayer.GetComponent<SpringJoint>().connectedBody = collision.gameObject.GetComponent<Rigidbody>();
             transform.parent = collision.gameObject.transform;
             myRB.isKinematic = true;
-            //myCollider.isTrigger = true;
+            myCollider.isTrigger = true;
 
         }
         else
