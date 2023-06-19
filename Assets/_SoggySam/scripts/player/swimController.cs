@@ -54,5 +54,6 @@ public class swimController : playerController
         myRB.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionZ;
         myLC.enabled = true;
         this.enabled = false;
+        soundManager.SetUnderwaterEffectsEnabled(false);
     }
 }

@@ -84,5 +84,6 @@ public class landController : playerController
         myRB.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezePositionZ;
         mySC.enabled = true;
         this.enabled = false;
+        soundManager.SetUnderwaterEffectsEnabled(true);
     }
 }

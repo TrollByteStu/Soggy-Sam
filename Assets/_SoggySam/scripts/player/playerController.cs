@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using _SoggySam.scripts.GameManager;
 using _SoggySam.scripts.Utils;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -9,6 +10,7 @@ public class playerController : WaterStateHelper
 {
     public Animator animator;
     public GameObject myAvatar;
+    public SoundManager soundManager;
     protected Rigidbody myRB;
     protected CapsuleCollider myCC;
     protected PlayerInput myPI;
