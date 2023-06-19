@@ -56,6 +56,9 @@ public class gameStatePopUp : MonoBehaviour
     {
         //set canvas group
         myUIgroup = GetComponent<CanvasGroup>();
+
+        // set to 0
+        myUIgroup.alpha = 0f;
     }
 
     // Update is called once per frame
