@@ -13,6 +13,11 @@ public class SO_Weapon : ScriptableObject
     public Vector3 bulletScale = new (1,1,1);
     public Vector3 Rotate = new (0,0,0);
 
+    [Header("Sounds")]
+    public AudioClip Sfx_Fire;
+    public AudioClip Sfx_Reload;
+    public AudioClip Sfx_Empty;
+
     [Header("Weapon Stats")]
     public bool AOE = false;
         [DrawIf("AOE", true)]
