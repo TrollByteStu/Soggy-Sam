@@ -562,6 +562,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6451162461834788164}
+  - component: {fileID: 9097155420907652452}
+  - component: {fileID: 4255975924435366587}
   m_Layer: 0
   m_Name: GameStates
   m_TagString: Untagged
@@ -588,6 +590,35 @@ Transform:
   m_Father: {fileID: 4440400824772465782}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!225 &9097155420907652452
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2863303441310682761}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &4255975924435366587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2863303441310682761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a4328376dceb9643b832c3c38a90ac5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiList:
+  - {fileID: 2598850194810392948}
+  - {fileID: 6788760462350880361}
+  - {fileID: 1368260774454102134}
+  - {fileID: 6350379122855550589}
 --- !u!1 &3582808583013876460
 GameObject:
   m_ObjectHideFlags: 0
