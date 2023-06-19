@@ -1,13 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using _SoggySam.scripts.Utils;
 
-public class universalGrenade : MonoBehaviour
+public class universalGrenade : WaterStateHelper
 {
     public Vector3 scale;
     public float mass;
     public float drag;
     public float angularDrag;
+    public float WaterDrag;
+    public float WaterAngularDrag;
     public float aoeRadius;
     public float aoeDamage;
     public float fuseTime;
@@ -27,6 +30,18 @@ public class universalGrenade : MonoBehaviour
         myRB.drag = drag;
         myRB.angularDrag = angularDrag;
         spawnTime = Time.time;
+    }
+
+    protected override void OnEnterWater()
+    {
+        myRB.drag = WaterDrag;
+        myRB.angularDrag = WaterAngularDrag;
+    }
+
+    protected override void OnExitWater()
+    {
+        myRB.drag = drag;
+        myRB.angularDrag = angularDrag;
     }
 
     void FixedUpdate()

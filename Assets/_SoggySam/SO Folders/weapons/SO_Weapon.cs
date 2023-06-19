@@ -27,10 +27,12 @@ public class SO_Weapon : ScriptableObject
         [DrawIf("ReloadOnPickup",false)]
         public float FireDelay = 0;
 
-    [Header("RidgidBody (currently only effects the grenade)")]
+    [Header("RidgidBody")]
     public float Mass = 1;
     public float Drag = 1;
     public float AngularDrag = 1;
+    public float WaterDrag = 1;
+    public float WaterAngularDrag = 1;
     public bool usesGravity = true;
 
     [Header ("SpringJoint")]

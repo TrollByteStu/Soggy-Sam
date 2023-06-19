@@ -20,6 +20,7 @@ public class mobyDick : WaterStateHelper
     private float _PushTimer = 0;
 
     private bool _ChargeUp = true;
+
     void Start()
     {
         if (_myPlayer == null)
@@ -29,17 +30,32 @@ public class mobyDick : WaterStateHelper
 
     void FixedUpdate()
     {
-        switch (_CurrentMove)
+        if (_HitPoints < 0)
+            _Dead = true;
+        if (!_Dead)
         {
-            case 0:
-                ChoosingNextMove();
-                break;
-            case 1:
-                Charge();
-                break;
-            case 2:
-                BellyFlop();
-                break;
+            var mouth = Physics.OverlapBox(transform.forward, Vector3.one);
+            foreach (Collider collider in mouth)
+            {
+                Debug.Log(collider.gameObject);
+                if (collider.tag == "Player")
+                {
+                    //GameManager.Instance.stats._CurrentHealth--;
+                }
+            }
+
+            switch (_CurrentMove)
+            {
+                case 0:
+                    ChoosingNextMove();
+                    break;
+                case 1:
+                    Charge();
+                    break;
+                case 2:
+                    BellyFlop();
+                    break;
+            }
         }
         
     }
@@ -48,8 +64,6 @@ public class mobyDick : WaterStateHelper
         if (InWater) Move();
         if (_EndOfMoveTime + Random.Range(5f, 30f) <= Time.time)
             _CurrentMove = Random.Range(1, 2);
-
-
     }
 
     private void Move()

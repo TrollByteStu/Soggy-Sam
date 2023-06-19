@@ -22,12 +22,14 @@ MonoBehaviour:
   BlowOnImpact: 0
   FuseTimer: 1
   Damage: 1
-  BarrelVelocity: 400
+  BarrelVelocity: 500
   ReloadOnPickup: 0
-  FireDelay: 0.5
+  FireDelay: 0.7
   Mass: 1
   Drag: 0.2
   AngularDrag: 0.2
+  WaterDrag: 0.2
+  WaterAngularDrag: 0.2
   usesGravity: 1
   UsingJoint: 0
   JointAutoConfigureConnectedAnchor: 0

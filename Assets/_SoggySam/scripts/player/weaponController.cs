@@ -85,10 +85,15 @@ public class weaponController : MonoBehaviour
             if (Bullet.GetComponent<harpoonPhysics>()) /// can currently be swaped out for weapons[currentWeapon].AOE == false
             {
                 harpoonPhysics BulletScript = Bullet.GetComponent<harpoonPhysics>();
+                BulletScript.scale = _Weapons[_CurrentWeapon].bulletScale;
                 BulletScript.myPlayer = gameObject;
                 BulletScript.Damage = _Weapons[_CurrentWeapon].Damage;
                 BulletScript.SpringJoint = _Weapons[_CurrentWeapon].UsingJoint;
-                
+                BulletScript.mass = _Weapons[_CurrentWeapon].Mass;
+                BulletScript.drag = _Weapons[_CurrentWeapon].Drag;
+                BulletScript.angularDrag = _Weapons[_CurrentWeapon].AngularDrag;
+                BulletScript.WaterDrag = _Weapons[_CurrentWeapon].WaterDrag;
+                BulletScript.WaterAngularDrag = _Weapons[_CurrentWeapon].WaterAngularDrag;
             }
             else if (Bullet.GetComponent<universalGrenade>()) /// can currently be swaped out for weapons[currentWeapon].AOE == true
             {
@@ -96,6 +101,11 @@ public class weaponController : MonoBehaviour
                 BulletScript.scale = _Weapons[_CurrentWeapon].bulletScale;
                 BulletScript.aoeDamage = _Weapons[_CurrentWeapon].Damage;
                 BulletScript.aoeRadius = _Weapons[_CurrentWeapon].AOERaius;
+                BulletScript.mass = _Weapons[_CurrentWeapon].Mass;
+                BulletScript.drag = _Weapons[_CurrentWeapon].Drag;
+                BulletScript.angularDrag = _Weapons[_CurrentWeapon].AngularDrag;
+                BulletScript.WaterDrag = _Weapons[_CurrentWeapon].WaterDrag;
+                BulletScript.WaterAngularDrag = _Weapons[_CurrentWeapon].WaterAngularDrag;
                 if (!_Weapons[_CurrentWeapon].BlowOnImpact)
                     BulletScript.fuseTime = _Weapons[_CurrentWeapon].FuseTimer;
 
