@@ -9,6 +9,7 @@ public class HudManager : MonoBehaviour
     public Transform _HealthBar;
     public TMP_Text _HealthText;
 
+    public GameManager myGM;
     public gameStatePopUp myGameStateUI;
 
     public void FixedUpdate()

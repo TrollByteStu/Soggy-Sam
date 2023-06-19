@@ -6,6 +6,9 @@ using UnityEngine.SceneManagement;
 
 public class gameStatePopUp : MonoBehaviour
 {
+    // link to gamemanager, so we can tell it when an animation is done.
+    [SerializeField] private GameManager myGM;
+
     // this canvas group add a simple and fade opacity fader
     private CanvasGroup myUIgroup;
 

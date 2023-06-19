@@ -184,6 +184,11 @@ PrefabInstance:
       propertyPath: m_Color.a
       value: 0.78431374
       objectReference: {fileID: 0}
+    - target: {fileID: 4255975924435366587, guid: dc6437511af725140aa6d88311364439,
+        type: 3}
+      propertyPath: myGM
+      value: 
+      objectReference: {fileID: 1209412853}
     - target: {fileID: 4440400824772465778, guid: dc6437511af725140aa6d88311364439,
         type: 3}
       propertyPath: m_Name
@@ -1007,6 +1012,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 7665216618744122284, guid: 420850becffc47a4f94a14d632a223a8,
+        type: 3}
+      propertyPath: myGM
+      value: 
+      objectReference: {fileID: 1209412853}
     - target: {fileID: 7665216618744122284, guid: 420850becffc47a4f94a14d632a223a8,
         type: 3}
       propertyPath: _HealthBar
@@ -4132,6 +4142,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7c27dba59102472448b9c5c2538ee4ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1209412853 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6727138391412860253, guid: 420850becffc47a4f94a14d632a223a8,
+    type: 3}
+  m_PrefabInstance: {fileID: 186382347}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf776282be3a68945ba61c8aea453e34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1209880039
