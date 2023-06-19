@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using _SoggySam.scripts.Utils;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Animations;
 
-public class playerController : MonoBehaviour
+public class playerController : WaterStateHelper
 {
     public Animator animator;
     public GameObject myAvatar;
@@ -57,6 +58,7 @@ public class playerController : MonoBehaviour
                 temp.GetComponent<intractControllable>().myPlayer = gameObject;
                 temp.GetComponent<intractControllable>().intractLock = true;
                 temp.GetComponent<PlayerInput>().enabled = true;
+                GameManager.Instance._MainCameraScript._TransportOffset = temp.GetComponent<intractControllable>()._TransportOffset;
             }
             else if (interactRay.collider.tag == "Interactable"  && interactRay.collider.transform.parent.GetComponent<intractPickUp>())
             {

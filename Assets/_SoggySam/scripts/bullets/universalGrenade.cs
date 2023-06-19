@@ -41,7 +41,7 @@ public class universalGrenade : MonoBehaviour
                     Debug.DrawRay(transform.position, hit.transform.position -transform.position, Color.red);
                     if (hit.GetComponent<playerStats>())
                     {
-                        hit.GetComponent<playerStats>().health -= aoeDamage;
+                        hit.GetComponent<playerStats>()._CurrentHealth -= aoeDamage;
                     }
                     if (hit.GetComponent<predatorFish>())
                     {

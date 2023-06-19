@@ -48,7 +48,14 @@ public class harpoonPhysics : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.GetComponent<predatorFish>())
+        if (collision.gameObject.GetComponent<weaponController>())
+        {
+            collision.gameObject.GetComponent<weaponController>()._Readyshot = true;
+            collision.gameObject.GetComponent<weaponController>()._Weapon.SetActive(true);
+            myPlayer.GetComponent<SpringJoint>().connectedBody = collision.gameObject.GetComponent<Rigidbody>();
+            Destroy(gameObject);
+        }
+        else if (collision.gameObject.GetComponent<predatorFish>())
         {
             predatorFish predator = collision.gameObject.GetComponent<predatorFish>();
             predator.dead = true;
@@ -61,12 +68,16 @@ public class harpoonPhysics : MonoBehaviour
             myCollider.enabled = false;
 
         }
-        if (collision.gameObject.GetComponent<weaponController>())
+        else if (collision.gameObject.GetComponent<mobyDick>())
         {
-            collision.gameObject.GetComponent<weaponController>().readyshot = true;
-            collision.gameObject.GetComponent<weaponController>().weapon.SetActive(true);
-            myPlayer.GetComponent<SpringJoint>().connectedBody = collision.gameObject.GetComponent<Rigidbody>();
-            Destroy(gameObject);
+            mobyDick moby = collision.gameObject.GetComponent<mobyDick>();
+            moby._HitPoints--;
+            if (SpringJoint)
+                myPlayer.GetComponent<SpringJoint>().connectedBody = collision.gameObject.GetComponent<Rigidbody>();
+            transform.parent = collision.gameObject.transform;
+            myRB.isKinematic = true;
+            //myCollider.isTrigger = true;
+
         }
         else
         {
@@ -75,4 +86,5 @@ public class harpoonPhysics : MonoBehaviour
         }
 
     }
+
 }

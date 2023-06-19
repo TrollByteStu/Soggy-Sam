@@ -44,17 +44,15 @@ public class swimController : playerController
 
         InteractText();
     }
-    private void OnTriggerExit(Collider other)
+
+    protected override void OnExitWater()
     {
-        if (other.tag == "Water")
-        {
-            animator.SetBool("inWater", false);
-            transform.rotation = Quaternion.Euler(0, 0, 0);
-            myRB.drag = 0f;
-            myRB.useGravity = true;
-            myRB.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionZ;
-            myLC.enabled = true;
-            this.enabled = false;
-        }
+        animator.SetBool("inWater", false);
+        transform.rotation = Quaternion.Euler(0, 0, 0);
+        myRB.drag = 0f;
+        myRB.useGravity = true;
+        myRB.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionZ;
+        myLC.enabled = true;
+        this.enabled = false;
     }
 }

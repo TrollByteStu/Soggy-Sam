@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: GrapplinPoon
   m_EditorClassIdentifier: 
   Name: GrapplingPoon
-  Prefab: {fileID: 0}
-  bullet: {fileID: 4556738051865217160, guid: c78d489415f691b4eb0db58fceeb1196, type: 3}
+  Prefab: {fileID: 4717614886893327542, guid: ec8c147df48993845a6b2da1f4f143c7, type: 3}
+  bullet: {fileID: 6048012555654484856, guid: d34368cbd942dbf408fead82eb233a4f, type: 3}
   bulletScale: {x: 1, y: 1, z: 1}
   Rotate: {x: 0, y: 0, z: 0}
   AOE: 0
@@ -38,4 +38,4 @@ MonoBehaviour:
   StartJointDistance: 8
   MaxJointDistance: 15
   SelfDestruct: 0
-  SelfDestructTimer: 5
+  SelfDestructTimer: 0

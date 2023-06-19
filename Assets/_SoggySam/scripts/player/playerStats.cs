@@ -5,7 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class playerStats : MonoBehaviour
 {
-    public float health = 3f;
+    public float _CurrentHealth = 3f;
+    public float _MaxHealth = 3f;
     public float invulnerable = 0;
     public float invulnerableTime = 2;
     public SO_Item_Inventory inventory;
@@ -20,8 +21,8 @@ public class playerStats : MonoBehaviour
                 inventory.addItem(fish.SoLoot, 1);
                 if (fish.harpooned == true)
                 {
-                    GetComponent<weaponController>().readyshot = true;
-                    GetComponent<weaponController>().weapon.SetActive(true);
+                    GetComponent<weaponController>()._Readyshot = true;
+                    GetComponent<weaponController>()._Weapon.SetActive(true);
                 }
                 Destroy(collision.gameObject);
             }
@@ -30,7 +31,7 @@ public class playerStats : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (health < 0f)
+        if (_CurrentHealth < 1f)
             SceneManager.LoadScene(0);
     }
 }

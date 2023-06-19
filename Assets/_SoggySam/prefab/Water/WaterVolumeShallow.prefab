@@ -132,7 +132,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IncludeFaces: 15
   IncludeFoam: 15
-  TileSize: 10
+  TileSize: 20
   ShowDebug: 1
   RealtimeUpdates: 1
 --- !u!65 &4159125641783472202

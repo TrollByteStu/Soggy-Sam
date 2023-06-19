@@ -10,37 +10,56 @@ public class MissionManager : MonoBehaviour
     public List<SO_Mission> FinishMissions;
     public List<SO_Mission> ActiveMissions;
     public List<TMP_Text> TextList;
+    public Animator panelAnimator;
+
+    private bool _updateText = false;
+    private static readonly int Trigger = Animator.StringToHash("Trigger");
 
     private void Start()
     {
         foreach (SO_Mission mission in ActiveMissions)
         {
             mission.Achieved = false;
+            mission.currentProgress = 0;
+            mission.lastProgress = 0;
         }
+
+        _updateText = true;
     }
 
     public void FixedUpdate()
     {
-        SortMission();
-        MissionAchieved();
+        if (ActiveMissions.Count != 0) MissionProgress();
         MissionText();
     }
 
-    public void MissionAchieved()
+    public void MissionProgress()
     {
-        foreach (SO_Mission mission in ActiveMissions)
+        for (int i = ActiveMissions.Count -1; i > -1; i--)
         {
-            if (mission.Achieved == false && GameManager.Instance.stats.inventory.checkInventoryForItemAmount(mission.Objective) >= mission.Amount)
+            ActiveMissions[i].currentProgress = GameManager.Instance.stats.inventory.checkInventoryForItemAmount(ActiveMissions[i].Objective);
+            if (ActiveMissions[i].currentProgress > ActiveMissions[i].lastProgress)
             {
-                mission.Achieved = true;
-                FinishMissions.Add(mission);
-                ActiveMissions.Remove(mission);
+                ActiveMissions[i].lastProgress = ActiveMissions[i].currentProgress;
+                _updateText = true;
+            }
+            if (ActiveMissions[i].Achieved == false && ActiveMissions[i].currentProgress >= ActiveMissions[i].Amount)
+            {
+                ActiveMissions[i].Achieved = true;
+                FinishMissions.Add(ActiveMissions[i]);
+                ActiveMissions.Remove(ActiveMissions[i]);
+                _updateText = true;
             }
         }
     }
 
     public void MissionText() 
     {
+        if (!_updateText) return;
+        _updateText = false;
+        panelAnimator.SetTrigger(Trigger);
+        if (ActiveMissions.Count > 1)
+        SortMission();
         if (FinishMissions.Count > 0)
         {
             TextList[0].text = FinishMissions[FinishMissions.Count - 1].ToolTip + GameManager.Instance.stats.inventory.checkInventoryForItemAmount(FinishMissions[FinishMissions.Count - 1].Objective) + "/" + FinishMissions[FinishMissions.Count - 1].Amount;
@@ -48,14 +67,13 @@ public class MissionManager : MonoBehaviour
         }
         else
             TextList[0].text = "-------------------";
-
         if (ActiveMissions.Count > 0)
         {
             TextList[1].text = ActiveMissions[0].ToolTip + GameManager.Instance.stats.inventory.checkInventoryForItemAmount(ActiveMissions[0].Objective) + "/" + ActiveMissions[0].Amount;
             TextList[1].text += "<color=red> X </color>";
         }
         else
-            TextList[2].text = "No missions left";
+            TextList[1].text = "No missions left";
 
         if (ActiveMissions.Count > 1)
         {

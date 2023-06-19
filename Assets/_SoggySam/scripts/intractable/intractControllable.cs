@@ -11,6 +11,7 @@ public class intractControllable : MonoBehaviour
     public GameObject myPlayer;
 
     public bool intractLock;
+    public Vector3 _TransportOffset = new (0,0,-20);
 
     public TextMeshPro interactText;
     public float textTimer;
@@ -27,6 +28,7 @@ public class intractControllable : MonoBehaviour
         myPlayer.GetComponent<Collider>().enabled = true;
         myPlayer.transform.parent = null;
         myPI.enabled = false;
+        GameManager.Instance._MainCameraScript._TransportOffset = new(0, 0, 0);
     }
 
     private void Update()
