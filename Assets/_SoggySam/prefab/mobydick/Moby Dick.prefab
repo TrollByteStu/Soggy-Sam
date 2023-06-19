@@ -10,9 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4440875775992907393}
   - component: {fileID: 6513182873942196864}
-  - component: {fileID: 9052106628034766224}
-  - component: {fileID: 2568414188503138144}
-  - component: {fileID: 1660589161216515796}
   - component: {fileID: 3972781250243408351}
   m_Layer: 0
   m_Name: Moby Dick
@@ -53,45 +50,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 8
   m_CollisionDetection: 0
---- !u!65 &9052106628034766224
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3957248252948094011}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 3, y: 1.6830816, z: 4.1720104}
-  m_Center: {x: -1.692958e-14, y: 0.65955186, z: -6.808685}
---- !u!65 &2568414188503138144
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3957248252948094011}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 3, y: 4.222132, z: 4.28748}
-  m_Center: {x: 6.211987e-15, y: 0.8549323, z: -2.4371293}
---- !u!65 &1660589161216515796
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3957248252948094011}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 3, y: 4.8662596, z: 7.232016}
-  m_Center: {x: 1.2562254e-14, y: 0.71739364, z: 3.116009}
 --- !u!114 &3972781250243408351
 MonoBehaviour:
   m_ObjectHideFlags: 0
