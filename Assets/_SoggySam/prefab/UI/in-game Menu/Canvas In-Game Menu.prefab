@@ -615,10 +615,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiList:
-  - {fileID: 2598850194810392948}
-  - {fileID: 6788760462350880361}
   - {fileID: 1368260774454102134}
   - {fileID: 6350379122855550589}
+  - {fileID: 6788760462350880361}
+  - {fileID: 2598850194810392948}
 --- !u!1 &3582808583013876460
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class gameStatePopUp : MonoBehaviour
 {
@@ -13,6 +14,9 @@ public class gameStatePopUp : MonoBehaviour
 
     // fade accellerate float
     private float fadeAcceleration = 0f;
+
+    // what popup are we showing
+    private int currentPopup = -1;
 
     // This hides all the objects, unhides the one we want and start the fade anim
     public void showPopup(int i)
@@ -32,6 +36,9 @@ public class gameStatePopUp : MonoBehaviour
             }
         }
 
+        // save which popup we are showing;
+        currentPopup = i;
+
         // turn on the right one
         uiList[i].SetActive(true);
 
@@ -46,7 +53,6 @@ public class gameStatePopUp : MonoBehaviour
     {
         //set canvas group
         myUIgroup = GetComponent<CanvasGroup>();
-        showPopup(0);
     }
 
     // Update is called once per frame
@@ -61,8 +67,15 @@ public class gameStatePopUp : MonoBehaviour
             // speed up the fade
             fadeAcceleration += Time.deltaTime * .001f;
 
-            // if we have faded a lot, set to zero
-            if (myUIgroup.alpha < 0.01f) myUIgroup.alpha = 0f;
+            // if we have faded a lot
+            if (myUIgroup.alpha < 0.01f)
+            {
+                // set alpha to complete zero to stop wasting cpu
+                myUIgroup.alpha = 0f;
+
+                // if win or loss, change scene to main menu
+                if (currentPopup < 2) SceneManager.LoadScene(0);
+            }
         }
     }
 }
