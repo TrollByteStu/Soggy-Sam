@@ -11,11 +11,17 @@ public class gameStatePopUp : MonoBehaviour
     // the list of the UI objects we want to show
     [SerializeField] private GameObject[] uiList;
 
+    // fade accellerate float
+    private float fadeAcceleration = 0f;
+
     // This hides all the objects, unhides the one we want and start the fade anim
     public void showPopup(int i)
     {
         // make group visible
         myUIgroup.alpha = 1;
+
+        // fade accelleration reset
+        fadeAcceleration = 0f;
 
         // turn off all elements, this might be 20+ one day
         if (uiList.Length > 0)
@@ -36,6 +42,7 @@ public class gameStatePopUp : MonoBehaviour
     {
         //set canvas group
         myUIgroup = GetComponent<CanvasGroup>();
+        showPopup(0);
     }
 
     // Update is called once per frame
@@ -45,7 +52,10 @@ public class gameStatePopUp : MonoBehaviour
         if ( myUIgroup.alpha > 0f)
         {
             // fade a bit
-            myUIgroup.alpha *= 0.99f;
+            myUIgroup.alpha -= fadeAcceleration;
+
+            // speed up the fade
+            fadeAcceleration += Time.deltaTime * .001f;
 
             // if we have faded a lot, set to zero
             if (myUIgroup.alpha < 0.01f) myUIgroup.alpha = 0f;
