@@ -29,9 +29,4 @@ public class playerStats : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
-    {
-        if (_CurrentHealth < 1f)
-            SceneManager.LoadScene(0);
-    }
 }

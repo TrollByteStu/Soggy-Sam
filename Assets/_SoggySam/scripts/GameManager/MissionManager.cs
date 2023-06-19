@@ -7,6 +7,9 @@ using TMPro;
 
 public class MissionManager : MonoBehaviour
 {
+    // reference to gamemanager
+    private GameManager myGM;
+
     public List<SO_Mission> FinishMissions;
     public List<SO_Mission> ActiveMissions;
     public List<TMP_Text> TextList;
@@ -17,6 +20,9 @@ public class MissionManager : MonoBehaviour
 
     private void Start()
     {
+        // get refence to gamemanager
+        myGM = GetComponent<GameManager>();
+
         foreach (SO_Mission mission in ActiveMissions)
         {
             mission.Achieved = false;
@@ -48,6 +54,13 @@ public class MissionManager : MonoBehaviour
                 ActiveMissions[i].Achieved = true;
                 FinishMissions.Add(ActiveMissions[i]);
                 ActiveMissions.Remove(ActiveMissions[i]);
+                // How many missions are left now?
+                if ( ActiveMissions.Count == 0)
+                { // you have won popup
+                    myGM.callUiPopup(1);
+                } else { // mission completed popup
+                    myGM.callUiPopup(3);
+                }
                 _updateText = true;
             }
         }

@@ -13,6 +13,19 @@ public class GameManager : MonoBehaviour
     public Camera _MainCamera;
     public cameraController _MainCameraScript;
 
+    // is the ui busy with animation?
+    public bool uiBusy = false;
+
+    // calls ui popup from the central game manager
+    public void callUiPopup(int i)
+    {
+        // we are busy
+        uiBusy = true;
+
+        // show the actual popup
+        _HudManager.myGameStateUI.showPopup(i);
+    }
+
     public void Awake()
     {
         _instance = this;
@@ -36,6 +49,14 @@ public class GameManager : MonoBehaviour
             _MainCamera = FindObjectOfType<Camera>();
         if (!_MainCameraScript)
             _MainCameraScript = _MainCamera.GetComponent<cameraController>();
+    }
+
+    private void Update()
+    {
+        if (stats._CurrentHealth <= 0f && !uiBusy)
+        {
+            _HudManager.myGameStateUI.showPopup(0);
+        }
     }
 
     public static GameManager Instance
