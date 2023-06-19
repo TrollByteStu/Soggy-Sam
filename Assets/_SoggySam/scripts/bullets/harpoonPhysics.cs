@@ -71,7 +71,7 @@ public class harpoonPhysics : MonoBehaviour
         else if (collision.gameObject.GetComponent<mobyDick>())
         {
             mobyDick moby = collision.gameObject.GetComponent<mobyDick>();
-            moby._Hitpoints--;
+            moby._HitPoints--;
             if (SpringJoint)
                 myPlayer.GetComponent<SpringJoint>().connectedBody = collision.gameObject.GetComponent<Rigidbody>();
             transform.parent = collision.gameObject.transform;
