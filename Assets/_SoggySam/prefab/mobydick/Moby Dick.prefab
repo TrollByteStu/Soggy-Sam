@@ -104,12 +104,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32906b71b525b1245aca284637018dd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _MaxHitPoints: 0
-  _HitPoints: 0
-  _Speed: 0
-  _Turn: 0
+  _MaxHitPoints: 40
+  _HitPoints: 40
+  _Speed: 60000
+  _Turn: 2000
   _Dead: 0
   _myPlayer: {fileID: 0}
+  _Animator: {fileID: 9162229001776802308}
   _CurrentMove: 0
 --- !u!1001 &4077944395607279854
 PrefabInstance:

@@ -11,6 +11,7 @@ public class mobyDick : WaterStateHelper
     public float _Turn;
     public bool _Dead;
     public GameObject _myPlayer;
+    public Animator _Animator;
 
     private float _EndOfMoveTime;
     private Rigidbody _myRB;
@@ -30,6 +31,7 @@ public class mobyDick : WaterStateHelper
 
     void FixedUpdate()
     {
+        AnimatorUpdate();
         if (_HitPoints < 0)
             _Dead = true;
         if (!_Dead)
@@ -56,10 +58,14 @@ public class mobyDick : WaterStateHelper
                     BellyFlop();
                     break;
             }
-        }
-        
+        }   
     }
-    void ChoosingNextMove()
+    private void AnimatorUpdate()
+    {
+        _Animator.SetFloat("Swim", _myRB.velocity.magnitude);
+    }
+
+    private void ChoosingNextMove()
     {
         if (InWater) Move();
         if (_EndOfMoveTime + Random.Range(5f, 30f) <= Time.time)
@@ -101,6 +107,7 @@ public class mobyDick : WaterStateHelper
 
         if (_Push && _PushTimer + 2f < Time.time && InWater)
         {
+            _Push = false;
             _ChargeUp = true;
             transform.Rotate(Vector3.up, 180);
             _CurrentMove = 0;
