@@ -29,25 +29,25 @@ public class MissionManager : MonoBehaviour
 
     public void FixedUpdate()
     {
-        MissionProgress();
+        if (ActiveMissions.Count != 0) MissionProgress();
         MissionText();
     }
 
     public void MissionProgress()
     {
-        foreach (SO_Mission mission in ActiveMissions)
+        for (int i = ActiveMissions.Count -1; i > -1; i--)
         {
-            mission.currentProgress = GameManager.Instance.stats.inventory.checkInventoryForItemAmount(mission.Objective);
-            if (mission.currentProgress > mission.lastProgress)
+            ActiveMissions[i].currentProgress = GameManager.Instance.stats.inventory.checkInventoryForItemAmount(ActiveMissions[i].Objective);
+            if (ActiveMissions[i].currentProgress > ActiveMissions[i].lastProgress)
             {
-                mission.lastProgress = mission.currentProgress;
+                ActiveMissions[i].lastProgress = ActiveMissions[i].currentProgress;
                 _updateText = true;
             }
-            if (mission.Achieved == false && mission.currentProgress >= mission.Amount)
+            if (ActiveMissions[i].Achieved == false && ActiveMissions[i].currentProgress >= ActiveMissions[i].Amount)
             {
-                mission.Achieved = true;
-                FinishMissions.Add(mission);
-                ActiveMissions.Remove(mission);
+                ActiveMissions[i].Achieved = true;
+                FinishMissions.Add(ActiveMissions[i]);
+                ActiveMissions.Remove(ActiveMissions[i]);
                 _updateText = true;
             }
         }
