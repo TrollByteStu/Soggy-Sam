@@ -17,6 +17,9 @@ MonoBehaviour:
   bullet: {fileID: 6048012555654484856, guid: d34368cbd942dbf408fead82eb233a4f, type: 3}
   bulletScale: {x: 1, y: 1, z: 1}
   Rotate: {x: 0, y: 0, z: 0}
+  Sfx_Fire: {fileID: 8300000, guid: 8919583bc338b594eb1b142241a947ce, type: 3}
+  Sfx_Reload: {fileID: 8300000, guid: 7366de2ba79fc0d4da953897f66d5ea6, type: 3}
+  Sfx_Empty: {fileID: 8300000, guid: 4e217f6ebb62db54a93c9d328ac9be53, type: 3}
   AOE: 0
   AOERaius: 0
   BlowOnImpact: 0
@@ -28,6 +31,8 @@ MonoBehaviour:
   Mass: 1
   Drag: 1
   AngularDrag: 1
+  WaterDrag: 1
+  WaterAngularDrag: 1
   usesGravity: 1
   UsingJoint: 1
   JointAutoConfigureConnectedAnchor: 0

@@ -10,9 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4440875775992907393}
   - component: {fileID: 6513182873942196864}
-  - component: {fileID: 9052106628034766224}
-  - component: {fileID: 2568414188503138144}
-  - component: {fileID: 1660589161216515796}
   - component: {fileID: 3972781250243408351}
   - component: {fileID: -7357437853451044174}
   m_Layer: 0
@@ -54,45 +51,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 8
   m_CollisionDetection: 0
---- !u!65 &9052106628034766224
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3957248252948094011}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 3, y: 1.6830816, z: 4.1720104}
-  m_Center: {x: -1.692958e-14, y: 0.65955186, z: -6.808685}
---- !u!65 &2568414188503138144
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3957248252948094011}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 3, y: 4.222132, z: 4.28748}
-  m_Center: {x: 6.211987e-15, y: 0.8549323, z: -2.4371293}
---- !u!65 &1660589161216515796
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3957248252948094011}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 3, y: 4.8662596, z: 7.232016}
-  m_Center: {x: 1.2562254e-14, y: 0.71739364, z: 3.116009}
 --- !u!114 &3972781250243408351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -105,12 +63,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32906b71b525b1245aca284637018dd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _MaxHitPoints: 0
-  _HitPoints: 0
-  _Speed: 0
-  _Turn: 0
+  _MaxHitPoints: 40
+  _HitPoints: 40
+  _Speed: 60000
+  _Turn: 2000
   _Dead: 0
   _myPlayer: {fileID: 0}
+  _Animator: {fileID: 9162229001776802308}
   _CurrentMove: 0
 --- !u!82 &-7357437853451044174
 AudioSource:

@@ -17,6 +17,9 @@ MonoBehaviour:
   bullet: {fileID: 3776811740817545626, guid: 000a724819d5f9b429bf7e67d1edaf60, type: 3}
   bulletScale: {x: 1, y: 1, z: 1}
   Rotate: {x: 0, y: 0, z: 0}
+  Sfx_Fire: {fileID: 8300000, guid: c1f5d6d8c217ace45aea994c51ff4024, type: 3}
+  Sfx_Reload: {fileID: 8300000, guid: e5f293e34c3fb174b976309fe77a21a0, type: 3}
+  Sfx_Empty: {fileID: 8300000, guid: 4e217f6ebb62db54a93c9d328ac9be53, type: 3}
   AOE: 0
   AOERaius: 0
   BlowOnImpact: 0

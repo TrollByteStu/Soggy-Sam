@@ -11,6 +11,7 @@ public class mobyDick : WaterStateHelper
     public float _Turn;
     public bool _Dead;
     public GameObject _myPlayer;
+    public Animator _Animator;
 
     private float _EndOfMoveTime;
     private Rigidbody _myRB;
@@ -20,6 +21,7 @@ public class mobyDick : WaterStateHelper
     private float _PushTimer = 0;
 
     private bool _ChargeUp = true;
+    private bool _PlayedOnce = false;
 
     void Start()
     {
@@ -30,19 +32,20 @@ public class mobyDick : WaterStateHelper
 
     void FixedUpdate()
     {
+        AnimatorUpdate();
         if (_HitPoints < 0)
             _Dead = true;
         if (!_Dead)
         {
-            var mouth = Physics.OverlapBox(transform.forward, Vector3.one);
-            foreach (Collider collider in mouth)
-            {
-                Debug.Log(collider.gameObject);
-                if (collider.tag == "Player")
-                {
-                    //GameManager.Instance.stats._CurrentHealth--;
-                }
-            }
+            //var mouth = Physics.OverlapBox(transform.forward, Vector3.one);
+            //foreach (Collider collider in mouth)
+            //{
+            //    Debug.Log(collider.gameObject);
+            //    if (collider.tag == "Player")
+            //    {
+            //        //GameManager.Instance.stats._CurrentHealth--;
+            //    }
+            //}
 
             switch (_CurrentMove)
             {
@@ -56,10 +59,14 @@ public class mobyDick : WaterStateHelper
                     BellyFlop();
                     break;
             }
-        }
-        
+        }   
     }
-    void ChoosingNextMove()
+    private void AnimatorUpdate()
+    {
+        _Animator.SetFloat("Swim", _myRB.velocity.magnitude);
+    }
+
+    private void ChoosingNextMove()
     {
         if (InWater) Move();
         if (_EndOfMoveTime + Random.Range(5f, 30f) <= Time.time)
@@ -94,13 +101,14 @@ public class mobyDick : WaterStateHelper
         }
         else if (10f >= Vector3.Distance(_myPlayer.transform.position, transform.position) && !_ChargeUp && !_Push) // end of move
         {
-
+            _Animator.SetTrigger("Bite");
             _Push = true;
             _PushTimer = Time.time;
         }
 
         if (_Push && _PushTimer + 2f < Time.time && InWater)
         {
+            _Push = false;
             _ChargeUp = true;
             transform.Rotate(Vector3.up, 180);
             _CurrentMove = 0;
@@ -126,10 +134,17 @@ public class mobyDick : WaterStateHelper
             transform.LookAt(_myPlayer.transform.position + (Vector3.up * 150f));
             _myRB.AddForce(10 * _Speed * Time.fixedDeltaTime * transform.forward);
         }
+        else if (!_ChargeUp && !InWater && !_PlayedOnce)
+        {
+            _Animator.SetTrigger("Jump");
+            _PlayedOnce = true;
+        }
 
         if (_myRB.velocity.y < 0 && !InWater)
         {
+            _Animator.SetTrigger("BodySlam");
             transform.LookAt(_myPlayer.transform);
+            
         }
 
         if (100f <= Vector3.Distance(_myPlayer.transform.position, transform.position) && _ChargeUp) // swim 100 units away 
@@ -139,6 +154,7 @@ public class mobyDick : WaterStateHelper
         else if (10f >= Vector3.Distance(_myPlayer.transform.position, transform.position) && !_ChargeUp) // end of move
         {
             _ChargeUp = true;
+            _Animator.SetTrigger("Bite");
             _myRB.AddForce(5 * _Speed * Time.fixedDeltaTime * transform.forward);
             _CurrentMove = 0;
             _EndOfMoveTime = Time.time;
@@ -148,6 +164,7 @@ public class mobyDick : WaterStateHelper
 
     protected override void OnEnterWater()
     {
+        _Animator.SetBool("InWater", true);
         _myRB.drag = 5;
         _myRB.angularDrag = 2f;
         _myRB.useGravity = false;
@@ -155,6 +172,7 @@ public class mobyDick : WaterStateHelper
 
     protected override void OnExitWater()
     {
+        _Animator.SetBool("InWater", false);
         _myRB.drag = 0.5f;
         _myRB.angularDrag = 0.5f;
         _myRB.useGravity = true;
