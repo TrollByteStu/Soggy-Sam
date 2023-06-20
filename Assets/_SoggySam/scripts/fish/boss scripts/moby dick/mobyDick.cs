@@ -56,6 +56,10 @@ public class mobyDick : WaterStateHelper
                 {
                     GameManager.Instance.stats.DamagePlayer();
                 }
+                else if (collider.GetComponent<transport>())
+                {
+                    collider.GetComponent<transport>().DamageTransport();
+                }
             }
 
             switch (_CurrentMove)

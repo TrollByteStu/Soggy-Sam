@@ -44,8 +44,9 @@ public class bulletPhysics : MonoBehaviour
             collision.gameObject.GetComponent<predatorFish>().dead = true;
             Destroy(gameObject,1f);
         }
-        else
+        else if (collision.gameObject.GetComponent<mobyDick>())
         {
+            collision.gameObject.GetComponent<mobyDick>()._HitPoints--;
             Destroy(gameObject,1f);
         }
 

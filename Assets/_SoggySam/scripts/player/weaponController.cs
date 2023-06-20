@@ -130,57 +130,6 @@ public class weaponController : MonoBehaviour
             WeaponAudio.clip = Sfx_Weapon_Empty;
             WeaponAudio.Play();
         }
-            
-            ///switch (ammo)
-            ///{
-            ///    case 1:
-            ///        if (!joint)
-            ///        {
-            ///            joint = gameObject.AddComponent<SpringJoint>();
-            ///            joint.autoConfigureConnectedAnchor = false;
-            ///            joint.connectedMassScale = 1000;
-            ///            joint.enableCollision = true;
-            ///            joint.spring = 100;
-            ///            joint.damper = 40;
-            ///        }
-            ///            joint.maxDistance = 8f;
-            ///        readyshot = false;
-            ///        GameObject bullet = Instantiate(harpoonInstance, weapon.transform.position + weapon.transform.forward * 2, weapon.transform.rotation);
-            ///        bullet.transform.Rotate(90, 0, 0);
-            ///        bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.up * 420f);
-            ///        bullet.transform.LookAt(bullet.GetComponent<Rigidbody>().velocity + bullet.transform.position, Vector3.up);
-            ///        joint.connectedBody = bullet.GetComponent<Rigidbody>();
-            ///        bullet.GetComponent<harpoonPhysics>().myPlayer = gameObject;
-            ///        weapon.SetActive(false);
-            ///        break;
-            ///    case 2:
-            ///        GameObject bullet2 = Instantiate(harpoonInstance, weapon.transform.position + weapon.transform.forward * 2, weapon.transform.rotation);
-            ///        bullet2.transform.Rotate(90, 0, 0);
-            ///        bullet2.GetComponent<Rigidbody>().AddForce(bullet2.transform.up * 420f);
-            ///        bullet2.transform.LookAt(bullet2.GetComponent<Rigidbody>().velocity + bullet2.transform.position, Vector3.up);
-            ///        bullet2.GetComponent<harpoonPhysics>().myPlayer = gameObject;
-            ///        lastShot = Time.time;
-            ///        Destroy(bullet2, 8f);
-            ///        readyshot = false;
-            ///        break;
-            ///    case 3:
-            ///        GameObject grenade = Instantiate(grenadeInstance, weapon.transform.position + weapon.transform.forward * 2, weapon.transform.rotation);
-            ///        grenade.GetComponent<Rigidbody>().AddForce(grenade.transform.forward * 600);
-            ///        universalGrenade grenadeScript = grenade.GetComponent<universalGrenade>();
-            ///        grenadeScript.scale = new(0.2f, 0.2f, 0.2f);
-            ///        grenadeScript.mass = 1;
-            ///        grenadeScript.drag = 0.2f;
-            ///        grenadeScript.angularDrag = 0.2f;
-            ///        grenadeScript.aoeDamage = 1;
-            ///        grenadeScript.aoeRadius = 5;
-            ///        grenadeScript.fuseTime = 3f;
-            ///        lastShot = Time.time;
-            ///        readyshot = false;
-            ///        break;
-            ///    case 4:
-            ///
-            ///        break;
-            ///}
     }
 
     void OnLook(InputValue value)
