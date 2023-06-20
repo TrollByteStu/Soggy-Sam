@@ -13,4 +13,9 @@ public class SO_Mission : ScriptableObject
     public int Amount;
     public bool Achieved = false;
     public int currentProgress, lastProgress;
+    
+    // boss mission
+    public bool BossFight = false;
+    public string activateSpawn;
+    public bool alreadySpawned = false;
 }

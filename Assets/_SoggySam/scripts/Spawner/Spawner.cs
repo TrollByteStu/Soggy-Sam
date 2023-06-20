@@ -43,7 +43,7 @@ namespace _SoggySam.scripts.Spawner
             if (_spawnedCount < spawnCount && !_withinView) Spawn();
         }
 
-        private void Spawn()
+        public void Spawn()
         {
             _transform = transform;
             Instantiate(prefabToSpawn, _transform.position, _transform.rotation, _transform);

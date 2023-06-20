@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-
+using _SoggySam.scripts.Spawner;
 
 
 public class MissionManager : MonoBehaviour
@@ -62,6 +62,17 @@ public class MissionManager : MonoBehaviour
                     myGM.callUiPopup(3);
                 }
                 _updateText = true;
+            }
+        }
+        
+        if (ActiveMissions.Count == 1)
+        { // is on last mission
+            Debug.Log("last mission update");
+            if (ActiveMissions[0].BossFight && !ActiveMissions[0].alreadySpawned)
+            {
+                GameObject.Find(ActiveMissions[0].activateSpawn).GetComponent<Spawner>().Spawn();
+                ActiveMissions[0].alreadySpawned = true;
+                Debug.Log("Spawning boss");
             }
         }
     }
@@ -140,7 +151,7 @@ public class MissionManager : MonoBehaviour
 
     public void SortMission()
     {
-        ActiveMissions.Sort((t2, t1) => t2.Amount.CompareTo(t1.Amount - GameManager.Instance.stats.inventory.checkInventoryForItemAmount(t1.Objective)) - GameManager.Instance.stats.inventory.checkInventoryForItemAmount(t2.Objective));
+        //ActiveMissions.Sort((t2, t1) => t2.Amount.CompareTo(t1.Amount - GameManager.Instance.stats.inventory.checkInventoryForItemAmount(t1.Objective)) - GameManager.Instance.stats.inventory.checkInventoryForItemAmount(t2.Objective));
     }
 
 }
