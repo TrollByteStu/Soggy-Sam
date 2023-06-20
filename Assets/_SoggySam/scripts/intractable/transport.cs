@@ -10,7 +10,36 @@ public class transport : intractControllable
     private Vector3 moveVector = new Vector3(0, 0, 0);
     private Rigidbody myRB;
 
+    public float _MaxHitPoints = 0;
+    public float _HitPoints = 0;
     public float moveSpeed = 0;
+    public float invulnerable;
+    public float invulnerableTime;
+
+    public void DamageTransport()
+    {
+        if (CanDamageTransport())
+        {
+            invulnerable = Time.time + invulnerableTime;
+            _HitPoints--;
+        }
+    }
+    public void DamageTransport(int damage)
+    {
+        if (CanDamageTransport())
+        {
+            invulnerable = Time.time + invulnerableTime;
+            _HitPoints -= damage;
+        }
+    }
+
+    public bool CanDamageTransport()
+    {
+        if (invulnerable < Time.time)
+            return true;
+        else
+            return false;
+    }
 
     private void Start()
     {

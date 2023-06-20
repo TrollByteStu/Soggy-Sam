@@ -15,22 +15,22 @@ public class playerStats : MonoBehaviour
     {
         if (CanDamagePlayer())
         {
-            GameManager.Instance.stats.invulnerable = Time.time + GameManager.Instance.stats.invulnerableTime;
-            GameManager.Instance.stats._CurrentHealth--;
+            invulnerable = Time.time + invulnerableTime;
+            _CurrentHealth--;
         }
     }    
     public void DamagePlayer(int damage)
     {
         if (CanDamagePlayer())
         {
-            GameManager.Instance.stats.invulnerable = Time.time + GameManager.Instance.stats.invulnerableTime;
-            GameManager.Instance.stats._CurrentHealth -= damage;
+            invulnerable = Time.time + invulnerableTime;
+            _CurrentHealth -= damage;
         }
     }
 
     public bool CanDamagePlayer()
     {
-        if (GameManager.Instance.stats.invulnerable < Time.time)
+        if (invulnerable < Time.time)
             return true;
         else
             return false;
