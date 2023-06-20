@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using _SoggySam.scripts.GameManager;
 using UnityEngine;
 using TMPro;
 using _SoggySam.scripts.Spawner;
@@ -14,6 +15,7 @@ public class MissionManager : MonoBehaviour
     public List<SO_Mission> ActiveMissions;
     public List<TMP_Text> TextList;
     public Animator panelAnimator;
+    public MusicManager musicManager;
 
     private bool _updateText = false;
     private static readonly int Trigger = Animator.StringToHash("Trigger");
@@ -75,6 +77,7 @@ public class MissionManager : MonoBehaviour
             {
                 GameObject.Find(ActiveMissions[0].activateSpawn).GetComponent<Spawner>().Spawn();
                 ActiveMissions[0].alreadySpawned = true;
+                musicManager.PrepareForBossFight();
                 Debug.Log("Spawning boss");
             }
         }

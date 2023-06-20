@@ -18,6 +18,11 @@ namespace _SoggySam.scripts.GameManager
         private void OnTriggerEnter(Collider other)
         {
             if (!other.CompareTag("Player")) return;
+            DoAction();
+        }
+
+        public void DoAction()
+        {
             switch (action)
             {
                 case AudioTriggerActionType.Play:
