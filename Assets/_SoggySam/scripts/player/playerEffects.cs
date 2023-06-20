@@ -12,7 +12,8 @@ public class playerEffects : WaterStateHelper
 
     // a list of splash sounds
     [SerializeField] private AudioClip[] SoundSplash;
-
+    [SerializeField] private GameObject SplashPrefab;
+    private float lastSpawnedPrefab = 0f;
 
     // characters main sound effect
     private AudioSource myMainSound;
@@ -23,9 +24,12 @@ public class playerEffects : WaterStateHelper
         // underwater ambience on
         AudioUnderwater.volume = 1f;
 
-        //play splash
-        myMainSound.clip = SoundSplash[0];
-        myMainSound.Play();
+        if ( lastSpawnedPrefab < Time.fixedTime )
+        {
+            Instantiate(SplashPrefab, transform.position,Quaternion.identity);
+            lastSpawnedPrefab = Time.fixedTime + 0.5f;
+        }
+        
     }
 
     protected override void OnExitWater()
@@ -33,9 +37,11 @@ public class playerEffects : WaterStateHelper
         // underwater ambience off
         AudioUnderwater.volume = 0f;
 
-        //play splash
-        myMainSound.clip = SoundSplash[0];
-        myMainSound.Play();
+        if (lastSpawnedPrefab < Time.fixedTime)
+        {
+            Instantiate(SplashPrefab, transform.position, Quaternion.identity);
+            lastSpawnedPrefab = Time.fixedTime + 0.5f;
+        }
     }
 
     // Start is called before the first frame update

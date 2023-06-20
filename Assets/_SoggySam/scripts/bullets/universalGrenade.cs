@@ -20,6 +20,7 @@ public class universalGrenade : WaterStateHelper
     private Collider[] hits;
     private RaycastHit hitScan;
 
+    [SerializeField] private GameObject ExplosionPrefab;
 
     // Start is called before the first frame update
     void Start()
@@ -48,6 +49,7 @@ public class universalGrenade : WaterStateHelper
     {
         if (spawnTime + fuseTime <= Time.time)/// boom
         {
+            Instantiate(ExplosionPrefab, transform.position, Quaternion.identity);
             hits = Physics.OverlapSphere(transform.position, aoeRadius);
             foreach (Collider hit in hits)
             {
