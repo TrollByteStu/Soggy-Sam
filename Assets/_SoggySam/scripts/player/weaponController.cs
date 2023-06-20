@@ -20,7 +20,13 @@ public class weaponController : MonoBehaviour
     private PlayerInput _Input;
     private SpringJoint _Joint;
 
-    private float lastShot; 
+    private float lastShot;
+
+    // Sounds
+    [SerializeField] private AudioSource WeaponAudio;
+    private AudioClip Sfx_Weapon_Fire;
+    private AudioClip Sfx_Weapon_Reload;
+    private AudioClip Sfx_Weapon_Empty;
 
     private void Start()
     {
@@ -52,6 +58,10 @@ public class weaponController : MonoBehaviour
         _EquipedWeapon.transform.localRotation = Quaternion.Euler(Vector3.zero);
         _EquipedWeapon.transform.localPosition = Vector3.forward / 2;
 
+        //change sound
+        Sfx_Weapon_Fire = _Weapons[_WeaponChange].Sfx_Fire;
+        Sfx_Weapon_Reload = _Weapons[_WeaponChange].Sfx_Reload;
+        Sfx_Weapon_Empty = _Weapons[_WeaponChange].Sfx_Empty;
     }
 
     void OnFire()
@@ -64,7 +74,10 @@ public class weaponController : MonoBehaviour
             GameObject Bullet = Instantiate(_Weapons[_CurrentWeapon].bullet, _Weapon.transform.position + _Weapon.transform.forward * 2, _Weapon.transform.rotation);
             Bullet.transform.Rotate(_Weapons[_CurrentWeapon].Rotate);
             Bullet.GetComponent<Rigidbody>().AddForce(Bullet.transform.forward * _Weapons[_CurrentWeapon].BarrelVelocity);
-            
+
+            //play sound
+            WeaponAudio.clip = Sfx_Weapon_Fire;
+            WeaponAudio.Play();
 
             if (_Weapons[_CurrentWeapon].UsingJoint)  /// if weapon uses spring joint
             {
@@ -112,6 +125,10 @@ public class weaponController : MonoBehaviour
 
             }
 
+        } else { // no ready shot
+            // play sound
+            WeaponAudio.clip = Sfx_Weapon_Empty;
+            WeaponAudio.Play();
         }
             
             ///switch (ammo)

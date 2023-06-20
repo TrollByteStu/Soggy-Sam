@@ -147,7 +147,7 @@ GameObject:
   - component: {fileID: 7826128625841787994}
   - component: {fileID: 3040853298855185}
   m_Layer: 0
-  m_Name: player
+  m_Name: SoggySam
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -228,6 +228,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e40264abaa4409e42975409e9a3b02da, type: 2}
   - {fileID: 11400000, guid: 9708b6e51f8e52e478d3e5da76e709f0, type: 2}
   _PointerOffset: {x: 0, y: 0, z: 0}
+  WeaponAudio: {fileID: 5678157158913883171}
+  Sfx_Weapon_Fire: {fileID: 0}
+  Sfx_Weapon_Reload: {fileID: 0}
+  Sfx_Weapon_Empty: {fileID: 0}
 --- !u!114 &6925522770815801259
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -260,6 +264,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 8795189314462290694}
   myAvatar: {fileID: 1033798479486013020}
+  soundManager: {fileID: 0}
   moveSpeed: 5
   jumpSpeed: 20000
   jumps: 2
@@ -278,6 +283,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 8795189314462290694}
   myAvatar: {fileID: 1033798479486013020}
+  soundManager: {fileID: 0}
   SwimSpeed: 300
 --- !u!114 &6925522770815801260
 MonoBehaviour:
