@@ -118,6 +118,7 @@ MonoBehaviour:
   _myPlayer: {fileID: 0}
   _Animator: {fileID: 9162229001776802308}
   _CurrentMove: 0
+  _FlipCount: 0
 --- !u!82 &-7357437853451044174
 AudioSource:
   m_ObjectHideFlags: 0
