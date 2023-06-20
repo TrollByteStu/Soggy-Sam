@@ -163,6 +163,10 @@ MonoBehaviour:
   mass: 0
   drag: 0
   angularDrag: 0
+  WaterDrag: 0
+  WaterAngularDrag: 0
   aoeRadius: 0
   aoeDamage: 0
   fuseTime: 0
+  ExplosionPrefab: {fileID: 7673070196632952098, guid: d81423f4509b60747aabe2c835208686,
+    type: 3}
