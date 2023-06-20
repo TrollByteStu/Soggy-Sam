@@ -15,6 +15,11 @@ MonoBehaviour:
   Mission_name: Sushi assistant
   Mission_desc: get me 10 fish
   Objective: {fileID: 11400000, guid: 599f9406f0b6dd740815ebfc8497017a, type: 2}
-  ToolTip: 'Catch Grouper fish: '
+  ToolTip: 'Catch Fish: '
   Amount: 10
   Achieved: 0
+  currentProgress: 0
+  lastProgress: 0
+  BossFight: 0
+  activateSpawn: 
+  alreadySpawned: 0

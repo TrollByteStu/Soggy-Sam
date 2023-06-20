@@ -41,27 +41,30 @@ public class MissionManager : MonoBehaviour
 
     public void MissionProgress()
     {
-        for (int i = ActiveMissions.Count -1; i > -1; i--)
+        for (int i = ActiveMissions.Count - 1; i > -1; i--)
         {
-            ActiveMissions[i].currentProgress = GameManager.Instance.stats.inventory.checkInventoryForItemAmount(ActiveMissions[i].Objective);
-            if (ActiveMissions[i].currentProgress > ActiveMissions[i].lastProgress)
-            {
-                ActiveMissions[i].lastProgress = ActiveMissions[i].currentProgress;
-                _updateText = true;
-            }
-            if (ActiveMissions[i].Achieved == false && ActiveMissions[i].currentProgress >= ActiveMissions[i].Amount)
-            {
-                ActiveMissions[i].Achieved = true;
-                FinishMissions.Add(ActiveMissions[i]);
-                ActiveMissions.Remove(ActiveMissions[i]);
-                // How many missions are left now?
-                if ( ActiveMissions.Count == 0)
-                { // you have won popup
-                    myGM.callUiPopup(1);
-                } else { // mission completed popup
-                    myGM.callUiPopup(3);
+            if (!ActiveMissions[i].BossFight)
+            { 
+                ActiveMissions[i].currentProgress = GameManager.Instance.stats.inventory.checkInventoryForItemAmount(ActiveMissions[i].Objective);
+                if (ActiveMissions[i].currentProgress > ActiveMissions[i].lastProgress)
+                {
+                    ActiveMissions[i].lastProgress = ActiveMissions[i].currentProgress;
+                    _updateText = true;
                 }
-                _updateText = true;
+                if (ActiveMissions[i].Achieved == false && ActiveMissions[i].currentProgress >= ActiveMissions[i].Amount)
+                {
+                    ActiveMissions[i].Achieved = true;
+                    FinishMissions.Add(ActiveMissions[i]);
+                    ActiveMissions.Remove(ActiveMissions[i]);
+                    // How many missions are left now?
+                    if (ActiveMissions.Count == 0)
+                    { // you have won popup
+                        myGM.callUiPopup(1);
+                    } else { // mission completed popup
+                        myGM.callUiPopup(3);
+                    }
+                    _updateText = true;
+                }
             }
         }
         

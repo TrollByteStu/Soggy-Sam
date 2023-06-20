@@ -15,6 +15,11 @@ MonoBehaviour:
   Mission_name: Shark fin soup
   Mission_desc: hunt down and kill 3 sharks for the soup
   Objective: {fileID: 11400000, guid: f9299f073b19bfa4488b201c06ed48a1, type: 2}
-  ToolTip: 'Catch sharks: '
+  ToolTip: 'Catch Sharks: '
   Amount: 3
   Achieved: 0
+  currentProgress: 0
+  lastProgress: 0
+  BossFight: 0
+  activateSpawn: 
+  alreadySpawned: 0

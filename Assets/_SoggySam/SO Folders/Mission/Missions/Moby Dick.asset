@@ -15,10 +15,11 @@ MonoBehaviour:
   Mission_name: Moby Dick
   Mission_desc: Kill the White Whale
   Objective: {fileID: 0}
-  ToolTip: 
+  ToolTip: Moby Dick
   Amount: 1
   Achieved: 1
   currentProgress: 0
   lastProgress: 0
   BossFight: 1
   activateSpawn: Moby Dick Spawner
+  alreadySpawned: 0
