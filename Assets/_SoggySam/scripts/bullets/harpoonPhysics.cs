@@ -16,6 +16,7 @@ public class harpoonPhysics : WaterStateHelper
     public float angularDrag;
     public float WaterDrag;
     public float WaterAngularDrag;
+    public bool ReloadOnPickup;
 
     private const float zOffset = -0; // fish might now need to be at z0 in later updates ajust here in that case
 
@@ -56,11 +57,12 @@ public class harpoonPhysics : WaterStateHelper
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.GetComponent<weaponController>())
+        if (collision.gameObject.GetComponent<weaponController>() && ReloadOnPickup)
         {
             collision.gameObject.GetComponent<weaponController>()._Readyshot = true;
             collision.gameObject.GetComponent<weaponController>()._Weapon.SetActive(true);
-            myPlayer.GetComponent<SpringJoint>().connectedBody = collision.gameObject.GetComponent<Rigidbody>();
+            if (myPlayer.GetComponent<SpringJoint>())
+                myPlayer.GetComponent<SpringJoint>().connectedBody = collision.gameObject.GetComponent<Rigidbody>();
             Destroy(gameObject);
         }
         else if (collision.gameObject.GetComponent<predatorFish>())

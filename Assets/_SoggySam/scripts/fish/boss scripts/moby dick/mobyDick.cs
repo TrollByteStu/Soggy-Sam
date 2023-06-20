@@ -37,15 +37,14 @@ public class mobyDick : WaterStateHelper
             _Dead = true;
         if (!_Dead)
         {
-            //var mouth = Physics.OverlapBox(transform.forward, Vector3.one);
-            //foreach (Collider collider in mouth)
-            //{
-            //    Debug.Log(collider.gameObject);
-            //    if (collider.tag == "Player")
-            //    {
-            //        //GameManager.Instance.stats._CurrentHealth--;
-            //    }
-            //}
+            var mouth = Physics.OverlapBox(transform.forward * 6 + transform.up + transform.position, Vector3.one * 3);
+            foreach (Collider collider in mouth)
+            {
+                if (collider.tag == "Player")
+                {
+                    GameManager.Instance.stats.DamagePlayer();
+                }
+            }
 
             switch (_CurrentMove)
             {
@@ -123,6 +122,27 @@ public class mobyDick : WaterStateHelper
 
     private void BellyFlop()
     {
+        if (100f <= Vector3.Distance(_myPlayer.transform.position, transform.position) && _ChargeUp) // swim 100 units away 
+        {
+            _ChargeUp = false;
+        }
+        else if (10f >= Vector3.Distance(_myPlayer.transform.position, transform.position) && !_ChargeUp) // end of move
+        {
+            _ChargeUp = true;
+            _Animator.SetTrigger("Bite");
+            _myRB.AddForce(5 * _Speed * Time.fixedDeltaTime * transform.forward);
+            _CurrentMove = 0;
+            _EndOfMoveTime = Time.time;
+
+        }
+        else if (InWater && _PlayedOnce)
+        {
+            _ChargeUp = true;
+            _myRB.AddForce(3 * _Speed * Time.fixedDeltaTime * transform.forward);
+            _CurrentMove = 0;
+            _EndOfMoveTime = Time.time;
+        }
+
         if (_ChargeUp && InWater) // swim away
         {
             transform.LookAt(_myPlayer.transform.position + (Vector3.up * 70f));
@@ -147,19 +167,6 @@ public class mobyDick : WaterStateHelper
             
         }
 
-        if (100f <= Vector3.Distance(_myPlayer.transform.position, transform.position) && _ChargeUp) // swim 100 units away 
-        {
-            _ChargeUp = false;
-        }
-        else if (10f >= Vector3.Distance(_myPlayer.transform.position, transform.position) && !_ChargeUp) // end of move
-        {
-            _ChargeUp = true;
-            _Animator.SetTrigger("Bite");
-            _myRB.AddForce(5 * _Speed * Time.fixedDeltaTime * transform.forward);
-            _CurrentMove = 0;
-            _EndOfMoveTime = Time.time;
-
-        }
     }
 
     protected override void OnEnterWater()

@@ -94,6 +94,7 @@ public class weaponController : MonoBehaviour
                 BulletScript.angularDrag = _Weapons[_CurrentWeapon].AngularDrag;
                 BulletScript.WaterDrag = _Weapons[_CurrentWeapon].WaterDrag;
                 BulletScript.WaterAngularDrag = _Weapons[_CurrentWeapon].WaterAngularDrag;
+                BulletScript.ReloadOnPickup = _Weapons[_CurrentWeapon].ReloadOnPickup;
             }
             else if (Bullet.GetComponent<universalGrenade>()) /// can currently be swaped out for weapons[currentWeapon].AOE == true
             {

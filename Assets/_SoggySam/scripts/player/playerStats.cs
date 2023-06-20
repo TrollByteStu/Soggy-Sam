@@ -11,6 +11,30 @@ public class playerStats : MonoBehaviour
     public float invulnerableTime = 2;
     public SO_Item_Inventory inventory;
 
+    public void DamagePlayer()
+    {
+        if (CanDamagePlayer())
+        {
+            GameManager.Instance.stats.invulnerable = Time.time + GameManager.Instance.stats.invulnerableTime;
+            GameManager.Instance.stats._CurrentHealth--;
+        }
+    }    
+    public void DamagePlayer(int damage)
+    {
+        if (CanDamagePlayer())
+        {
+            GameManager.Instance.stats.invulnerable = Time.time + GameManager.Instance.stats.invulnerableTime;
+            GameManager.Instance.stats._CurrentHealth -= damage;
+        }
+    }
+
+    public bool CanDamagePlayer()
+    {
+        if (GameManager.Instance.stats.invulnerable < Time.time)
+            return true;
+        else
+            return false;
+    }
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.GetComponent<predatorFish>())

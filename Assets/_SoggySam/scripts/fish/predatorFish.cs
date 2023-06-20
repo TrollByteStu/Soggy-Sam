@@ -177,13 +177,11 @@ public class predatorFish : WaterStateHelper
                     else if (myMouth.collider.GetComponent<playerStats>()) /// eat player
                     {
                         var stats = myMouth.collider.GetComponent<playerStats>();
-                        if (stats.invulnerable < Time.time)
+                        if (stats.CanDamagePlayer())
                         {
-                            stats.invulnerable = Time.time + stats.invulnerableTime;
-                            stats._CurrentHealth--;
+                            stats.DamagePlayer();
                             myMouth.collider.GetComponent<Rigidbody>().AddForce(-80 * (transform.position - myMouth.collider.transform.position));
                         }
-
                     }
                 }
             }
