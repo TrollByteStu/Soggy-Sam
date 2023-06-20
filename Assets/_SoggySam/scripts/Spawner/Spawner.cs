@@ -14,6 +14,9 @@ namespace _SoggySam.scripts.Spawner
         [Range(1,100)] public int spawnCount = 1;
         [Range(0,100)] public float spawnRateDelay, preSpawnDelay;
 
+        // is this a boss spawner
+        [SerializeField] private bool isBoss = false;
+
         private void Awake()
         {
             if (prefabToSpawn == null)
@@ -28,7 +31,10 @@ namespace _SoggySam.scripts.Spawner
         private void Start()
         {
             SetupCollider();
-            InvokeRepeating(nameof(CheckCanSpawn), preSpawnDelay, spawnRateDelay);
+
+            //  boss does not spawn unless called
+            if ( !isBoss )
+                InvokeRepeating(nameof(CheckCanSpawn), preSpawnDelay, spawnRateDelay);
         }
 
         private void CheckCanSpawn()
