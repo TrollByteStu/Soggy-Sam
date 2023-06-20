@@ -25,7 +25,9 @@ public class mobyDick : WaterStateHelper
     private bool _ChargeUp = true;
     private bool _PlayedOnce = false;
 
-    private float _ZOffset;
+    private float _ZOffset = 0;
+    private float _POM = 1;
+    public float _FlipCount = 0;
 
     void Start()
     {
@@ -67,9 +69,12 @@ public class mobyDick : WaterStateHelper
                 case 2:
                     BellyFlop();
                     break;
+                case 3:
+                    Background();
+                    break;
             }
 
-            transform.position = new Vector3(transform.position.x, transform.position.y, 0);
+            transform.position = new Vector3(transform.position.x, transform.position.y, _ZOffset);
         }
         else
         {
@@ -86,7 +91,7 @@ public class mobyDick : WaterStateHelper
     {
         if (InWater) Move();
         if (_EndOfMoveTime + Random.Range(5f, 30f) <= Time.time)
-            _CurrentMove = Random.Range(1, 2);
+            _CurrentMove = Random.Range(1, 3);
     }
 
     private void Move()
@@ -155,7 +160,8 @@ public class mobyDick : WaterStateHelper
             _Animator.SetTrigger("Bite");
             _myRB.AddForce(5 * _Speed * Time.fixedDeltaTime * transform.forward);
             _CurrentMove = 0;
-            _EndOfMoveTime = Time.time;
+            _EndOfMoveTime = Time.time; 
+            _PlayedOnce = false;
 
         }
         else if (InWater && _PlayedOnce)
@@ -164,6 +170,7 @@ public class mobyDick : WaterStateHelper
             _myRB.AddForce(3 * _Speed * Time.fixedDeltaTime * transform.forward);
             _CurrentMove = 0;
             _EndOfMoveTime = Time.time;
+            _PlayedOnce = false;
         }
 
         if (_ChargeUp && InWater) // swim away
@@ -189,6 +196,42 @@ public class mobyDick : WaterStateHelper
             transform.LookAt(_myPlayer.transform);
             
         }
+
+    }
+    
+    private void Background()
+    {
+        if (_ChargeUp && InWater) // swim away
+        {
+            transform.LookAt(_myPlayer.transform.position + (Vector3.up * 10f));
+            transform.Rotate(Vector3.up, 180);
+            _myRB.AddForce(2 * _Speed * Time.fixedDeltaTime * transform.forward);
+        }
+
+        if (100f <= Vector3.Distance(_myPlayer.transform.position, transform.position) && _ChargeUp) // swim 100 units away 
+        {
+            _ChargeUp = false;
+            _ZOffset = 20;
+        }
+
+        if (!_ChargeUp)
+        {
+            transform.LookAt(_myPlayer.transform.position + new Vector3(80f * _POM, -15f, _ZOffset), Vector3.up);
+            _myRB.AddForce(2 * _Speed * Time.fixedDeltaTime * transform.forward);
+        }
+
+        if (_FlipCount > 3 && !_ChargeUp)
+        {
+            _ZOffset = 0;
+            _CurrentMove = 1;
+        }
+        else if (5f >= Vector3.Distance(_myPlayer.transform.position + new Vector3(80f * _POM ,-15f ,_ZOffset), transform.position) && !_ChargeUp)
+        {
+            _POM *= -1f;
+            _FlipCount++;
+        }
+
+
 
     }
 
