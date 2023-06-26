@@ -119,9 +119,9 @@ Material:
     - Vector1_244B0600: 1.5
     - Vector1_34CF798A: 1.75
     - Vector1_36E8227: 0.41
-    - Vector1_3D886DA1: 0
+    - Vector1_3D886DA1: 0.6
     - Vector1_46E42935: 0
-    - Vector1_47683D42: 0.165
+    - Vector1_47683D42: 0.3
     - Vector1_644AF100: 0.5
     - Vector1_8421B518: 0.521
     - Vector1_A0EAD698: 1
@@ -191,11 +191,11 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Color_7D9A58EC: {r: 0.078431286, g: 0.5724383, b: 0.62352943, a: 1}
+    - Color_7D9A58EC: {r: 0.078431256, g: 0.5724383, b: 0.62352943, a: 0.19607843}
     - Color_838CA24C: {r: 0.5226415, g: 1, b: 0.92816776, a: 0}
     - Color_92479EA0: {r: 0, g: 0.75526, b: 1, a: 0}
-    - Color_F01C36BF: {r: 0.45882356, g: 1, b: 0.9113918, a: 0.73333335}
-    - Vector2_37B21477: {r: 0.1, g: 0.1, b: 0, a: 0}
+    - Color_F01C36BF: {r: 0.45882356, g: 1, b: 0.9113918, a: 0.19607843}
+    - Vector2_37B21477: {r: 0.15, g: 0.8, b: 0, a: 0}
     - _BASE_COLOR: {r: 0.67358494, g: 1, b: 0.8885954, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _BumpDirection: {r: 1, g: 30, b: 20, a: -20}
