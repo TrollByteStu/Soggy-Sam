@@ -844,7 +844,6 @@ GameObject:
   - component: {fileID: 4440400824772465781}
   - component: {fileID: 4440400824772465780}
   - component: {fileID: 4440400824772465779}
-  - component: {fileID: 565935451466239607}
   m_Layer: 5
   m_Name: Canvas In-Game Menu
   m_TagString: Untagged
@@ -937,20 +936,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &565935451466239607
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4440400824772465778}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0352536453d9d0e4c85583e6be4dd20e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mainPanel: {fileID: 5458221092672982933}
-  paused: 0
 --- !u!1 &4440400825908264623
 GameObject:
   m_ObjectHideFlags: 0
@@ -1206,7 +1191,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 565935451466239607}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: inGameMenuMain, Assembly-CSharp
         m_MethodName: inGameMenu_quit
         m_Mode: 1
@@ -1805,7 +1790,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 565935451466239607}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: inGameMenuMain, Assembly-CSharp
         m_MethodName: inGameMenu_backToMainMenu
         m_Mode: 1
