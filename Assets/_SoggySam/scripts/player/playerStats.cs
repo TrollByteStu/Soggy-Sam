@@ -46,7 +46,7 @@ public class playerStats : MonoBehaviour
                 if (fish.harpooned == true)
                 {
                     GetComponent<weaponController>()._Readyshot = true;
-                    GetComponent<weaponController>()._Weapon.SetActive(true);
+                    GetComponent<weaponController>()._Shoulder.SetActive(true);
                 }
                 Destroy(collision.gameObject);
             }

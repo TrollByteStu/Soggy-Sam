@@ -60,7 +60,7 @@ public class harpoonPhysics : WaterStateHelper
         if (collision.gameObject.GetComponent<weaponController>() && ReloadOnPickup)
         {
             collision.gameObject.GetComponent<weaponController>()._Readyshot = true;
-            collision.gameObject.GetComponent<weaponController>()._Weapon.SetActive(true);
+            collision.gameObject.GetComponent<weaponController>()._Shoulder.SetActive(true);
             if (myPlayer.GetComponent<SpringJoint>())
                 myPlayer.GetComponent<SpringJoint>().connectedBody = collision.gameObject.GetComponent<Rigidbody>();
             Destroy(gameObject);
