@@ -64,6 +64,10 @@ public class universalGrenade : WaterStateHelper
                     {
                         hit.GetComponent<predatorFish>().dead = true;
                     }
+                    if (hit.GetComponent<mobyDick>())
+                    {
+                        hit.GetComponent<mobyDick>().DamageMoby(aoeDamage);
+                    }
                 }
             }
             Destroy(gameObject);

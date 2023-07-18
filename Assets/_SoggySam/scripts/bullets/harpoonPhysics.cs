@@ -81,7 +81,7 @@ public class harpoonPhysics : WaterStateHelper
         else if (collision.gameObject.GetComponent<mobyDick>())
         {
             mobyDick moby = collision.gameObject.GetComponent<mobyDick>();
-            moby._HitPoints--;
+            moby.DamageMoby(Damage);
             if (SpringJoint)
                 myPlayer.GetComponent<SpringJoint>().connectedBody = collision.gameObject.GetComponent<Rigidbody>();
             transform.parent = collision.gameObject.transform;

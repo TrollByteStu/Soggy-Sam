@@ -46,7 +46,7 @@ public class bulletPhysics : MonoBehaviour
         }
         else if (collision.gameObject.GetComponent<mobyDick>())
         {
-            collision.gameObject.GetComponent<mobyDick>()._HitPoints--;
+            collision.gameObject.GetComponent<mobyDick>().DamageMoby();
             Destroy(gameObject,1f);
         }
 
