@@ -6,8 +6,7 @@ using UnityEngine.InputSystem;
 public class weaponController : MonoBehaviour
 {
     public Camera _MyCamera;
-    public GameObject _Shoulder;
-    public GameObject _Hand;
+    public GameObject _Weapon;
     public GameObject _EquipedWeapon;
     public GameObject _HarpoonInstance;
     public GameObject _GrenadeInstance;
@@ -54,9 +53,10 @@ public class weaponController : MonoBehaviour
         _CurrentWeapon = _WeaponChange;
         Destroy(_EquipedWeapon);
         _EquipedWeapon = Instantiate(_Weapons[_WeaponChange].Prefab);
-        _EquipedWeapon.transform.parent = _Hand.transform;
+        _EquipedWeapon.transform.parent = _Weapon.transform;
         _EquipedWeapon.transform.localPosition = Vector3.zero;
-        _EquipedWeapon.transform.localRotation = Quaternion.Euler(_Hand.transform.forward);
+        _EquipedWeapon.transform.localRotation = Quaternion.Euler(Vector3.zero);
+        _EquipedWeapon.transform.localPosition = Vector3.forward / 2;
 
         //change sound
         Sfx_Weapon_Fire = _Weapons[_WeaponChange].Sfx_Fire;
@@ -71,7 +71,7 @@ public class weaponController : MonoBehaviour
             _Readyshot = false; /// Stops spam until reloaded
             lastShot = Time.time;
 
-            GameObject Bullet = Instantiate(_Weapons[_CurrentWeapon].bullet, _Shoulder.transform.position + _Shoulder.transform.forward * 2, _Shoulder.transform.rotation);
+            GameObject Bullet = Instantiate(_Weapons[_CurrentWeapon].bullet, _Weapon.transform.position + _Weapon.transform.forward * 2, _Weapon.transform.rotation);
             Bullet.transform.Rotate(_Weapons[_CurrentWeapon].Rotate);
             Bullet.GetComponent<Rigidbody>().AddForce(Bullet.transform.forward * _Weapons[_CurrentWeapon].BarrelVelocity);
 
@@ -147,7 +147,7 @@ public class weaponController : MonoBehaviour
 
     void FixedUpdate()
     {
-        _Shoulder.transform.LookAt(_PointerOffset + transform.position, Vector3.up);
+        _Weapon.transform.LookAt(_PointerOffset + transform.position, Vector3.up);
         if (!_Weapons[_CurrentWeapon].ReloadOnPickup && lastShot <=  Time.time - _Weapons[_CurrentWeapon].FireDelay)
             _Readyshot = true;
 
