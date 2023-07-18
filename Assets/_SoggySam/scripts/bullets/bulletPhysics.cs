@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using _SoggySam.scripts.Utils;
 
-public class bulletPhysics : MonoBehaviour
+
+public class bulletPhysics : WaterStateHelper
 {
     private Rigidbody myRB;
 
@@ -19,22 +21,16 @@ public class bulletPhysics : MonoBehaviour
         transform.position = new Vector3(transform.position.x, transform.position.y, 0);
     }
 
-    private void OnTriggerEnter(Collider other)
+    protected override void OnEnterWater()
     {
-        if (other.CompareTag("Water"))
-        {
-            myRB.drag = 2f;
-            myRB.angularDrag = 2f;
-        }
+        myRB.drag = 2;
+        myRB.angularDrag = 2;
     }
 
-    private void OnTriggerExit(Collider other)
+    protected override void OnExitWater()
     {
-        if (other.CompareTag("Water"))
-        {
-            myRB.drag = 1f;
-            myRB.angularDrag = 1f;
-        }
+        myRB.drag = 1;
+        myRB.angularDrag = 1;
     }
 
     private void OnCollisionEnter(Collision collision)

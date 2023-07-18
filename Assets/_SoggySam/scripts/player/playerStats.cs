@@ -27,6 +27,14 @@ public class playerStats : MonoBehaviour
             _CurrentHealth -= damage;
         }
     }
+    public void DamagePlayer(float damage)
+    {
+        if (CanDamagePlayer())
+        {
+            invulnerable = Time.time + invulnerableTime;
+            _CurrentHealth -= damage;
+        }
+    }
 
     public bool CanDamagePlayer()
     {
