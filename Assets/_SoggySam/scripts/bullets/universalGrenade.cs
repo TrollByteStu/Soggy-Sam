@@ -20,6 +20,7 @@ public class universalGrenade : WaterStateHelper
     private Rigidbody myRB;
     private Collider[] hits;
     private RaycastHit hitScan;
+    private float _OBJDistance = 1;
 
     [SerializeField] private GameObject ExplosionPrefab;
 
@@ -72,9 +73,10 @@ public class universalGrenade : WaterStateHelper
 
                     if (hit.GetComponent<Rigidbody>())
                     {
+                        _OBJDistance = Vector3.Distance(hit.transform.position, transform.position);
                         hit.GetComponent<Rigidbody>().AddForce(
-                            (((hit.transform.position - transform.position) / Vector3.Distance(hit.transform.position, transform.position)) // finds direction to add force
-                            / Vector3.Distance(hit.transform.position, transform.position)) // reduce force based on distance 
+                            (((hit.transform.position - transform.position) / _OBJDistance) // finds direction to add force
+                            / _OBJDistance) // reduce force based on distance 
                             * aoeDamage * ExplosiveForceMultiplier); // adds force based on stats
                     }
                 }
