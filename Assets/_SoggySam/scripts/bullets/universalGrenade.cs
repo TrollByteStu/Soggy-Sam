@@ -14,6 +14,7 @@ public class universalGrenade : WaterStateHelper
     public float aoeRadius;
     public float aoeDamage;
     public float fuseTime;
+    public float ExplosiveForceMultiplier;
 
     private float spawnTime;
     private Rigidbody myRB;
@@ -67,6 +68,14 @@ public class universalGrenade : WaterStateHelper
                     if (hit.GetComponent<mobyDick>())
                     {
                         hit.GetComponent<mobyDick>().DamageMoby(aoeDamage);
+                    }
+
+                    if (hit.GetComponent<Rigidbody>())
+                    {
+                        hit.GetComponent<Rigidbody>().AddForce(
+                            (((hit.transform.position - transform.position) / Vector3.Distance(hit.transform.position, transform.position)) // finds direction to add force
+                            / Vector3.Distance(hit.transform.position, transform.position)) // reduce force based on distance 
+                            * aoeDamage * ExplosiveForceMultiplier); // adds force based on stats
                     }
                 }
             }

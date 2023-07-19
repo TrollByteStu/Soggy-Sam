@@ -22,6 +22,7 @@ MonoBehaviour:
   Sfx_Empty: {fileID: 0}
   AOE: 1
   AOERaius: 1000
+  AOEExplosiveForceMultiplier: 400
   BlowOnImpact: 0
   FuseTimer: 5
   Damage: 1000
