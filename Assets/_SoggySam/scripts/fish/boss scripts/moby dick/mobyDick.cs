@@ -44,6 +44,7 @@ public class mobyDick : WaterStateHelper
             _myPlayer = GameManager.Instance.player;
         _myRB = GetComponent<Rigidbody>();
         PickAName();
+        GameManager.Instance._HudManager.BossHealthBar(name, _HitPoints, _MaxHitPoints);
     }
 
     void FixedUpdate()
@@ -110,6 +111,7 @@ public class mobyDick : WaterStateHelper
         if (CanDamageMoby())
         {
             _HitPoints -= _Damage;
+            GameManager.Instance._HudManager.BossHealthBar(name,_HitPoints, _MaxHitPoints);
             if (Random.Range(1, 5) <= _Damage) // picks and plays damage animation
             {
                 _Animator.SetTrigger("Damage");
@@ -130,6 +132,7 @@ public class mobyDick : WaterStateHelper
         if (CanDamageMoby())
         {
             _HitPoints--;
+            GameManager.Instance._HudManager.BossHealthBar(name, _HitPoints, _MaxHitPoints);
             if (Random.Range(1, 5) <= 1) // picks and plays damage animation
             {
                 _Animator.SetTrigger("Damage");

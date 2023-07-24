@@ -24,7 +24,7 @@ public class HudManager : MonoBehaviour
         PlayerHealthBar();
     }
 
-    public void BossHealthBar(string Name, int CurrentHP, int MaxHP)
+    public void BossHealthBar(string Name, float CurrentHP, float MaxHP)
     {
         _BossName.text = Name;
         _BossHealthBar.localScale = new(Mathf.Clamp((CurrentHP / MaxHP), 0, 1), 1, 1);
