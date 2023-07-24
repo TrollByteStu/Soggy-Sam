@@ -13,7 +13,7 @@ public class mobyDick : WaterStateHelper
     public float _InvulnerableTime = 0;
     private float _Invulnerable = 0;
     public float _Speed;
-    public float _Turn;
+    public float _Turn; // not used yet
     public bool _Dead;
     public GameObject _myPlayer;
     public Animator _Animator;
@@ -33,6 +33,7 @@ public class mobyDick : WaterStateHelper
     private float _ZOffset = 0;
     private float _POM = 1; // why did i call it POM wtf does POM  Player Offset Mark???
     public float _FlipCount = 0;
+
 
     void Start()
     {
@@ -101,7 +102,13 @@ public class mobyDick : WaterStateHelper
         if (CanDamageMoby())
         {
             _HitPoints -= _Damage;
-            if (Random.Range(1, 10) <= _Damage)
+            if (Random.Range(1, 5) <= _Damage) // picks and plays damage animation
+            {
+                _Animator.SetTrigger("Damage");
+                _Animator.SetInteger("DamageAnim", Random.Range(1,2));
+            }
+
+            if (Random.Range(1, 10) <= _Damage) //moby retreats
             {
                 _CurrentMove = -1;
                 _RunAwayTime = Time.time;
@@ -115,7 +122,13 @@ public class mobyDick : WaterStateHelper
         if (CanDamageMoby())
         {
             _HitPoints--;
-            if (Random.Range(1, 10) <= 1)
+            if (Random.Range(1, 5) <= 1) // picks and plays damage animation
+            {
+                _Animator.SetTrigger("Damage");
+                _Animator.SetInteger("DamageAnim", Random.Range(1, 2));
+            }
+
+            if (Random.Range(1, 10) <= 1) // moby retreats
             {
                 _CurrentMove = -1;
                 _RunAwayTime = Time.time;
@@ -124,7 +137,7 @@ public class mobyDick : WaterStateHelper
         }
     }
 
-    private bool CanDamageMoby()
+    private bool CanDamageMoby() // tests if moby is invulnerable
     {
         if (_InvulnerableTime <= Time.time)
             return true;
