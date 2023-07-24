@@ -46,7 +46,13 @@ namespace _SoggySam.scripts.Spawner
         public void Spawn()
         {
             _transform = transform;
-            Instantiate(prefabToSpawn, _transform.position, _transform.rotation, _transform);
+            var spawn = Instantiate(prefabToSpawn, _transform.position, _transform.rotation, _transform);
+            if (spawn.tag == "Fish")
+                global::GameManager.Instance._EntityManager._Fishes.Add(spawn);
+            else if (spawn.tag == "Boss")
+                global::GameManager.Instance._EntityManager._Bosses.Add(spawn);
+            else
+                return;
         }
 
         private void SetupCollider()

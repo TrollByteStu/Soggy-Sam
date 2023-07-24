@@ -5,8 +5,10 @@ using UnityEngine;
 
 public class mobyDick : WaterStateHelper
 {
-    private fishBuoyancy[] _Floaters; 
+    private fishBuoyancy[] _Floaters;
 
+    public int _PickedName = 0;
+    public List<string> _names;
     public float _MaxHitPoints;
     public float _HitPoints;
     [Tooltip("just leave at 0. dont know why im adding this")]
@@ -41,6 +43,7 @@ public class mobyDick : WaterStateHelper
         if (_myPlayer == null)
             _myPlayer = GameManager.Instance.player;
         _myRB = GetComponent<Rigidbody>();
+        PickAName();
     }
 
     void FixedUpdate()
@@ -96,7 +99,12 @@ public class mobyDick : WaterStateHelper
                 Floater.dead();
         }
     }
-
+    
+    private void PickAName()
+    {
+        _PickedName = Random.Range(0, _names.Count - 1);
+        name = _names[_PickedName];
+    }
     public void DamageMoby(float _Damage) // custom Damage number
     {
         if (CanDamageMoby())
