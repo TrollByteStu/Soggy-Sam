@@ -122,8 +122,8 @@ public class mobyDick : WaterStateHelper
             {
                 _CurrentMove = -1;
                 _RunAwayTime = Time.time;
-                _Invulnerable = Time.time + _InvulnerableTime;
             }
+                _Invulnerable = Time.time + _InvulnerableTime;
         }
     }    
 
@@ -143,8 +143,8 @@ public class mobyDick : WaterStateHelper
             {
                 _CurrentMove = -1;
                 _RunAwayTime = Time.time;
-                _Invulnerable = Time.time + _InvulnerableTime;
             }
+                _Invulnerable = Time.time + _InvulnerableTime;
         }
     }
 
