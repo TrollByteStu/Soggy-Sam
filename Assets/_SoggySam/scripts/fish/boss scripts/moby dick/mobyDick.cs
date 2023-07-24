@@ -150,7 +150,7 @@ public class mobyDick : WaterStateHelper
 
     private bool CanDamageMoby() // tests if moby is invulnerable
     {
-        if (_InvulnerableTime <= Time.time)
+        if (_Invulnerable <= Time.time)
             return true;
         else
             return false;
