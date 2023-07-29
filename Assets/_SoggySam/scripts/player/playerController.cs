@@ -45,7 +45,7 @@ public class playerController : WaterStateHelper
         Physics.Raycast(transform.position, transform.forward, out interactRay, 10);
         if (interactRay.collider != null && myPI != null)
         {
-            if (interactRay.collider.tag == "Interactable" && !interactRay.collider.transform.parent.GetComponent<intractPickUp>())
+            if (interactRay.collider.CompareTag("Interactable") && !interactRay.collider.transform.parent.GetComponent<intractPickUp>())
             {
                 transform.parent = interactRay.collider.transform.parent;
                 myPI.enabled = false;
@@ -57,7 +57,7 @@ public class playerController : WaterStateHelper
                 temp.GetComponent<PlayerInput>().enabled = true;
                 GameManager.Instance._MainCameraScript._TransportOffset = temp.GetComponent<intractControllable>()._TransportOffset;
             }
-            else if (interactRay.collider.tag == "Interactable"  && interactRay.collider.transform.parent.GetComponent<intractPickUp>())
+            else if (interactRay.collider.CompareTag("Interactable") && interactRay.collider.transform.parent.GetComponent<intractPickUp>())
             {
 
             }
@@ -72,15 +72,10 @@ public class playerController : WaterStateHelper
             if (interactRay.collider.CompareTag("Interactable"))
             {
                 GameObject temp = interactRay.collider.transform.parent.gameObject;
-                if (temp.GetComponent<transport>())
+                if (temp.GetComponent<intractControllable>())
                 {
-                    temp.GetComponent<transport>().interactText.gameObject.SetActive(true);
-                    temp.GetComponent<transport>().textTimer = 1 + Time.time;
-                }
-                if (temp.GetComponent<cannon>())
-                {
-                    temp.GetComponent<cannon>().interactText.gameObject.SetActive(true);
-                    temp.GetComponent<cannon>().textTimer = 1 + Time.time;
+                    temp.GetComponent<intractControllable>().interactText.gameObject.SetActive(true);
+                    temp.GetComponent<intractControllable>().textTimer = 1 + Time.time;
                 }
                 if (temp.GetComponent<intractPickUp>())
                 {
