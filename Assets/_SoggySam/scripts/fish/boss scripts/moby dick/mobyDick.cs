@@ -108,7 +108,7 @@ public class mobyDick : WaterStateHelper
         if (_FirstFrameOnDeath)
             _FirstFrameOnDeath = false;
         GameManager.Instance._EntityManager._Bosses.Remove(gameObject);
-        GameManager.Instance._HudManager.BossDeath();
+        //GameManager.Instance._HudManager.BossDeath();
 
     }
     
@@ -118,6 +118,10 @@ public class mobyDick : WaterStateHelper
         name = _names[_PickedName];
     }
 
+    public void UpdateHealthBar()
+    {
+        GameManager.Instance._HudManager.BossHealthBar(name, _HitPoints, _MaxHitPoints);
+    }
     public void DamageMoby(float _Damage) // custom Damage number
     {
         if (CanDamageMoby())

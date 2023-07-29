@@ -30,10 +30,10 @@ public class HudManager : MonoBehaviour
         _BossHealthText.text = CurrentHP + " / " + MaxHP;
     }
 
-    public void BossDeath() // play boss bar disapear animation
-    {
-        _Boss.gameObject.SetActive(false);
-    }
+    ///public void BossDeath() // play boss bar disapear animation
+    ///{
+    ///    _Boss.gameObject.SetActive(false);
+    ///}
 
     public void PlayerHealthBar(float CurrentHP , float MaxHP)
     {
