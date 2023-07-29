@@ -11,12 +11,13 @@ public class mobyDick : WaterStateHelper
     public List<string> _names;
     public float _MaxHitPoints;
     public float _HitPoints;
-    [Tooltip("just leave at 0. dont know why im adding this")]
-    public float _InvulnerableTime = 0;
+    [Tooltip("needs to be more than 0 so grenade do to much damage")]
+    public float _InvulnerableTime = 0.1f;
     private float _Invulnerable = 0;
     public float _Speed;
-    public float _Turn; // not used yet
+    public float _Turn; // turnspeed not used yet
     public bool _Dead;
+    private bool _FirstFrameOnDeath = true;
     public GameObject _myPlayer;
     public Animator _Animator;
 
@@ -96,9 +97,19 @@ public class mobyDick : WaterStateHelper
         }
         else
         {
-            foreach (fishBuoyancy Floater in _Floaters)
-                Floater.dead();
+            Dead();
         }
+    }
+    
+    void Dead()
+    {
+        foreach (fishBuoyancy Floater in _Floaters)
+            Floater.dead();
+        if (_FirstFrameOnDeath)
+            _FirstFrameOnDeath = false;
+        GameManager.Instance._EntityManager._Bosses.Remove(gameObject);
+        GameManager.Instance._HudManager.BossDeath();
+
     }
     
     private void PickAName()
@@ -106,6 +117,7 @@ public class mobyDick : WaterStateHelper
         _PickedName = Random.Range(0, _names.Count - 1);
         name = _names[_PickedName];
     }
+
     public void DamageMoby(float _Damage) // custom Damage number
     {
         if (CanDamageMoby())

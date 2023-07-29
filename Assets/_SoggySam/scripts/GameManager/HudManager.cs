@@ -21,7 +21,6 @@ public class HudManager : MonoBehaviour
 
     public void FixedUpdate()
     {
-        PlayerHealthBar();
     }
 
     public void BossHealthBar(string Name, float CurrentHP, float MaxHP)
@@ -31,10 +30,15 @@ public class HudManager : MonoBehaviour
         _BossHealthText.text = CurrentHP + " / " + MaxHP;
     }
 
-    void PlayerHealthBar()
+    public void BossDeath() // play boss bar disapear animation
     {
-        _HealthText.text = GameManager.Instance.stats._CurrentHealth + " / " + GameManager.Instance.stats._MaxHealth;
-        _HealthBar.localScale = new( Mathf.Clamp((GameManager.Instance.stats._CurrentHealth / GameManager.Instance.stats._MaxHealth),0,1), 1, 1);
+        _Boss.gameObject.SetActive(false);
+    }
+
+    public void PlayerHealthBar(float CurrentHP , float MaxHP)
+    {
+        _HealthText.text = CurrentHP + " / " + MaxHP;
+        _HealthBar.localScale = new( Mathf.Clamp((CurrentHP / MaxHP),0,1), 1, 1);
     }
 
     void OnEscape(InputValue value)
