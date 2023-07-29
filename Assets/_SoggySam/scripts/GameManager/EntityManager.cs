@@ -36,9 +36,9 @@ public class EntityManager : MonoBehaviour
 
 
             if (Vector3.Distance(_Bosses[0].transform.position, GameManager.Instance.player.transform.position) <= 100)
-                GameManager.Instance._HudManager._Boss.gameObject.SetActive(true);
+                GameManager.Instance._HudManager._Boss.SetActive(true);
         }
         else
-            GameManager.Instance._HudManager._Boss.gameObject.SetActive(false);
+            GameManager.Instance._HudManager._Boss.SetActive(false);
     }
 }

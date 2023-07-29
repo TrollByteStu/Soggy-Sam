@@ -14,10 +14,12 @@ public class HudManager : MonoBehaviour
 
     public gameStatePopUp myGameStateUI;
 
-    public Transform _Boss;
+    public GameObject _Boss;
     public Transform _BossHealthBar;
     public TMP_Text _BossHealthText;
     public TMP_Text _BossName;
+
+    public GameObject _MissionGiverUI;
 
     public void FixedUpdate()
     {

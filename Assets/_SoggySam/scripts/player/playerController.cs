@@ -43,9 +43,9 @@ public class playerController : WaterStateHelper
     void OnInteract()
     {
         Physics.Raycast(transform.position, transform.forward, out interactRay, 10);
-        if (interactRay.collider != null && myPI != null)
+        if (interactRay.collider != null && myPI != null && interactRay.collider.CompareTag("Interactable"))
         {
-            if (interactRay.collider.CompareTag("Interactable") && !interactRay.collider.transform.parent.GetComponent<intractPickUp>())
+            if (interactRay.collider.transform.parent.GetComponent<intractControllable>())
             {
                 transform.parent = interactRay.collider.transform.parent;
                 myPI.enabled = false;
@@ -57,7 +57,16 @@ public class playerController : WaterStateHelper
                 temp.GetComponent<PlayerInput>().enabled = true;
                 GameManager.Instance._MainCameraScript._TransportOffset = temp.GetComponent<intractControllable>()._TransportOffset;
             }
-            else if (interactRay.collider.CompareTag("Interactable") && interactRay.collider.transform.parent.GetComponent<intractPickUp>())
+            else if (interactRay.collider.transform.parent.GetComponent<QuestGiver>())
+            {
+                myPI.enabled = false;
+                myRB.isKinematic = true;
+                myCC.enabled = false;
+                GameObject temp = interactRay.collider.transform.parent.gameObject;
+                temp.GetComponent<PlayerInput>().enabled = true;
+                temp.GetComponent<QuestGiver>().SpawnUi();
+            }
+            else if (interactRay.collider.transform.parent.GetComponent<intractPickUp>())
             {
 
             }
