@@ -115,6 +115,7 @@ public class weaponController : MonoBehaviour
                 BulletScript.scale = _Weapons[_CurrentWeapon].bulletScale;
                 BulletScript.aoeDamage = _Weapons[_CurrentWeapon].Damage;
                 BulletScript.aoeRadius = _Weapons[_CurrentWeapon].AOERaius;
+                BulletScript.ExplosiveForceMultiplier = _Weapons[_CurrentWeapon].AOEExplosiveForceMultiplier;
                 BulletScript.mass = _Weapons[_CurrentWeapon].Mass;
                 BulletScript.drag = _Weapons[_CurrentWeapon].Drag;
                 BulletScript.angularDrag = _Weapons[_CurrentWeapon].AngularDrag;

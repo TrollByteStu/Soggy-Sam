@@ -11,6 +11,11 @@ public class playerStats : MonoBehaviour
     public float invulnerableTime = 2;
     public SO_Item_Inventory inventory;
 
+    private void Start()
+    {
+        GameManager.Instance._HudManager.PlayerHealthBar(_CurrentHealth, _MaxHealth);
+    }
+
     public void DamagePlayer()
     {
         if (CanDamagePlayer())
@@ -25,6 +30,16 @@ public class playerStats : MonoBehaviour
         {
             invulnerable = Time.time + invulnerableTime;
             _CurrentHealth -= damage;
+            GameManager.Instance._HudManager.PlayerHealthBar(_CurrentHealth, _MaxHealth);
+        }
+    }
+    public void DamagePlayer(float damage)
+    {
+        if (CanDamagePlayer())
+        {
+            invulnerable = Time.time + invulnerableTime;
+            _CurrentHealth -= damage;
+            GameManager.Instance._HudManager.PlayerHealthBar(_CurrentHealth, _MaxHealth);
         }
     }
 

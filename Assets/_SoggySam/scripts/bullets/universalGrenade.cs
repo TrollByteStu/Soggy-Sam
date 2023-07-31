@@ -14,15 +14,16 @@ public class universalGrenade : WaterStateHelper
     public float aoeRadius;
     public float aoeDamage;
     public float fuseTime;
+    public float ExplosiveForceMultiplier;
 
     private float spawnTime;
     private Rigidbody myRB;
     private Collider[] hits;
     private RaycastHit hitScan;
+    private float _OBJDistance = 1;
 
     [SerializeField] private GameObject ExplosionPrefab;
 
-    // Start is called before the first frame update
     void Start()
     {
         myRB = GetComponent<Rigidbody>();
@@ -47,22 +48,31 @@ public class universalGrenade : WaterStateHelper
 
     void FixedUpdate()
     {
-        if (spawnTime + fuseTime <= Time.time)/// boom
+        if (spawnTime + fuseTime <= Time.time) // boom
         {
             Instantiate(ExplosionPrefab, transform.position, Quaternion.identity);
             hits = Physics.OverlapSphere(transform.position, aoeRadius);
             foreach (Collider hit in hits)
             {
-                if (Physics.Raycast(transform.position,  hit.transform.position - transform.position, out hitScan))
+                if (Physics.Raycast(transform.position, hit.transform.position - transform.position, out hitScan))
                 {
-                    Debug.DrawRay(transform.position, hit.transform.position -transform.position, Color.red);
+                    Debug.DrawRay(transform.position, hit.transform.position - transform.position, Color.red);
                     if (hit.GetComponent<playerStats>())
-                    {
-                        hit.GetComponent<playerStats>()._CurrentHealth -= aoeDamage;
-                    }
+                        hit.GetComponent<playerStats>().DamagePlayer(aoeDamage);
+
                     if (hit.GetComponent<predatorFish>())
-                    {
                         hit.GetComponent<predatorFish>().dead = true;
+
+                    if (hit.GetComponentInParent<mobyDick>())
+                        hit.GetComponentInParent<mobyDick>().DamageMoby(aoeDamage);
+
+                    if (hit.GetComponent<Rigidbody>())
+                    {
+                        _OBJDistance = Vector3.Distance(hit.transform.position, transform.position);
+                        hit.GetComponent<Rigidbody>().AddForce(
+                            (((hit.transform.position - transform.position) / _OBJDistance) // finds direction to add force
+                            / _OBJDistance) // reduce force based on distance 
+                            * aoeDamage * ExplosiveForceMultiplier); // adds force based on stats
                     }
                 }
             }

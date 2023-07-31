@@ -22,6 +22,7 @@ MonoBehaviour:
   Sfx_Empty: {fileID: 8300000, guid: 4e217f6ebb62db54a93c9d328ac9be53, type: 3}
   AOE: 1
   AOERaius: 6
+  AOEExplosiveForceMultiplier: 400
   BlowOnImpact: 0
   FuseTimer: 1
   Damage: 1

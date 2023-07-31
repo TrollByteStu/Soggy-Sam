@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6727138391412860253}
   - component: {fileID: 6727138391412860254}
   - component: {fileID: 7665216618744122284}
+  - component: {fileID: 2551387355802451233}
   - component: {fileID: 7252054385471609348}
   m_Layer: 0
   m_Name: GameManager
@@ -49,6 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   missionManager: {fileID: 0}
   _HudManager: {fileID: 0}
+  _EntityManager: {fileID: 0}
   player: {fileID: 0}
   stats: {fileID: 0}
   _MainCamera: {fileID: 0}
@@ -75,6 +77,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   panelAnimator: {fileID: 0}
+  musicManager: {fileID: 0}
 --- !u!114 &7665216618744122284
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -89,8 +92,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _HealthBar: {fileID: 0}
   _HealthText: {fileID: 0}
-  myGM: {fileID: 0}
+  _Menu: {fileID: 0}
   myGameStateUI: {fileID: 0}
+  _Boss: {fileID: 0}
+  _BossHealthBar: {fileID: 0}
+  _BossHealthText: {fileID: 0}
+  _BossName: {fileID: 0}
+--- !u!114 &2551387355802451233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6727138391412860255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a59d6b035fb71114384e57ac0e65f9d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _Bosses: []
+  _Fishes: []
 --- !u!114 &7252054385471609348
 MonoBehaviour:
   m_ObjectHideFlags: 0

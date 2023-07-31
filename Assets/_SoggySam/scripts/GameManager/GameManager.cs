@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     private static GameManager _instance;
     public MissionManager missionManager;
     public HudManager _HudManager;
+    public EntityManager _EntityManager;
     public GameObject player;
     public playerStats stats;
     public Camera _MainCamera;
@@ -29,20 +30,32 @@ public class GameManager : MonoBehaviour
     public void Awake()
     {
         _instance = this;
-        if (GetComponent<MissionManager>())
-            missionManager = GetComponent<MissionManager>();
-        else
-        {
-            gameObject.AddComponent<MissionManager>();
-            missionManager = GetComponent<MissionManager>();
-        }
-        if (GetComponent<HudManager>())
-            _HudManager = GetComponent<HudManager>();
-        else
-        {
-            gameObject.AddComponent<HudManager>();
-            _HudManager = GetComponent<HudManager>();
-        }
+        if (missionManager == null)
+            if (GetComponent<MissionManager>())
+                missionManager = GetComponent<MissionManager>();
+            else
+            {
+                gameObject.AddComponent<MissionManager>();
+                missionManager = GetComponent<MissionManager>();
+            }
+        if (_HudManager == null)
+            if (GetComponent<HudManager>())
+                _HudManager = GetComponent<HudManager>();
+            else
+            {
+                gameObject.AddComponent<HudManager>();
+                _HudManager = GetComponent<HudManager>();
+            }
+
+        if (_EntityManager == null)
+            if (GetComponent<EntityManager>())
+                _EntityManager = GetComponent<EntityManager>();
+            else
+            {
+                gameObject.AddComponent<EntityManager>();
+                _EntityManager = GetComponent<EntityManager>();
+            }
+
         if (!stats && player)
             stats = player.GetComponent<playerStats>();
         if (!_MainCamera)

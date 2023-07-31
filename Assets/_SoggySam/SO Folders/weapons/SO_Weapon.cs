@@ -23,6 +23,8 @@ public class SO_Weapon : ScriptableObject
         [DrawIf("AOE", true)]
         public int AOERaius = 0;
         [DrawIf("AOE", true)]
+        public int AOEExplosiveForceMultiplier = 400;
+        [DrawIf("AOE", true)]
         public bool BlowOnImpact = false;
             [DrawIf("BlowOnImpact", false)]   
             public float FuseTimer = 1;
