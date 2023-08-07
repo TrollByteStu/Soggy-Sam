@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 529327190254783657}
   - component: {fileID: 3001966197402986859}
+  - component: {fileID: 5732182206296933487}
   m_Layer: 0
   m_Name: House
   m_TagString: Untagged
@@ -43,7 +44,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 812cfcd271ebd504299d9018527666b0, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 0.5
   m_Pitch: 1
   Loop: 1
@@ -51,7 +52,7 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 0.6
+  DopplerLevel: 0
   MinDistance: 150
   MaxDistance: 1000
   Pan2D: 0
@@ -128,6 +129,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &5732182206296933487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5855303545019845843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3784cee9547348d48bf94617a241865, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8061417994498239309
 GameObject:
   m_ObjectHideFlags: 0
@@ -138,6 +151,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6261470278904676550}
   - component: {fileID: 5858998681501960485}
+  - component: {fileID: 5338352602371215657}
   m_Layer: 0
   m_Name: Deep Water
   m_TagString: Untagged
@@ -179,7 +193,7 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 0.6
+  DopplerLevel: 0
   MinDistance: 300
   MaxDistance: 650
   Pan2D: 0
@@ -256,6 +270,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &5338352602371215657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8061417994498239309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3784cee9547348d48bf94617a241865, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8512264499045507436
 GameObject:
   m_ObjectHideFlags: 0
