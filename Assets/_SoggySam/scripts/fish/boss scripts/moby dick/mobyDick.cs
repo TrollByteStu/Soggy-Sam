@@ -41,6 +41,8 @@ public class mobyDick : WaterStateHelper
     void Start()
     {
         _Floaters = transform.GetComponentsInChildren<fishBuoyancy>();
+        if (_myPlayer == null)
+            _myPlayer = GameManager.Instance.player;
         _myRB = GetComponent<Rigidbody>();
         PickAName();
         GameManager.Instance._HudManager.BossHealthBar(name, _HitPoints, _MaxHitPoints);
